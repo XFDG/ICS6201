@@ -94,7 +94,14 @@ def main() -> int:
     cfg.DATASETS.TRAIN = ("drone_train",)
     cfg.DATASETS.TEST = ("drone_val",)
     cfg.DATALOADER.NUM_WORKERS = int(args.num_workers)
-    cfg.MODEL.WEIGHTS = model_zoo.get_checkpoint_url("COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml")
+    weights_path = os.environ.get(
+        "FRCNN_WEIGHTS",
+        str(root / "pretrained_weights" / "faster_rcnn_R_50_FPN_3x.pkl"),
+    )
+    if Path(weights_path).exists():
+        cfg.MODEL.WEIGHTS = str(Path(weights_path).resolve())
+    else:
+        cfg.MODEL.WEIGHTS = model_zoo.get_checkpoint_url("COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml")
     cfg.SOLVER.IMS_PER_BATCH = int(args.ims_per_batch)
     cfg.SOLVER.MAX_ITER = int(max_iter)
     cfg.SOLVER.CHECKPOINT_PERIOD = int(max(1, max_iter // 5))
