@@ -1,0 +1,6 @@
+path: /
+train: /volume/yzhao04/workspace/ICS6201/logs/validate_subset/train.txt
+val: /volume/yzhao04/workspace/ICS6201/logs/validate_subset/val.txt
+test: /volume/yzhao04/workspace/ICS6201/logs/validate_subset/test.txt
+names:
+  0: drone

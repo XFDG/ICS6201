@@ -1,5 +1,6 @@
 import argparse
 import csv
+import fcntl
 import json
 import os
 import sys
@@ -48,6 +49,30 @@ def _maybe_register_ddw_modules(model_path: str) -> None:
         ul_modules.BiFPNFuse = ddw_modules.BiFPNFuse
     except Exception:
         return
+
+
+def _patch_ultralytics_cache_lock() -> None:
+    """Serialize Ultralytics label cache writes across parallel training jobs."""
+    try:
+        from ultralytics.data import dataset as ds_utils
+        from ultralytics.data import utils as data_utils
+    except Exception:
+        return
+
+    original = data_utils.save_dataset_cache_file
+
+    def locked_save_dataset_cache_file(prefix, path, x, version):  # type: ignore[no-untyped-def]
+        lock_path = Path(str(path) + ".lock")
+        lock_path.parent.mkdir(parents=True, exist_ok=True)
+        with open(lock_path, "w", encoding="utf-8") as lock:
+            fcntl.flock(lock, fcntl.LOCK_EX)
+            try:
+                return original(prefix, path, x, version)
+            finally:
+                fcntl.flock(lock, fcntl.LOCK_UN)
+
+    data_utils.save_dataset_cache_file = locked_save_dataset_cache_file
+    ds_utils.save_dataset_cache_file = locked_save_dataset_cache_file
 
 
 def _read_args_yaml(run_dir: Path) -> Dict[str, Any]:
@@ -158,12 +183,21 @@ def main() -> int:
     p.add_argument("--workers", type=int, default=8)
     p.add_argument("--cache", default=os.environ.get("YOLO_CACHE", ""))
     p.add_argument("--amp", default=os.environ.get("YOLO_AMP", "1"))
+    p.add_argument("--optimizer", default=os.environ.get("OPTIMIZER", ""))
+    p.add_argument("--resume-path", default="",
+                   help="Path to last.pt to resume from; loads weights and passes resume=True")
+    p.add_argument("--exist-ok", action="store_true",
+                   help="Allow writing into an existing run directory (project/name)")
     args = p.parse_args()
 
     from ultralytics import YOLO
 
+    _patch_ultralytics_cache_lock()
     _maybe_register_ddw_modules(args.model)
-    model = YOLO(args.model)
+
+    resume_path = str(args.resume_path or "").strip()
+    model_path = resume_path if resume_path and Path(resume_path).exists() else args.model
+    model = YOLO(model_path)
     cache = _parse_cache(args.cache)
     amp = _parse_bool(args.amp)
     train_kwargs: Dict[str, Any] = {
@@ -178,9 +212,15 @@ def main() -> int:
         "project": args.project,
         "name": args.name,
         "plots": False,
+        "exist_ok": bool(args.exist_ok),
     }
+    if resume_path and Path(resume_path).exists():
+        train_kwargs["resume"] = True
     if cache is not None:
         train_kwargs["cache"] = cache
+    optimizer = str(args.optimizer).strip()
+    if optimizer:
+        train_kwargs["optimizer"] = optimizer
 
     r = model.train(**train_kwargs)
 

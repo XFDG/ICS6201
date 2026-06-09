@@ -27,3 +27,28 @@ cache/
 .vscode/
 .idea/
 .DS_Store
+
+# 自动生成文件
+configs/drone_rgb_abs.yaml
+validation_report.md
+training_report.md
+
+# 敏感/临时文件
+*.pub
+*pub
+setup_ssh_gpu.sh
+debs/
+*.deb
+
+# 大文件（不提交，使用时按文档下载或从 LFS 部分合并）
+pretrained_weights/
+raw_zips/ARD-MAV_Glad.zip
+raw_zips/DroneDetectionDataset_train.zip
+
+# 运行时产物
+runs_validate/
+runs_smoke/
+runs_formal/
+runs_formal_aborted_*/
+runs_detectron2/
+yolo_validate/

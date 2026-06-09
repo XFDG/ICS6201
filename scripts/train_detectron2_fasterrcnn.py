@@ -55,6 +55,9 @@ def main() -> int:
     p.add_argument("--ims-per-batch", type=int, default=4)
     p.add_argument("--num-workers", type=int, default=4)
     p.add_argument("--eval-max-batches", type=int, default=0)
+    p.add_argument("--max-train-images", type=int, default=0)
+    p.add_argument("--resume", action="store_true",
+                   help="Resume from last_checkpoint in OUTPUT_DIR if present")
     args = p.parse_args()
 
     require_detectron2()
@@ -84,7 +87,10 @@ def main() -> int:
     register_coco_instances("drone_test", {}, str(test_json), str(test_imgs))
 
     num_train = read_num_images(train_json)
-    max_iter = compute_max_iter(num_train, args.ims_per_batch, args.epochs)
+    num_train_for_iters = num_train
+    if args.max_train_images and args.max_train_images > 0:
+        num_train_for_iters = min(num_train, int(args.max_train_images))
+    max_iter = compute_max_iter(num_train_for_iters, args.ims_per_batch, args.epochs)
 
     out_dir = root / "runs_detectron2" / f"faster_rcnn_seed{args.seed}"
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -94,7 +100,14 @@ def main() -> int:
     cfg.DATASETS.TRAIN = ("drone_train",)
     cfg.DATASETS.TEST = ("drone_val",)
     cfg.DATALOADER.NUM_WORKERS = int(args.num_workers)
-    cfg.MODEL.WEIGHTS = model_zoo.get_checkpoint_url("COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml")
+    weights_path = os.environ.get(
+        "FRCNN_WEIGHTS",
+        str(root / "pretrained_weights" / "faster_rcnn_R_50_FPN_3x.pkl"),
+    )
+    if Path(weights_path).exists():
+        cfg.MODEL.WEIGHTS = str(Path(weights_path).resolve())
+    else:
+        cfg.MODEL.WEIGHTS = model_zoo.get_checkpoint_url("COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml")
     cfg.SOLVER.IMS_PER_BATCH = int(args.ims_per_batch)
     cfg.SOLVER.MAX_ITER = int(max_iter)
     cfg.SOLVER.CHECKPOINT_PERIOD = int(max(1, max_iter // 5))
@@ -110,7 +123,7 @@ def main() -> int:
             return COCOEvaluator(dataset_name, cfg, False, output_dir=output_folder)
 
     trainer = Trainer(cfg)
-    trainer.resume_or_load(resume=False)
+    trainer.resume_or_load(resume=bool(args.resume))
     trainer.train()
 
     evaluator_val = COCOEvaluator("drone_val", cfg, False, output_dir=str(out_dir / "eval_val"))
@@ -150,6 +163,9 @@ def main() -> int:
         "epochs": int(args.epochs),
         "ims_per_batch": int(args.ims_per_batch),
         "num_workers": int(args.num_workers),
+        "num_train": int(num_train),
+        "num_train_for_iters": int(num_train_for_iters),
+        "max_train_images": int(args.max_train_images),
         "max_iter": int(max_iter),
         "eval_max_batches": int(args.eval_max_batches),
         "val_metrics": val_metrics if isinstance(val_metrics, dict) else {},
