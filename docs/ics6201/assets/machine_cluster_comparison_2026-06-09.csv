@@ -1,0 +1,5 @@
+cluster,gpu_type,gpu_count,per_gpu_vram_gb,total_vram_gb,per_gpu_bandwidth_tbps,aggregate_bandwidth_tbps,fp8_transformer_engine,verified
+Shanghai H200 GPU,NVIDIA H200,8,141,1128,4.8,38.4,yes,yes
+Beijing H100 GPU,NVIDIA H100,4,80,320,3.35,13.4,yes,partial
+A100 cluster,NVIDIA A100 80GB,8,80,640,2.0,16.0,no,reference
+RTX 4090 cluster,NVIDIA RTX 4090,4,24,96,1.008,4.032,no,reference
