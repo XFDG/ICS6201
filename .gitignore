@@ -49,5 +49,6 @@ raw_zips/DroneDetectionDataset_train.zip
 runs_validate/
 runs_smoke/
 runs_formal/
+runs_formal_aborted_*/
 runs_detectron2/
 yolo_validate/
