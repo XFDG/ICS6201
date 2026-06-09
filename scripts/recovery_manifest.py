@@ -18,6 +18,9 @@ from typing import Any, Dict, List, Optional
 
 PRIMARY_FAMILIES = {"rtdetr", "faster_rcnn"}
 SECONDARY_FAMILIES = {"yolo11", "ddw_yolo", "yolov10", "yolov8"}
+PRIMARY_ORDER = ["rtdetr", "faster_rcnn"]
+SECONDARY_ORDER = ["yolo11", "ddw_yolo", "yolov10", "yolov8"]
+DEFAULT_SEEDS = [1, 2, 3]
 
 DEFAULT_TARGET_EPOCHS = {
     "rtdetr": 120,
@@ -191,6 +194,39 @@ def _classify_priority(family: str) -> str:
     return "unknown"
 
 
+def _families_for_target(target: str) -> List[str]:
+    if target == "primary":
+        return list(PRIMARY_ORDER)
+    if target == "secondary":
+        return list(SECONDARY_ORDER)
+    return list(PRIMARY_ORDER) + list(SECONDARY_ORDER)
+
+
+def _missing_item(run_key: str, family: str, seed: int, target_iter: Optional[int]) -> Dict[str, Any]:
+    kind = "detectron2" if family == "faster_rcnn" else "ultralytics"
+    target_progress = target_iter if kind == "detectron2" else DEFAULT_TARGET_EPOCHS.get(family, 0)
+    progress_kind = "iter" if kind == "detectron2" else "epoch"
+    return {
+        "run_key": run_key,
+        "family": family,
+        "seed": seed,
+        "priority": _classify_priority(family),
+        "kind": kind,
+        "canonical_dir": None,
+        "canonical_dir_name": None,
+        "candidate_dirs": [],
+        "alternatives": [],
+        "last_progress": None,
+        "target_progress": target_progress,
+        "progress_kind": progress_kind,
+        "last_checkpoint": None,
+        "best_checkpoint": None,
+        "complete": False,
+        "resume_allowed": False,
+        "reason": "missing_run_dir",
+    }
+
+
 def _evaluate_ultralytics(canonical: Dict[str, Any]) -> Dict[str, Any]:
     last_epoch = canonical.get("last_epoch")
     target_epoch = canonical.get("target_epoch") or 0
@@ -243,6 +279,7 @@ def build_manifest(
     detectron_dir: Path,
     target: str,
     target_iter: Optional[int],
+    include_missing: bool = False,
 ) -> Dict[str, Any]:
     ultra = _scan_ultralytics(runs_dir)
     d2 = _scan_detectron2(detectron_dir, target_iter)
@@ -269,6 +306,13 @@ def build_manifest(
             "alternatives": canonical.get("_alternatives", []),
             **verdict,
         }
+
+    if include_missing:
+        for family in _families_for_target(target):
+            for seed in DEFAULT_SEEDS:
+                run_key = f"{family}_seed{seed}"
+                if run_key not in items:
+                    items[run_key] = _missing_item(run_key, family, seed, target_iter)
 
     # Filter by target if requested. We always emit a manifest containing all
     # discovered runs, but mark whether each should be scheduled.
@@ -302,6 +346,8 @@ def main() -> int:
     p.add_argument("--target", choices=["primary", "secondary", "all"], default="primary")
     p.add_argument("--detectron-target-iter", type=int, default=0,
                    help="Optional override for Detectron2 target max_iter; 0 means unknown")
+    p.add_argument("--include-missing", action="store_true",
+                   help="Add expected seed1-3 tasks even when no run directory exists")
     p.add_argument("--out", default="")
     args = p.parse_args()
 
@@ -311,6 +357,7 @@ def main() -> int:
         Path(args.detectron_dir).resolve(),
         args.target,
         target_iter,
+        include_missing=args.include_missing,
     )
 
     blob = json.dumps(manifest, ensure_ascii=False, indent=2)

@@ -89,12 +89,23 @@ def _priority_of(family: str) -> str:
     return "primary" if family in PRIMARY_FAMILIES else "secondary"
 
 
+def _ddw_model_path() -> str:
+    ddw_model = os.environ.get("DDW_MODEL")
+    if ddw_model:
+        return ddw_model
+    candidate = ROOT / "models" / "ddw_yolo11m_p2_bifpn_eca.yaml"
+    if candidate.exists():
+        return str(candidate.resolve())
+    return "ddw_yolo"
+
+
 def _model_for_family(family: str) -> str:
     return {
         "rtdetr": os.environ.get("RTDETR_MODEL", "rtdetr-l.pt"),
         "yolo11": os.environ.get("YOLO11_MODEL", "yolo11m.pt"),
         "yolov10": os.environ.get("YOLOV10_MODEL", "yolov10n.pt"),
         "yolov8": os.environ.get("YOLOV8_MODEL", "yolov8n.pt"),
+        "ddw_yolo": _ddw_model_path(),
     }.get(family, family)
 
 
@@ -511,6 +522,8 @@ def main() -> int:
     p.add_argument("--detectron-target-iter", type=int,
                    default=int(os.environ.get("DETECTRON_TARGET_ITER", "0")),
                    help="Override Detectron2 target max_iter for completeness check")
+    p.add_argument("--include-missing", action="store_true",
+                   help="When auto-generating a recovery manifest, include expected tasks with no run directory")
     args = p.parse_args()
 
     gpu_ids = parse_gpu_ids(args.gpus) if args.gpus else detect_gpus()
@@ -556,6 +569,8 @@ def main() -> int:
             ]
             if args.detectron_target_iter:
                 cmd.extend(["--detectron-target-iter", str(args.detectron_target_iter)])
+            if args.include_missing:
+                cmd.append("--include-missing")
             print(f"[recovery] generating manifest: {manifest_path}")
             subprocess.run(cmd, check=True)
         else:
