@@ -1,0 +1,240 @@
+{
+  "runs_dir": "/volume/yzhao04/workspace/ICS6201/runs_formal",
+  "detectron_dir": "/volume/yzhao04/workspace/ICS6201/runs_detectron2",
+  "target": "all",
+  "selected": [
+    "yolo11_seed2"
+  ],
+  "items": {
+    "rtdetr_seed1": {
+      "run_key": "rtdetr_seed1",
+      "family": "rtdetr",
+      "seed": 1,
+      "priority": "primary",
+      "kind": "ultralytics",
+      "canonical_dir": "/volume/yzhao04/workspace/ICS6201/runs_formal/rtdetr_seed1-2",
+      "canonical_dir_name": "rtdetr_seed1-2",
+      "candidate_dirs": [
+        "/volume/yzhao04/workspace/ICS6201/runs_formal/rtdetr_seed1",
+        "/volume/yzhao04/workspace/ICS6201/runs_formal/rtdetr_seed1-2"
+      ],
+      "alternatives": [
+        {
+          "dir": "/volume/yzhao04/workspace/ICS6201/runs_formal/rtdetr_seed1",
+          "last_epoch": 42,
+          "last_iter": null,
+          "mtime": 1780310759.996036
+        }
+      ],
+      "last_progress": 120,
+      "target_progress": 120,
+      "progress_kind": "epoch",
+      "last_checkpoint": "/volume/yzhao04/workspace/ICS6201/runs_formal/rtdetr_seed1-2/weights/last.pt",
+      "best_checkpoint": "/volume/yzhao04/workspace/ICS6201/runs_formal/rtdetr_seed1-2/weights/best.pt",
+      "complete": true,
+      "resume_allowed": false,
+      "reason": "complete",
+      "scheduled": false
+    },
+    "rtdetr_seed2": {
+      "run_key": "rtdetr_seed2",
+      "family": "rtdetr",
+      "seed": 2,
+      "priority": "primary",
+      "kind": "ultralytics",
+      "canonical_dir": "/volume/yzhao04/workspace/ICS6201/runs_formal/rtdetr_seed2-2",
+      "canonical_dir_name": "rtdetr_seed2-2",
+      "candidate_dirs": [
+        "/volume/yzhao04/workspace/ICS6201/runs_formal/rtdetr_seed2",
+        "/volume/yzhao04/workspace/ICS6201/runs_formal/rtdetr_seed2-2"
+      ],
+      "alternatives": [
+        {
+          "dir": "/volume/yzhao04/workspace/ICS6201/runs_formal/rtdetr_seed2",
+          "last_epoch": 42,
+          "last_iter": null,
+          "mtime": 1780310752.649343
+        }
+      ],
+      "last_progress": 120,
+      "target_progress": 120,
+      "progress_kind": "epoch",
+      "last_checkpoint": "/volume/yzhao04/workspace/ICS6201/runs_formal/rtdetr_seed2-2/weights/last.pt",
+      "best_checkpoint": "/volume/yzhao04/workspace/ICS6201/runs_formal/rtdetr_seed2-2/weights/best.pt",
+      "complete": true,
+      "resume_allowed": false,
+      "reason": "complete",
+      "scheduled": false
+    },
+    "rtdetr_seed3": {
+      "run_key": "rtdetr_seed3",
+      "family": "rtdetr",
+      "seed": 3,
+      "priority": "primary",
+      "kind": "ultralytics",
+      "canonical_dir": "/volume/yzhao04/workspace/ICS6201/runs_formal/rtdetr_seed3-2",
+      "canonical_dir_name": "rtdetr_seed3-2",
+      "candidate_dirs": [
+        "/volume/yzhao04/workspace/ICS6201/runs_formal/rtdetr_seed3",
+        "/volume/yzhao04/workspace/ICS6201/runs_formal/rtdetr_seed3-2"
+      ],
+      "alternatives": [
+        {
+          "dir": "/volume/yzhao04/workspace/ICS6201/runs_formal/rtdetr_seed3",
+          "last_epoch": 41,
+          "last_iter": null,
+          "mtime": 1780310814.246941
+        }
+      ],
+      "last_progress": 120,
+      "target_progress": 120,
+      "progress_kind": "epoch",
+      "last_checkpoint": "/volume/yzhao04/workspace/ICS6201/runs_formal/rtdetr_seed3-2/weights/last.pt",
+      "best_checkpoint": "/volume/yzhao04/workspace/ICS6201/runs_formal/rtdetr_seed3-2/weights/best.pt",
+      "complete": true,
+      "resume_allowed": false,
+      "reason": "complete",
+      "scheduled": false
+    },
+    "yolo11_seed1": {
+      "run_key": "yolo11_seed1",
+      "family": "yolo11",
+      "seed": 1,
+      "priority": "secondary",
+      "kind": "ultralytics",
+      "canonical_dir": "/volume/yzhao04/workspace/ICS6201/runs_formal/yolo11_seed1-2",
+      "canonical_dir_name": "yolo11_seed1-2",
+      "candidate_dirs": [
+        "/volume/yzhao04/workspace/ICS6201/runs_formal/yolo11_seed1",
+        "/volume/yzhao04/workspace/ICS6201/runs_formal/yolo11_seed1-2"
+      ],
+      "alternatives": [
+        {
+          "dir": "/volume/yzhao04/workspace/ICS6201/runs_formal/yolo11_seed1",
+          "last_epoch": 198,
+          "last_iter": null,
+          "mtime": 1780307729.409998
+        }
+      ],
+      "last_progress": 200,
+      "target_progress": 200,
+      "progress_kind": "epoch",
+      "last_checkpoint": "/volume/yzhao04/workspace/ICS6201/runs_formal/yolo11_seed1-2/weights/last.pt",
+      "best_checkpoint": "/volume/yzhao04/workspace/ICS6201/runs_formal/yolo11_seed1-2/weights/best.pt",
+      "complete": true,
+      "resume_allowed": false,
+      "reason": "complete",
+      "scheduled": false
+    },
+    "yolo11_seed2": {
+      "run_key": "yolo11_seed2",
+      "family": "yolo11",
+      "seed": 2,
+      "priority": "secondary",
+      "kind": "ultralytics",
+      "canonical_dir": "/volume/yzhao04/workspace/ICS6201/runs_formal/yolo11_seed2",
+      "canonical_dir_name": "yolo11_seed2",
+      "candidate_dirs": [
+        "/volume/yzhao04/workspace/ICS6201/runs_formal/yolo11_seed2"
+      ],
+      "alternatives": [],
+      "last_progress": 2,
+      "target_progress": 200,
+      "progress_kind": "epoch",
+      "last_checkpoint": "/volume/yzhao04/workspace/ICS6201/runs_formal/yolo11_seed2/weights/last.pt",
+      "best_checkpoint": "/volume/yzhao04/workspace/ICS6201/runs_formal/yolo11_seed2/weights/best.pt",
+      "complete": false,
+      "resume_allowed": true,
+      "reason": "has_last_pt",
+      "scheduled": true
+    },
+    "faster_rcnn_seed1": {
+      "run_key": "faster_rcnn_seed1",
+      "family": "faster_rcnn",
+      "seed": 1,
+      "priority": "primary",
+      "kind": "detectron2",
+      "canonical_dir": "/volume/yzhao04/workspace/ICS6201/runs_detectron2/faster_rcnn_seed1",
+      "canonical_dir_name": "faster_rcnn_seed1",
+      "candidate_dirs": [
+        "/volume/yzhao04/workspace/ICS6201/runs_detectron2/faster_rcnn_seed1"
+      ],
+      "alternatives": [],
+      "last_progress": 2062560,
+      "target_progress": 2062560,
+      "progress_kind": "iter",
+      "last_checkpoint": "/volume/yzhao04/workspace/ICS6201/runs_detectron2/faster_rcnn_seed1/model_final.pth",
+      "best_checkpoint": "/volume/yzhao04/workspace/ICS6201/runs_detectron2/faster_rcnn_seed1/model_final.pth",
+      "complete": true,
+      "resume_allowed": false,
+      "reason": "model_final",
+      "scheduled": false
+    },
+    "faster_rcnn_seed2": {
+      "run_key": "faster_rcnn_seed2",
+      "family": "faster_rcnn",
+      "seed": 2,
+      "priority": "primary",
+      "kind": "detectron2",
+      "canonical_dir": "/volume/yzhao04/workspace/ICS6201/runs_detectron2/faster_rcnn_seed2",
+      "canonical_dir_name": "faster_rcnn_seed2",
+      "candidate_dirs": [
+        "/volume/yzhao04/workspace/ICS6201/runs_detectron2/faster_rcnn_seed2"
+      ],
+      "alternatives": [],
+      "last_progress": 2062560,
+      "target_progress": 2062560,
+      "progress_kind": "iter",
+      "last_checkpoint": "/volume/yzhao04/workspace/ICS6201/runs_detectron2/faster_rcnn_seed2/model_final.pth",
+      "best_checkpoint": "/volume/yzhao04/workspace/ICS6201/runs_detectron2/faster_rcnn_seed2/model_final.pth",
+      "complete": true,
+      "resume_allowed": false,
+      "reason": "model_final",
+      "scheduled": false
+    },
+    "faster_rcnn_seed3": {
+      "run_key": "faster_rcnn_seed3",
+      "family": "faster_rcnn",
+      "seed": 3,
+      "priority": "primary",
+      "kind": "detectron2",
+      "canonical_dir": "/volume/yzhao04/workspace/ICS6201/runs_detectron2/faster_rcnn_seed3",
+      "canonical_dir_name": "faster_rcnn_seed3",
+      "candidate_dirs": [
+        "/volume/yzhao04/workspace/ICS6201/runs_detectron2/faster_rcnn_seed3"
+      ],
+      "alternatives": [],
+      "last_progress": 2062560,
+      "target_progress": 2062560,
+      "progress_kind": "iter",
+      "last_checkpoint": "/volume/yzhao04/workspace/ICS6201/runs_detectron2/faster_rcnn_seed3/model_final.pth",
+      "best_checkpoint": "/volume/yzhao04/workspace/ICS6201/runs_detectron2/faster_rcnn_seed3/model_final.pth",
+      "complete": true,
+      "resume_allowed": false,
+      "reason": "model_final",
+      "scheduled": false
+    },
+    "faster_rcnn_seed42": {
+      "run_key": "faster_rcnn_seed42",
+      "family": "faster_rcnn",
+      "seed": 42,
+      "priority": "primary",
+      "kind": "detectron2",
+      "canonical_dir": "/volume/yzhao04/workspace/ICS6201/runs_detectron2/faster_rcnn_seed42",
+      "canonical_dir_name": "faster_rcnn_seed42",
+      "candidate_dirs": [
+        "/volume/yzhao04/workspace/ICS6201/runs_detectron2/faster_rcnn_seed42"
+      ],
+      "alternatives": [],
+      "last_progress": 32,
+      "target_progress": 2062560,
+      "progress_kind": "iter",
+      "last_checkpoint": "/volume/yzhao04/workspace/ICS6201/runs_detectron2/faster_rcnn_seed42/model_final.pth",
+      "best_checkpoint": "/volume/yzhao04/workspace/ICS6201/runs_detectron2/faster_rcnn_seed42/model_final.pth",
+      "complete": true,
+      "resume_allowed": false,
+      "reason": "model_final",
+      "scheduled": false
+    }
+  }
+}
