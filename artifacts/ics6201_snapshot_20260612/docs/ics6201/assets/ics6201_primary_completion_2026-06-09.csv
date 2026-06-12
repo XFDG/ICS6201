@@ -1,0 +1,7 @@
+task,status,map50_95,artifact
+rtdetr_seed1,done,0.6794,runs_formal/rtdetr_seed1-2/weights/best.pt
+rtdetr_seed2,done,0.6753,runs_formal/rtdetr_seed2-2/weights/best.pt
+rtdetr_seed3,done,0.6758,runs_formal/rtdetr_seed3-2/weights/best.pt
+faster_rcnn_seed1,done,,runs_detectron2/faster_rcnn_seed1/model_final.pth
+faster_rcnn_seed2,done,,runs_detectron2/faster_rcnn_seed2/model_final.pth
+faster_rcnn_seed3,done,,runs_detectron2/faster_rcnn_seed3/model_final.pth

@@ -1,0 +1,19 @@
+task,family,status,epoch,target,map50_95,notes
+rtdetr_seed1,rtdetr,done,120,120,0.6794,primary complete
+rtdetr_seed2,rtdetr,done,120,120,0.6753,primary complete
+rtdetr_seed3,rtdetr,done,120,120,0.6758,primary complete
+faster_rcnn_seed1,faster_rcnn,done,2062560,2062560,,primary complete model_final
+faster_rcnn_seed2,faster_rcnn,done,2062560,2062560,,primary complete model_final
+faster_rcnn_seed3,faster_rcnn,done,2062560,2062560,,primary complete model_final
+yolo11_seed1,yolo11,done,200,200,0.5540,secondary complete
+yolo11_seed2,yolo11,done,200,200,0.5546,secondary complete
+yolo11_seed3,yolo11,done,200,200,0.5556,secondary complete
+yolov10_seed1,yolov10,done,200,200,0.5139,secondary complete
+yolov10_seed2,yolov10,done,200,200,0.5122,secondary complete
+yolov10_seed3,yolov10,done,200,200,0.5154,secondary complete
+yolov8_seed1,yolov8,done,200,200,0.4993,secondary complete
+yolov8_seed2,yolov8,done,200,200,0.4998,secondary complete
+yolov8_seed3,yolov8,done,200,200,0.5021,secondary complete
+ddw_yolo_seed1,ddw_yolo,running,168,200,0.4180,still running on GPU3
+ddw_yolo_seed2,ddw_yolo,running,167,200,0.3850,still running on GPU4
+ddw_yolo_seed3,ddw_yolo,interrupted,142,200,0.4012,stopped after NaN train loss; GPU5 idle
