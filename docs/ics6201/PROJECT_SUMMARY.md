@@ -173,15 +173,44 @@ STEP 6: Keep Alive（启动 GPU 防回收守护进程）
 | yolov8_seed1 | DONE | mAP50-95 = **0.4993** |
 | yolov8_seed2 | DONE | mAP50-95 = **0.4998** |
 | yolov8_seed3 | DONE | mAP50-95 = **0.5021** |
-| ddw_yolo_seed1 | RUNNING | epoch **168/199**，mAP50-95 = **0.4180**，GPU3 继续运行 |
-| ddw_yolo_seed2 | RUNNING | epoch **167/199**，mAP50-95 = **0.3850**，GPU4 继续运行 |
-| ddw_yolo_seed3 | INTERRUPTED | epoch **142/199**，mAP50-95 = **0.4012**；日志显示 train loss 出现 `nan`，GPU5 已空闲 |
+| ddw_yolo_seed1 | RUNNING | epoch **172/199**，mAP50-95 = **0.4180**，GPU3 继续运行；近期 train loss 出现 `nan`，验证指标仍稳定 |
+| ddw_yolo_seed2 | RUNNING | epoch **170/199**，mAP50-95 = **0.3850**，GPU4 继续运行 |
+| ddw_yolo_seed3 | RECOVERING | 原 partial run 跑到 epoch **142/199** 出现 `nan`；2026-06-12 10:05 CST 起在 GPU5 用 partial 142-epoch `last.pt` 当初始权重 fresh 重跑 200 epoch（PID 439512），目前 epoch **1/200** 进度 ~30%，**train loss 已恢复有限值**（box≈1.50, cls≈1.15, dfl≈1.32） |
 
 ### 当前判断
 
 - 如果按“核心模型 + 常规模型对比”口径，RT-DETR-L、Faster R-CNN、YOLO11、YOLOv10、YOLOv8 已经具备完整 3-seed 结果。
-- 如果按“18 个正式任务全部完成”口径，目前还未完成：DDW-YOLO 还剩 seed1/seed2 在跑，seed3 需要决定是否从 `last.pt` 恢复、调整超参重跑，或接受 partial 结果。
-- DDW-YOLO 的 optimizer 已改为 AdamW，规避了 Ultralytics Muon 对非 2D 参数的断言问题；但 DDW 自定义结构在长训练阶段仍存在 NaN 风险。
+- 如果按“18 个正式任务全部完成”口径，DDW-YOLO seed1/seed2 仍在 GPU3/GPU4 上正常推进，seed3 已在 2026-06-12 10:05 CST 启动 fresh 重跑（不再走 `--resume-path` 续训路径，因为 Ultralytics 检测到 `last.pt` 缺失 optimizer/epoch state，无法真正 resume）。
+- DDW-YOLO 的 optimizer 已改为 AdamW，规避了 Ultralytics Muon 对非 2D 参数的断言问题；但 DDW 自定义结构在长训练阶段仍存在 NaN 风险（seed1 已观察到，seed3 通过 fresh 重跑暂时规避）。
+
+### 2026-06-12 10:05 CST 更新：DDW-YOLO seed3 恢复 + keep_alive 迁移
+
+**问题与现状**：
+
+- `ddw_yolo_seed3` 原 partial run（runs_formal/ddw_yolo_seed3）已跑到 epoch 142/200，但 `train/giou_loss`、`cls_loss`、`l1_loss` 全部 `nan`，且 Ultralytics 写出的 `last.pt` 已 strip 掉 optimizer/epoch state（YOLO 在某些情况下会这样优化体积），无法走真正的 resume 续训路径。
+- 旧 142-epoch 权重备份在 `runs_formal/ddw_yolo_seed3_partial_142ep/weights/`，原训练日志快照在 `logs/formal/ddw_yolo_seed3.log.partial_142ep.20260612_094507`。
+- 原 `runs_formal/ddw_yolo_seed3/results.csv` 在恢复尝试失败的过程中被 Ultralytics 的 `--exist-ok` 清空，**142-epoch 训练曲线已永久丢失**；但训练结果（last.pt/best.pt）和原始日志均完整保留，必要时可从日志中重建关键指标。
+
+**采取行动**：
+
+1. 把 keep_alive 从 GPU0 迁移到 GPU7，使 GPU5 可用：原 PID 882390 已 SIGTERM 退出，新 PID 413853 运行在 GPU7。
+2. 用 partial 142-epoch 的 `last.pt` 当初始权重，在 GPU5 启动 fresh 200-epoch 重跑（PID 439512），命令保留 `--resume-path` 让 `_maybe_register_ddw_modules` 仍能走 yaml 注册路径，Ultralytics 会输出 "not a resumable training checkpoint, starting new training instead" 的 warning，符合预期。
+3. 全程不重启正在 GPU3/GPU4 运行的 seed1/seed2，不动当前 launcher PID 1165342，避免影响这两个进程的状态管理。
+
+**预期完成时间（基于实测 25 min/epoch）**：
+
+| 任务 | 当前进度 | 预计完成 |
+|------|----------|----------|
+| ddw_yolo_seed1 | 172/200 | 2026-06-12 ~22:00 CST |
+| ddw_yolo_seed2 | 170/200 | 2026-06-12 ~23:00 CST |
+| ddw_yolo_seed3 (fresh) | 1/200 (在跑) | 2026-06-15 ~11:00 CST |
+
+**当前 GPU 占用**：GPU3=seed1, GPU4=seed2, GPU5=seed3 (fresh), GPU7=keep_alive；GPU0/1/2/6 空闲。
+
+**Git 与文档**：
+
+- 远端 develop 在 push 时一度被拒绝（远端有 `0a06514` 比本地 `7a8ca1e` 新），通过 `git rebase origin/develop` 干净通过，后续的 `git push origin develop` 已成功，本地与远端一致到 commit `ef9afd9`。
+- 本次更新以新 commit 形式追加，不重写已 push 历史。
 
 ### 恢复训练策略
 
