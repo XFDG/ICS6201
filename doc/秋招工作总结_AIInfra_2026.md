@@ -3,8 +3,8 @@
 > 可直接选择的简历 bullet、岗位版本、STAR 故事和数字核对表见 [秋招简历素材库](./秋招简历素材库_AIInfra_2026.md)；精选开发文档与证据见 [工作记录总索引](./work_records/README.md)。
 
 > 整理日期：2026-07-15  
-> 记录范围：本机 `docs/` 中 2026-05-18 至 2026-06-27 的可追溯工作，以及 ICS6201 仓库中的实验结果。  
-> 核心结论：这段工作的主线不是单点模型训练，而是围绕大模型系统完成“离线交付、GPU 热路径分析、训推一致性验证、分布式故障定位、实验工程化”的闭环。  
+> 记录范围：2026-05-18 至 2026-07-15 的可追溯工作，以及 ICS6201 仓库中的实验结果。
+> 核心结论：这段工作的主线不是单点模型训练，而是围绕大模型系统完成“离线交付、GPU 热路径分析、训推一致性验证、异步算子开发、分布式故障定位、模型能力评测”的闭环。
 > 明确不包含：摩尔线程实习和更早的个人项目；它们已在现有简历中单独描述。本文件也不把公开仓库中的性能数字算作个人实测成果。
 
 ## 1. 秋招材料取舍
@@ -12,6 +12,8 @@
 | 优先级 | 经历 | 建议用途 | 原因 |
 |---|---|---|---|
 | P0 | R3 / Router Replay 训推一致性 | 实习经历主项目 | 同时覆盖 RL 系统、MoE 路由、分布式训练、指标设计和根因定位，证据最完整 |
+| P0 | OE Async | 实习经历算子集成项目 | 覆盖异步调度、GPU token history、Triton fused-hash、多卡正确性和性能验证 |
+| P0 | FlashInfer TP2 CUDA Graph Hang | 实习经历故障定位项目 | 从 RPC timeout 下钻到 GPU FTZ/sentinel 根因，并完成补丁与版本回归 |
 | P0 | H200 MoE / Grouped GEMM 性能分析 | 实习经历性能优化项目 | 有真实 profile、口径纠偏、回放验证和 tuning 收益 |
 | P1 | DeepGEMM 离线预编译与 wheel 交付 | 实习经历工程化项目 | 能体现部署、构建、缓存系统和多模型验证能力 |
 | P2 | ICS6201 无人机检测流水线 | 项目经历备选 | 能体现数据工程、多模型实验和调度恢复，但与 AI Infra 岗位相关度低于前三项 |
@@ -29,6 +31,19 @@
 | 2026-06-08 至 06-15 | AI Infra 开源技术调研 | Megatron-LM、Quack、ThunderKittens/mKernel、HPC-Ops、Mirage/MPK 等读码报告 |
 | 2026-06-11 至 06-23 | R3 单机验证 | 8xH200 baseline/R2/R3 对照、route observe/replay、logprob drift 指标闭环 |
 | 2026-06-24 至 06-27 | R3 集群化与故障定位 | 32 卡运行/恢复 SOP、TP=2 CUDA Graph hang 隔离、checkpoint 与 RLScope 调研 |
+| 2026-06-29 至 07-13 | OE Async | GPU fused-hash、token history 修复、TP1/TP2/TP4 正确性与吞吐验证 |
+| 2026-07-09 至 07-15 | 算子评测链路 | 140-case MoE/Attention 正交矩阵、25,624 题 UBIEval 能力与数值回归 |
+| 2026-07-14 至 07-15 | FlashInfer 根因闭环 | 两卡最小复现、FTZ/sentinel 根因、PR #3304 回移与 0.6.12 回归 |
+
+### 2.1 6.15-7.15 月度新增
+
+- R3：20-step observe 对照中将 route mismatch 从约 17%-19% 降至 0，`f_tau_2` 降低 36x-145x、KL 降低约 4x-7x。
+- FlashInfer：将 TP2 FULL CUDA Graph hang 从 `sample_tokens` timeout 定位到 MNNVL fused allreduce + RMSNorm 的 FTZ/sentinel 误判，并完成补丁与新版回归。
+- OE：完成 async scheduling 和 token-history 正确性闭环，TP1 fused-hash 在严格正确性矩阵下相对同步路径提升 5.0%，TP2/TP4 的 28 组 decode 用例各重复 3 轮均 0 mismatch。
+- 评测：完成 140-case 性能矩阵和 25,624 题能力回归，建立链路、聚合能力与逐样本/张量数值三级验收口径。
+- NSA：完成 compression、连续块 selection、sliding window 与硬件协同设计调研；当前仅形成技术路线和验证方案，尚未移植 kernel 或复现 H200 性能。
+
+可直接用于团队汇报的精简版本见 [2026-06-15 至 07-15 月报](./work_records/monthly_report/2026-06-15_2026-07-15.md)。
 
 ## 3. R3：MoE RL 训推路由一致性
 
@@ -68,7 +83,7 @@
 ### 3.3 故障定位与工程化
 
 - 修复 `plt_num_loops` 错误透传到 Megatron、vLLM 包版本号不兼容等启动阻塞。
-- 将 `sample_tokens timed out` 从 sampler/D2H 等下游等待点继续向前隔离，收敛到 `TP=2 + FULL CUDA Graph` 条件下 fused AllReduce + RMSNorm 路径不可靠；关闭 `fuse_allreduce_rms` 的候选 guard 首次通过完整 step。
+- 将 `sample_tokens timed out` 从 sampler/D2H 等下游等待点继续向前隔离，最终定位到 `TP=2 + FULL CUDA Graph` 下 FlashInfer MNNVL fused AllReduce + RMSNorm 的 FTZ/sentinel 误判；回移官方修复和升级版本均通过两卡 graph replay 回归。
 - 梳理 32 卡 R2/R3 启动参数、checkpoint 保存/停卡恢复 SOP、日志与 rollout dump 边界。
 - 对比两个集群配置组的日志，确认 fullgraph + checkpoint 组因 Ray memory pressure OOM，而 eager/no-resume 组能完成 5 step；明确 profiling 是观测工具，不是稳定性修复。
 
@@ -76,12 +91,12 @@
 
 - 面向 8xH200 的 `veRL + Megatron + vLLM` MoE-RL 链路，实现 rollout route 采集、训练侧 Router Replay 与 response-mask 指标闭环；observe 对照中 baseline/R2 自然路由 mismatch 稳定在 17%-19%，R3 回放后降至 0。
 - 统一 `f_tau_2`、KL、route mismatch 与 selected-logprob drift 口径；20-step 对照中 R3 将 `f_tau_2` 降低约 36x-145x、KL 降低约 4x-7x，并实现全程 0 hang / 0 engine error / 0 metric error。
-- 定位 vLLM `TP=2 + FULL CUDA Graph` rollout hang，排除 sampler、D2H 和消息队列等下游表象，将问题收敛至 fused AllReduce + RMSNorm 路径；同步沉淀 32 卡启动、checkpoint 和停卡恢复流程。
+- 定位 vLLM `TP=2 + FULL CUDA Graph` rollout hang，排除 sampler、D2H 和消息队列等下游表象，将问题下钻到 FlashInfer FTZ 误判 Lamport sentinel 的 GPU 根因并完成补丁/版本回归；同步沉淀多节点启动、checkpoint 和停卡恢复流程。
 
 ### 3.5 结论边界
 
 - 当前能证明的是 route 与 logprob 层面的训推一致性改善，不能写成最终 reward 或任务效果已经提升。
-- `TP=2 + FULL CUDA Graph` 尚未完成指令级根因闭环；eager 是稳定规避方案，不等于 fullgraph 已修复。
+- `TP=2 + FULL CUDA Graph` 已完成两卡最小复现、指令证据和修复后回归，但完整大规模 RL `main_ppo` 仍待最终验收。
 - 32 卡样本显示 R3 有约 8.1% 吞吐开销，简历和面试中不应只说收益、不说代价。
 
 ## 4. H200 MoE / GEMM 性能工程
@@ -164,6 +179,8 @@ Faster R-CNN 三组均完成 2,062,560 iterations；完整原始日志和权重�
 | 性能评测 | xpu-perf、Frontier | 沉淀从 microbenchmark、模型仿真、trace 到端到端吞吐/TCO 的口径分层 |
 | 训练诊断 | ml_toolkit、DeepEye | 评估 capture/align/replay、张量诊断、分布式 trace 和 R3 consistency toolkit 的实现路径 |
 | MoE 算法与系统 | SonicMoE 及相关论文 | 梳理 fine-grained MoE 的 activation/HBM IO、Grouped GEMM padding 与 IO-aware fusion |
+| 异步算子 | OE async | 梳理 decode/prefill/mixed 数据流，完成 GPU token history、fused-hash 与多卡正确性验证 |
+| 模型能力评测 | UBIEval | 建立性能、aggregate score 与逐样本/张量数值分层验收口径 |
 
 ## 7. 能力归纳
 
@@ -171,6 +188,7 @@ Faster R-CNN 三组均完成 2,062,560 iterations；完整原始日志和权重�
 |---|---|
 | GPU 性能分析 | Nsight Systems range、MFU/latency 口径、warmup/autotune 去噪、线上 shape 回放 |
 | Kernel 与算子优化 | SM90 Grouped GEMM config tuning、CUTLASS/Quack/DeepGEMM 路径比较 |
+| 异步执行与状态管理 | OE GPU token history、mixed batch、slot reuse、TP2/TP4 batch-invariant 验证 |
 | 分布式大模型系统 | veRL、Megatron、vLLM、DeepEP，8 卡单机和 32 卡多节点运行与恢复 |
 | 实验设计 | baseline/R2/R3 控制变量、route/logprob 指标定义、多 seed、错误边界说明 |
 | 部署与交付 | 离线 cubin bundle、wheel-only 安装、SHA-256 校验、无外网环境处理 |
@@ -179,7 +197,7 @@ Faster R-CNN 三组均完成 2,062,560 iterations；完整原始日志和权重�
 
 ## 8. 面试自述短版
 
-我最近的工作集中在 H200 上的大模型系统和 GPU 性能工程。一条主线是 MoE RL 的训推一致性：在 veRL、Megatron 和 vLLM 之间打通 Router Replay，设计 route 与 logprob 指标，并通过 baseline/R2/R3 对照验证 R3 能把自然路由 mismatch 从约 17%-19% 降到 0，同时显著降低概率漂移。另一条主线是 H200 MoE 热路径分析：用 Nsight 和本地回放纠正 compact rows 的测试口径，完成 Quack config tuning；同时做过 DeepGEMM 离线预编译和 wheel 交付。我比较重视结论边界，例如区分 cold-load 加速和稳态 kernel 加速，也会明确 R3 当前改善的是一致性指标，而不是直接宣称最终任务效果提升。
+我最近的工作集中在 H200 上的大模型系统和 GPU 性能工程。一条主线是 MoE RL 的训推一致性：在 veRL、Megatron 和 vLLM 之间打通 Router Replay，设计 route 与 logprob 指标，并通过 baseline/R2/R3 对照验证 R3 能把自然路由 mismatch 从约 17%-19% 降到 0，同时显著降低概率漂移；另一条主线是算子集成与稳定性，完成 OE async 的 GPU token-history 链路，并将 TP2 CUDA Graph hang 下钻到 FlashInfer FTZ/sentinel 根因。此外，我用 Nsight 和本地回放纠正 H200 MoE compact rows 的测试口径，完成 Quack config tuning 和 DeepGEMM 离线 wheel 交付。我比较重视结论边界，会区分性能、数值一致性和最终模型效果。
 
 ## 9. 精选证据索引
 
@@ -190,6 +208,9 @@ Faster R-CNN 三组均完成 2,062,560 iterations；完整原始日志和权重�
 | R3 工程 | [Router Replay 工程实现](./work_records/r3/R3_工程实现公开版.md) |
 | R3 结果 | [A/B/C 实验结果](./work_records/r3/R3_实验结果公开版.md) |
 | CUDA Graph / 集群恢复 | [CUDA Graph 与集群排障](./work_records/r3/R3_CUDA_Graph与集群排障公开版.md) |
+| FlashInfer 根因 | [TP2 CUDA Graph Hang 根因与修复](./work_records/flashinfer/README.md) |
+| OE Async | [异步调度与多卡验证](./work_records/oe/README.md) |
+| 6.15-7.15 月报 | [算子月度总结](./work_records/monthly_report/2026-06-15_2026-07-15.md) |
 | H200 GEMM | [Grouped GEMM 性能分析](./work_records/gemm_sonicmoe/H200_GEMM性能分析公开版.md) |
 | Quack tuning | [配置调优开发记录](./work_records/gemm_sonicmoe/Quack调优开发记录公开版.md) |
 | DeepGEMM | [离线预编译与 Wheel 交付](./work_records/deep_gemm/README.md) |

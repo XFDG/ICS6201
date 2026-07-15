@@ -1,0 +1,15 @@
+tp,repeat,path,batch_invariant,passed,total,tokens_per_ms_ratio_vs_sync
+1,aggregate,fused,on,28,28,1.049900
+1,aggregate,unfused,on,28,28,1.029905
+2,1,unfused,off,16,28,
+2,1,unfused,on,28,28,1.050778
+2,2,unfused,off,12,28,
+2,2,unfused,on,28,28,1.041454
+2,3,unfused,off,13,28,
+2,3,unfused,on,28,28,1.046146
+4,1,unfused,off,21,28,
+4,1,unfused,on,28,28,1.044984
+4,2,unfused,off,22,28,
+4,2,unfused,on,28,28,1.031514
+4,3,unfused,off,20,28,
+4,3,unfused,on,28,28,1.030029

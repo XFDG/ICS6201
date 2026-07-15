@@ -14,8 +14,8 @@
 
 | 目标岗位 | 第一项目 | 第二项目 | 第三项目 |
 |---|---|---|---|
-| AI Infra / 大模型系统 | R3 Router Replay | H200 GEMM | DeepGEMM 离线交付 |
-| CUDA / Kernel 性能 | H200 GEMM | DeepGEMM | R3 CUDA Graph 排障 |
+| AI Infra / 大模型系统 | R3 Router Replay | OE Async | FlashInfer CUDA Graph 根因 |
+| CUDA / Kernel 性能 | FlashInfer CUDA Graph 根因 | H200 GEMM | DeepGEMM |
 | 分布式训练 / RL Infra | R3 Router Replay | R3 集群与恢复 | ICS6201 多 GPU 调度 |
 | 算法工程 / 训练工程 | R3 实验设计 | ICS6201 | AI Infra 读码调研 |
 
@@ -26,6 +26,8 @@
 | 用途 | 推荐名称 |
 |---|---|
 | 简历主项目 | MoE 强化学习训推一致性与 Router Replay |
+| 算子集成项目 | OE 异步调度与多卡正确性优化 |
+| 故障定位项目 | FlashInfer TP2 CUDA Graph Hang 根因与修复 |
 | 性能项目 | H200 MoE Grouped GEMM 性能分析与配置调优 |
 | 交付项目 | DeepGEMM 离线预编译与 Wheel 交付 |
 | 课程项目 | 无人机目标检测数据与多 GPU 训练流水线 |
@@ -53,7 +55,7 @@
 
 ### 3.3 故障定位与工程化
 
-- 使用 TP、compile、CUDA Graph mode 和 fusion 四维控制变量矩阵排查 vLLM rollout hang，排除 sampler/D2H/MQ 等下游表象，将问题收敛到 TP=2 + FULL CUDA Graph 下 fused AllReduce + RMSNorm 高风险路径。
+- 使用 TP、compile、CUDA Graph mode 和 fusion 四维控制变量矩阵排查 vLLM rollout hang，排除 sampler/D2H/MQ 等下游表象，并用两卡 graph reproducer 将问题下钻到 FlashInfer FTZ 误判 Lamport sentinel 的 GPU 根因。
 - 形成多节点 checkpoint 保存/恢复 smoke、停卡恢复和 profile 产物验收流程，区分训练 checkpoint、rollout dump、实验指标与 Nsys/NCU 产物，降低中断后的重跑成本。
 - 修复非 Megatron 参数透传导致初始化失败、vLLM 开发版本元数据不兼容等启动阻塞，并以 eager 模式提供稳定规避方案。
 
@@ -69,7 +71,18 @@ AI Infra 简历优先选以下三条：
 
 - 在 8xH200 的 veRL + Megatron + vLLM MoE-RL 链路中实现 rollout route 采集、训练侧 Router Replay 与 response-mask 指标闭环，并以 baseline/R2/R3 observe 对照验证自然 route divergence。
 - Qwen3-30B-A3B BF16 20-step 实验中，将 route mismatch 从约 17%-19% 降至 0，f_tau_2 降低约 36x-145x、KL 降低约 4x-7x，且全程 0 hang / 0 engine error / 0 metric error。
-- 通过 TP/compile/graph/fusion 控制变量矩阵定位 vLLM TP=2 FULL CUDA Graph hang，将问题收敛至 fused AllReduce + RMSNorm 路径，并沉淀 eager 规避、checkpoint 与多节点恢复流程。
+- 通过 TP/compile/graph/fusion 控制变量矩阵定位 vLLM TP=2 FULL CUDA Graph hang，并用两卡 graph reproducer 与 SASS 对照将根因闭环到 FlashInfer FTZ/sentinel 误判，完成补丁与新版回归。
+
+## 3.5 OE Async Bullet 池
+
+- 为 OE 算子补齐 async scheduling，在 GPU 侧维护 recent-token history 并生成 OE 输入，修复 decode、mixed batch、请求恢复、slot reuse 和 reorder 下的状态一致性问题。
+- TP1 pure-decode 使用 Triton fused-hash，在严格 28-case 正确性矩阵下相对同步路径提升 5.0%、相对 async-unfused 提升约 1.9%。
+- TP2/TP4 使用 async-unfused + batch-invariant 正确性门槛，28 shapes × 3 rounds 均 0 mismatch，decode 平均吞吐分别提升约 4.6%/3.0%。
+- 结论边界：TP>1 fused-hash 尚未默认交付，不能把 batch-invariant 安全路径的结果写成多卡 fused kernel 收益。
+
+推荐压缩成一条：
+
+- 为 OE 算子补齐 async scheduling 与 GPU token-history 管理；TP1 fused-hash 在严格正确性矩阵下相对同步路径提升 5.0%，TP2/TP4 在 batch-invariant 开启后 28 组 decode 用例各重复 3 轮均 0 mismatch，吞吐分别提升约 4.6%/3.0%。
 
 ## 4. H200 Grouped GEMM / SonicMoE Bullet 池
 
@@ -146,7 +159,7 @@ R3：
 
 - 在 8xH200 的 veRL + Megatron + vLLM MoE-RL 链路中实现 rollout route 采集、训练侧 Router Replay 与 response-mask 指标闭环。
 - 20-step observe 对照中将 route mismatch 从约 17%-19% 降至 0，f_tau_2 降低约 36x-145x、KL 降低约 4x-7x。
-- 定位 TP=2 FULL CUDA Graph rollout hang 至 fused AllReduce + RMSNorm 高风险路径，沉淀 eager 规避和多节点 checkpoint/恢复流程。
+- 定位 TP=2 FULL CUDA Graph rollout hang 至 FlashInfer MNNVL 的 FTZ/sentinel 误判，完成 bit-pattern 修复与两卡 graph replay 回归，并保留大规模 RL 验收边界。
 
 GEMM / DeepGEMM：
 
@@ -159,7 +172,7 @@ GEMM / DeepGEMM：
 - 构建 CUTLASS/Quack/DeepGEMM/SonicMoE 四路 H200 benchmark 与 Nsys range，覆盖 18 shapes x 4 路径。
 - 通过 warmup/JIT 去噪和 compact-row 口径纠偏，推翻 4x-6x 假差距并建立线上 shape 本地回放。
 - 扩展 SM90 tile/cluster/persistent/swizzle 候选，目标 shape 提升 5.3%，聚合提升 1.84%。
-- 将 CUDA Graph hang 收敛到 TP=2 FULL graph 下 fused collective + normalization 路径，并明确 NCU 未完成的证据边界。
+- 将 CUDA Graph hang 从 RPC timeout 下钻到 TP=2 FULL graph 下 fused collective 的 FTZ/sentinel 指令语义，使用补丁前后 graph replay 与 SASS 对照闭环验证。
 - 完成 DeepGEMM 359-kernel cubin bundle 和 wheel-only 离线交付。
 
 ### 8.3 分布式训练版本
@@ -184,9 +197,9 @@ GEMM / DeepGEMM：
 
 **S**：rollout 最终报 sample_tokens timeout，堆栈容易让人误判 sampler 或消息队列。  
 **T**：找到首因条件并恢复实验稳定性。  
-**A**：建立 TP、compile、graph mode、fusion 控制变量矩阵；用 eager 证明基本链路；Nsys 对齐上游 kernel 与下游等待点；单独 guard fused AllReduce + RMSNorm。  
-**R**：问题收敛到 TP=2 + FULL graph 的 fused 路径，guard 首次通过完整 step，eager 成为稳定规避。  
-**追问边界**：没有目标 NCU，不能声称定位到具体指令。
+**A**：建立 TP、compile、graph mode、fusion 控制变量矩阵；用 eager 证明基本链路；再通过两卡 reproducer、补丁前后对照和 SASS 检查下钻 fused AllReduce + RMSNorm。
+**R**：问题先收敛到 TP=2 + FULL graph 的 fused 路径，随后定位到 FTZ 将合法负次正规数误判为 Lamport sentinel；精确 bit-pattern 修复后两卡 graph replay 通过。
+**追问边界**：两卡根因与模型级回归已闭环，但完整大规模 RL `main_ppo` 仍待验收。
 
 ### 9.3 GEMM 4x-6x 假差距
 
@@ -268,7 +281,7 @@ GEMM / DeepGEMM：
 ## 13. 明确不要写
 
 - 不写“R3 提高了最终 reward/准确率”，因为没有完整任务效果对照。
-- 不写“修复 vLLM FULL CUDA Graph bug”，因为只有路径收敛和候选 guard，缺指令级闭环。
+- 不写“完整大规模 RL FULL CUDA Graph 已验收”，因为当前完成的是两卡根因、指令证据和模型级回归，8 卡 `main_ppo` 仍待验证。
 - 不写“个人 PR 已合并”，整理时目标分支已有等价能力，当前没有可验证的合并状态。
 - 不写“重写 Quack kernel 获得 5.3%”，实际是 config-level candidate tuning。
 - 不写“DeepGEMM 推理加速 7.7x”，实际是 cold/load 阶段。

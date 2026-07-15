@@ -1,6 +1,8 @@
 # R3 CUDA Graph 与集群排障（公开版）
 
-> 结论：sample_tokens timed out 是下游表象，最小触发组合收敛到 TP=2 + VLLM_COMPILE + FULL CUDA Graph；fused AllReduce + RMSNorm 路径是当前高置信嫌疑点，但尚无 kernel 指令级闭环。稳定运行使用 eager，不能写成 FULL graph 已修复。
+> 2026-07-15 更新：本文第 1～9 节保留 6 月阶段性排障过程；后续两卡最小复现已经把根因闭环到 FlashInfer MNNVL fused allreduce + RMSNorm 的 FTZ/sentinel 误判，并完成 PR #3304 回移与 0.6.12 回归。最新结论见 [FlashInfer TP2 CUDA Graph Hang 根因与修复](../flashinfer/README.md)。
+
+> 当前结论：`sample_tokens timed out` 是下游表象，最小触发组合为 TP=2 + VLLM_COMPILE + FULL CUDA Graph + fused allreduce/RMSNorm；旧实现的浮点 sentinel 判断会受 FTZ 影响而永久轮询，精确 bit-pattern 修复后两卡 graph replay 通过，完整大规模 RL 任务仍待最终验收。
 
 ## 1. 故障现象
 
@@ -111,6 +113,6 @@ TP=2
 
 - **现象**：外层 sampler timeout，但错误点不等于首因。
 - **方法**：用 TP、graph、compile、fusion 四个维度做控制变量矩阵。
-- **结果**：收敛到 TP=2 + FULL graph 下 fused AllReduce + RMSNorm 高风险路径。
-- **处置**：eager 稳定规避，guard 首次通过；同时明确 NCU 未完成，保持结论等级。
+- **结果**：先收敛到 TP=2 + FULL graph 下 fused AllReduce + RMSNorm，再用两卡 graph reproducer 和 SASS 对照定位 FTZ/sentinel 误判。
+- **处置**：回移精确 bit-pattern 修复并验证新版 FlashInfer；完整大规模 RL 任务仍保留最终验收边界。
 - **工程化**：补 checkpoint smoke、恢复 SOP 和 profile 产物验收，降低多节点实验重跑成本。

@@ -16,7 +16,7 @@
 |---|---|---|
 | Router Replay 在 observe 口径下生效 | baseline/R2 自然 route mismatch 约 17%-19%，R3 为 0 | 证明路由一致性，不等同于 reward 提升 |
 | logprob 训推漂移显著下降 | 20-step 中 f_tau_2 低约 36x-145x，KL 低约 4x-7x | 只适用于当前模型、精度与实验设置 |
-| eager 口径可稳定运行 | 20 step 内 0 hang、0 engine error、0 metric error | FULL CUDA Graph 尚未闭环修复 |
+| eager 口径可稳定运行 | 20 step 内 0 hang、0 engine error、0 metric error | FULL graph 的 FlashInfer 根因已在两卡闭环，大规模 RL 仍待验收 |
 | 多节点链路可完成短程对照 | 4 节点 x 8 卡、TP=2、eager 的 R2/R3 5-step smoke 完成 | 短程 smoke 不能代替长跑结论 |
 
 ## 配套资产
@@ -27,10 +27,11 @@
 - [根因矩阵](./assets/vllm_tp2_rootcause_matrix_2026-06-25.png)
 - [Checkpoint 恢复流程](./assets/r3_checkpoint_resume_flow_2026-06-24.png)
 - [根因矩阵原始数据](./assets/vllm_tp2_rootcause_matrix_2026-06-25.csv)
+- [FlashInfer TP2 CUDA Graph 最终根因](../flashinfer/README.md)
 
 ## 未收录内容
 
 - 原始运行日志、checkpoint、rollout dump 和模型权重。
 - 内部平台命令、镜像、节点地址、对象存储配置和访问凭据。
 - 尚未完成对照的 100-step R2/R3 结果。
-- 未完成指令级验证的 fused kernel 根因结论。
+- 原始 SASS、Nsys/NCU profile 和未脱敏构建产物；最终聚合证据见 FlashInfer 专题。
