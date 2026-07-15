@@ -1,0 +1,7 @@
+item,category,benefit,risk,notes
+Pause launcher only,Immediate control,5,2,Stops new task launches while current GPU jobs continue.
+Per-GPU worker queues,Scheduler fix,5,1,Prevents jobs from being assigned to busy GPUs.
+Checkpoint-aware resume,Data preservation,5,3,Reuses partial runs but needs careful canonical run selection.
+Primary-only recovery target,Priority policy,4,2,Finishes RT-DETR-L and Faster R-CNN before secondary YOLO tasks.
+I/O worker throttling,Memory/I/O control,3,2,Reduces host RAM and storage pressure with possible throughput cost.
+Move active run dirs,Data handling,1,5,High risk while processes are still writing files.

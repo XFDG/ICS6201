@@ -1,0 +1,22 @@
+section,item,baseline_tflops,mkernel_tflops,tk_tflops,xpu_count,source
+ThunderKittens,B200 educational L01 simple fp32,,,6,,ThunderKittens/kernels/gemm/educational_b200/README.md
+ThunderKittens,B200 educational L02 simple bf16,,,6,,ThunderKittens/kernels/gemm/educational_b200/README.md
+ThunderKittens,B200 educational L03 shared memory,,,11,,ThunderKittens/kernels/gemm/educational_b200/README.md
+ThunderKittens,B200 educational L04 WMMA,,,26,,ThunderKittens/kernels/gemm/educational_b200/README.md
+ThunderKittens,B200 educational L05 TMA plus WMMA,,,55,,ThunderKittens/kernels/gemm/educational_b200/README.md
+ThunderKittens,B200 educational L06 TCGEN05 plus TMA,,,293,,ThunderKittens/kernels/gemm/educational_b200/README.md
+ThunderKittens,B200 educational L07 warp specialization pipeline,,,731,,ThunderKittens/kernels/gemm/educational_b200/README.md
+ThunderKittens,B200 educational L08 epilogue pipeline,,,1050,,ThunderKittens/kernels/gemm/educational_b200/README.md
+ThunderKittens,B200 educational L09 2-CTA cluster,,,1285,,ThunderKittens/kernels/gemm/educational_b200/README.md
+ThunderKittens,B200 full bf16_b200 kernel,,,1540,,ThunderKittens/kernels/gemm/educational_b200/README.md
+mKernel,AllGather + GEMM EFA largest shape,434,451,,,uccl-project.github.io/posts/mkernel/
+mKernel,GEMM + AllReduce EFA largest shape,260,388,,,uccl-project.github.io/posts/mkernel/
+mKernel,MoE Dispatch + GEMM EFA largest shape,329,415,,,uccl-project.github.io/posts/mkernel/
+mKernel,Ring Attention EFA largest shape,396,559,,,uccl-project.github.io/posts/mkernel/
+mKernel,GEMM + ReduceScatter EFA largest shape,381,459,,,uccl-project.github.io/posts/mkernel/
+mKernel,MoE FFN + Combine EFA largest shape,196.7,289.6,,,mKernel/plots/plot_glu_combine_efa.py
+xpu-perf,basic op definition files,,,,8,xpu-perf/projects/micro_perf/op_defs/basic_ops
+xpu-perf,LLM op definition files,,,,21,xpu-perf/projects/micro_perf/op_defs/llm_ops
+xpu-perf,basic workload json files,,,,25,xpu-perf/projects/micro_perf/workloads/basic
+xpu-perf,LLM workload json files,,,,12,xpu-perf/projects/micro_perf/workloads/llm
+xpu-perf,XCCL workload json files,,,,7,xpu-perf/projects/micro_perf/workloads/xccl_ops

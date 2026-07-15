@@ -1,5 +1,7 @@
 # AI Infra 工作总结（秋招材料）
 
+> 可直接选择的简历 bullet、岗位版本、STAR 故事和数字核对表见 [秋招简历素材库](./秋招简历素材库_AIInfra_2026.md)；精选开发文档与证据见 [工作记录总索引](./work_records/README.md)。
+
 > 整理日期：2026-07-15  
 > 记录范围：本机 `docs/` 中 2026-05-18 至 2026-06-27 的可追溯工作，以及 ICS6201 仓库中的实验结果。  
 > 核心结论：这段工作的主线不是单点模型训练，而是围绕大模型系统完成“离线交付、GPU 热路径分析、训推一致性验证、分布式故障定位、实验工程化”的闭环。  
@@ -55,7 +57,7 @@
 
 其中 `f_tau_2` 表示训练与推理概率比超过 2 倍的 token 比例，越低越好。早期 5/25/50-step 对照也得到约 30x-46x 的下降，15-step 独立对照约为 77x；observe 口径的 20-step 结果是更适合对外陈述的主结论。
 
-在 4 节点 x 8 卡的 IQuest smoke 中，`TP=2 + eager` 的 R2/R3 均完成 5 step：
+在 4 节点 x 8 卡的集群 smoke 中，`TP=2 + eager` 的 R2/R3 均完成 5 step：
 
 | 指标 | R2 | R3 | 说明 |
 |---|---:|---:|---|
@@ -68,7 +70,7 @@
 - 修复 `plt_num_loops` 错误透传到 Megatron、vLLM 包版本号不兼容等启动阻塞。
 - 将 `sample_tokens timed out` 从 sampler/D2H 等下游等待点继续向前隔离，收敛到 `TP=2 + FULL CUDA Graph` 条件下 fused AllReduce + RMSNorm 路径不可靠；关闭 `fuse_allreduce_rms` 的候选 guard 首次通过完整 step。
 - 梳理 32 卡 R2/R3 启动参数、checkpoint 保存/停卡恢复 SOP、日志与 rollout dump 边界。
-- 对比平台 333/444 日志，确认 fullgraph + checkpoint 组因 Ray memory pressure OOM，而 eager/no-resume 组能完成 5 step；明确 RLScope 是观测工具，不是稳定性修复。
+- 对比两个集群配置组的日志，确认 fullgraph + checkpoint 组因 Ray memory pressure OOM，而 eager/no-resume 组能完成 5 step；明确 profiling 是观测工具，不是稳定性修复。
 
 ### 3.4 简历可用表述
 
@@ -181,18 +183,16 @@ Faster R-CNN 三组均完成 2,062,560 iterations；完整原始日志和权重�
 
 ## 9. 精选证据索引
 
-以下为本机原始记录，只列支撑本总结的主文档，不复制全部对话、归档和中间报告：
+公开仓库只保留经过筛选和脱敏的开发文档、聚合数据与图表：
 
-| 主题 | 原始记录 |
+| 主题 | 公开材料 |
 |---|---|
-| DeepGEMM | `/volume/yzhao04/workspace/docs/deep_gemm/report_stage3_final_brief.md` |
-| H200 GEMM | `/volume/yzhao04/workspace/docs/groued_gemm&sonic_moe/references/h200_gemm_performance_summary_2026-06-05.md` |
-| Quack tuning | `/volume/yzhao04/workspace/docs/groued_gemm&sonic_moe/references/quack_gemm_h200_tuning_2026-06-04.md` |
-| ICS6201 | `/volume/yzhao04/workspace/docs/ics6201/PROJECT_SUMMARY.md` |
-| R3 结果 | `/volume/yzhao04/workspace/docs/r3/online/R3:A_B_C结果合集.md` |
-| R3 工程 | `/volume/yzhao04/workspace/docs/r3/online/R3:工程实现笔记.md` |
-| CUDA Graph hang | `/volume/yzhao04/workspace/docs/r3/kernel/KERNEL:vLLM_TP2_CUDA_Graph_Fused_AllReduce_RMSNorm.md` |
-| 32 卡恢复 | `/volume/yzhao04/workspace/docs/r3/online/R3:集群Checkpoint与停卡恢复.md` |
-| 最新平台调研 | `/volume/yzhao04/workspace/docs/r3/online/R3:333_444_Checkpoint_RLScope调研_2026-06-27.md` |
-| 周报主线 | `/volume/yzhao04/workspace/docs/weekly_report/` |
-
+| R3 工程 | [Router Replay 工程实现](./work_records/r3/R3_工程实现公开版.md) |
+| R3 结果 | [A/B/C 实验结果](./work_records/r3/R3_实验结果公开版.md) |
+| CUDA Graph / 集群恢复 | [CUDA Graph 与集群排障](./work_records/r3/R3_CUDA_Graph与集群排障公开版.md) |
+| H200 GEMM | [Grouped GEMM 性能分析](./work_records/gemm_sonicmoe/H200_GEMM性能分析公开版.md) |
+| Quack tuning | [配置调优开发记录](./work_records/gemm_sonicmoe/Quack调优开发记录公开版.md) |
+| DeepGEMM | [离线预编译与 Wheel 交付](./work_records/deep_gemm/README.md) |
+| ICS6201 | [无人机检测项目记录](./work_records/ics6201/README.md) |
+| 技术调研 | [AI Infra 仓库读码索引](./work_records/research/README.md) |
+| 周报主线 | [周报时间线](./work_records/weekly_report/README.md) |

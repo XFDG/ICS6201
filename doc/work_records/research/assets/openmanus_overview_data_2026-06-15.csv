@@ -1,0 +1,17 @@
+panel,metric,value
+Code Surface,Python files,90
+Code Surface,Markdown docs,14
+Code Surface,TOML files,8
+Code Surface,Test files,4
+Agent and Tools,Agent modules,9
+Agent and Tools,Tool modules,29
+Agent and Tools,Tool classes,26
+Agent and Tools,Search engines,4
+Runtime Config,Requirements entries,35
+Runtime Config,Config templates,9
+Runtime Config,Root entrypoints,5
+Runtime Config,Sandbox tools,4
+Execution Model,Default Manus steps,20
+Execution Model,Base agent steps,10
+Execution Model,Duplicate threshold,2
+Execution Model,Planning statuses,4

@@ -1,0 +1,9 @@
+id,configuration,result,gen_seconds,interpretation
+R0,VLLM_COMPILE + NONE + TP2,PASS,44.63,Compile without CUDA graph is healthy
+R1,VLLM_COMPILE + FULL + TP2,HANG,,Baseline reproduces the timeout
+P1,R1 + synchronize before sampler,HANG,,Graph replay GPU work does not complete
+P4,R1 + blocking GPU-to-CPU copy,HANG,,Async copy is not the root cause
+R5,R1 + async_scheduling false,HANG,,Async scheduling and output queue are excluded
+R6,R1 + disable_custom_all_reduce,HANG,,Ordinary custom all-reduce is excluded
+F0,R1 + fuse_allreduce_rms false,PASS,9.18,Single-run evidence points to the fused allreduce plus RMSNorm path
+FIX,R1 + automatic TP2 FULL guard,PASS,9.36,Candidate guard passed once; repeat regression is still required

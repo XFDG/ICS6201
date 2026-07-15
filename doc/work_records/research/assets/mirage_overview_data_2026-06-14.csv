@@ -1,0 +1,23 @@
+section,item,value,unit,source
+code,Python files,213,count,local file count
+code,C++ files,102,count,local file count
+code,CUDA files,36,count,local file count
+code,Headers,254,count,local file count
+code,Cython files,2,count,local file count
+code,Rust files,2,count,local file count
+mpk_tasks,Ampere task headers,30,count,include/mirage/persistent_kernel/tasks/ampere
+mpk_tasks,Hopper task headers,21,count,include/mirage/persistent_kernel/tasks/hopper
+mpk_tasks,Blackwell task headers,42,count,include/mirage/persistent_kernel/tasks/blackwell
+mpk_tasks,Spec decode headers,5,count,include/mirage/persistent_kernel/tasks/speculative_decoding
+mpk_tasks,Common task headers,7,count,include/mirage/persistent_kernel/tasks/common
+surface,Demo scripts,64,count,demo/**/*.py
+surface,Benchmark scripts,20,count,benchmark/**/*.py
+surface,Test files,61,count,tests/**/test_*.py
+surface,Cached muGraphs,12,count,mirage_cached_mugraphs_*.json
+performance,Mirage superoptimizer min speedup,1.1,x,arXiv 2405.05751
+performance,Mirage superoptimizer max speedup,2.9,x,arXiv 2405.05751
+performance,MPK README min latency reduction,1.2,x,README
+performance,MPK README max latency reduction,6.7,x,README
+performance,MPK arXiv max speedup,1.7,x,arXiv 2512.22219
+performance,LoRA tutorial speedup,1.6,x,docs/source/tutorials/lora.rst
+performance,local HEAD MLA gather speedup,2.3,x,git log subject

@@ -1,0 +1,17 @@
+panel,metric,value
+Code Surface,Python files,371
+Code Surface,TypeScript files,83
+Code Surface,TSX files,65
+Code Surface,Markdown docs,41
+Runtime Stack,Compose services,10
+Runtime Stack,Dockerfiles,5
+Runtime Stack,Env variables,40
+Runtime Stack,Compose volumes,6
+Backend Surface,API modules,20
+Backend Surface,Workflow services,14
+Backend Surface,Test files,57
+Backend Surface,Artifact nodes,3
+Workflow Model,Workflow stages,4
+Workflow Model,Artifact classes,3
+Workflow Model,Supported source types,8
+Workflow Model,Health checks,5

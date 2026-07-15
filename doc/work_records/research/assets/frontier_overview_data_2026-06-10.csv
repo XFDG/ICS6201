@@ -1,0 +1,22 @@
+section,item,value,unit,source
+coverage,frontier python files,257,count,local find frontier/*.py
+coverage,event modules,20,count,local find frontier/events/*.py
+coverage,scheduler modules,32,count,local find frontier/scheduler/*.py
+coverage,profiling modules,81,count,local find frontier/profiling/*.py
+assets,model configs,21,count,local find data/config/models/*.json
+assets,device configs,2,count,local find data/config/device/*.json
+assets,compute profile csv,56,count,local find data/profiling/compute/*.csv
+assets,network profile csv,13,count,local find data/profiling/network/*.csv
+examples,offline co-location examples,5,count,local find examples/architecture/co-location/offline/*.sh
+examples,online co-location examples,5,count,local find examples/architecture/co-location/online/*.sh
+examples,profiling examples,6,count,local find examples/profiling/*.sh
+examples,tests,10,count,local find tests/test_*.py
+paper,throughput mean error,4,percent,arXiv 2605.21312 abstract
+paper,co-location latency error,6.4,percent,arXiv 2605.21312 abstract
+paper,disaggregation latency error,2.6,percent,arXiv 2605.21312 abstract
+paper,co-location baseline error,44.9,percent,arXiv 2605.21312 abstract
+paper,disaggregation baseline error,51.7,percent,arXiv 2605.21312 abstract
+scope,co-location released,1,boolean,README and AGENTS.md
+scope,PDD public release,0,boolean,README and main.py guard
+scope,AFD public release,0,boolean,README and main.py guard
+scope,collective_sim optional,1,boolean,README and docs/cli

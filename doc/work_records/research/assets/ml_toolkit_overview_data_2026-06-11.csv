@@ -1,0 +1,12 @@
+section,item,value,notes
+repo,src_py,99,Python source files under src/ml_toolkit
+repo,test_py,58,pytest files
+repo,example_py,22,example scripts
+repo,docs_md,20,Markdown docs in repo docs/
+repo,config_yaml,3,YAML presets
+r3_readiness,aligner_capture_diff_replay,3,Implemented and demo passed
+r3_readiness,tensor_hooks_inspection,3,Implemented runtime hooks and tensor inspector
+r3_readiness,router_violation_viz,2,Implemented generic router violation visualization
+r3_readiness,rl_types_enums,1,RolloutSample/ConsistencyReport/RolloutBackend exist
+r3_readiness,rl_consistency_checker,0,Phase 9 pending
+r3_readiness,routed_experts_handler,0,No routed_experts/R3-specific handler found
