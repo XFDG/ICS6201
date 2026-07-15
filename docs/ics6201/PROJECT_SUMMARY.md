@@ -33,7 +33,7 @@
 
 ### 数据准备流程
 
-1. **解压原始 zip** → Git LFS 管理，先 `git lfs pull`
+1. **准备原始 zip** → 按数据集授权方式下载到本地 `raw_zips/`；数据不进入 Git
 2. **合并分卷** → `cat ARD-MAV_Glad.zip.part-* > ARD-MAV_Glad.zip`
 3. **VOC→YOLO 转换** → `scripts/prepare_rgb_yolo.py`（DUT + DroneDet）
 4. **ARD-MAV 快速抽帧** → `scripts/prepare_ard_mav_fast.py`（60 个视频一次性批量导出帧，10-20 分钟）
@@ -141,55 +141,52 @@ STEP 6: Keep Alive（启动 GPU 防回收守护进程）
 
 ### 核心任务完成情况
 
-本轮优先保证的核心任务为 **RT-DETR-L** 和 **Faster R-CNN Detectron2**，每个模型 3 个 seed。截止 2026-06-09，6 个核心训练任务已全部完成，核心产物已落盘。
+本轮优先保证的核心任务为 **RT-DETR-L** 和 **Faster R-CNN Detectron2**，每个模型 3 个 seed。截止 2026-06-09，6 个核心训练任务已全部完成。2026-07-15 仓库瘦身后不再保存权重和完整逐步日志，只保留结果摘要、RT-DETR `results.csv` 和提取后的轻量指标表。
 
 ![ICS6201 primary completion](assets/ics6201_primary_completion_2026-06-09.png)
 
-| 核心任务 | 状态 | 关键指标/进度 | 主要产物 |
-|----------|------|---------------|----------|
-| rtdetr_seed1 | DONE | mAP50-95 = **0.6794** | `runs_formal/rtdetr_seed1-2/weights/best.pt` |
-| rtdetr_seed2 | DONE | mAP50-95 = **0.6753** | `runs_formal/rtdetr_seed2-2/weights/best.pt` |
-| rtdetr_seed3 | DONE | mAP50-95 = **0.6758** | `runs_formal/rtdetr_seed3-2/weights/best.pt` |
-| faster_rcnn_seed1 | DONE | iter = **2062560/2062560** | `runs_detectron2/faster_rcnn_seed1/model_final.pth` |
-| faster_rcnn_seed2 | DONE | iter = **2062560/2062560** | `runs_detectron2/faster_rcnn_seed2/model_final.pth` |
-| faster_rcnn_seed3 | DONE | iter = **2062560/2062560** | `runs_detectron2/faster_rcnn_seed3/model_final.pth` |
+| 核心任务 | 状态 | 最终进度 | 最终指标 |
+|----------|------|----------|----------|
+| rtdetr_seed1 | DONE | epoch 120 | mAP50-95 = **0.67942** |
+| rtdetr_seed2 | DONE | epoch 120 | mAP50-95 = **0.67529** |
+| rtdetr_seed3 | DONE | epoch 120 | mAP50-95 = **0.67576** |
+| faster_rcnn_seed1 | DONE | iter = **2062560/2062560** | bbox/AP = **64.6024** |
+| faster_rcnn_seed2 | DONE | iter = **2062560/2062560** | bbox/AP = **64.6664** |
+| faster_rcnn_seed3 | DONE | iter = **2062560/2062560** | bbox/AP = **64.4290** |
 
-### 非核心任务状态
+完整轻量指标见 `assets/ics6201_final_metrics_2026-06-07.csv`。RT-DETR-L 的 mAP50-95 均值为 **0.67682**，Faster R-CNN 的原生 Detectron2 bbox/AP 均值为 **64.5660**。
+
+### 非核心任务历史状态
 
 | 任务 | 状态 | 说明 |
 |------|------|------|
-| yolo11_seed1 | DONE | 已完成，可作为 secondary 已完成结果保留 |
-| yolo11_seed2 | PARTIAL | 旧调度逻辑下 OOM 后中断，可从 `last.pt` 恢复 |
+| yolo11_seed1 | DONE | 曾完成；仓库瘦身后不保留输出和权重 |
+| yolo11_seed2 | PARTIAL | 旧调度逻辑下 OOM 后中断；checkpoint 已删除，如需补跑应重新训练 |
 | yolo11_seed3 | PENDING | 尚未正式启动 |
 | ddw_yolo_seed1-3 | PENDING | 尚未正式启动 |
 | yolov10_seed1-3 | PENDING | 尚未正式启动 |
 | yolov8_seed1-3 | PENDING | 尚未正式启动 |
 
-### 恢复训练策略
+### 仓库瘦身后的重跑策略
 
-当前旧版 `master.sh`/`parallel_launcher.py` 控制进程曾被暂停，以避免继续错误调度 secondary 任务。核心任务完成后，后续如需继续补跑 secondary，应先使用 `recovery_manifest.py` 识别已完成/可恢复任务，再用新版 `parallel_launcher.py` 执行恢复。
+2026-06-09 的 manifest/checkpoint 恢复方案属于历史执行记录。2026-07-15 清理后，仓库不再包含原始数据和 checkpoint，因此不能直接从旧 `last.pt` 恢复。如需补跑 secondary，应重新准备数据与初始权重，再使用新版 per-GPU worker launcher 从头训练。
 
-快速 dry-run 建议显式传入 `--data configs/drone_rgb_abs.yaml`，避免重复执行耗时的 COCO 标注准备：
+数据准备完成后可先执行 dry-run，检查任务与 GPU 分配：
 
 ```bash
 cd /volume/yzhao04/workspace/ICS6201
 source /volume/yzhao04/workspace/miniconda3/etc/profile.d/conda.sh
 conda activate fly
 
-MANIFEST=logs/recovery_manifest_20260609_083136.json
-
 python scripts/parallel_launcher.py \
   --mode formal \
   --data configs/drone_rgb_abs.yaml \
   --gpus 1,2,3,4,5,6,7 \
   --target secondary \
-  --resume-existing \
-  --skip-complete \
-  --manifest "$MANIFEST" \
   --dry-run
 ```
 
-确认调度结果无误后，去掉 `--dry-run` 即可继续恢复 secondary 任务。
+确认调度结果无误后，去掉 `--dry-run` 才会开始训练。只有重新产生 checkpoint 后，`recovery_manifest.py` 与 `--resume-existing` 才能再次用于中断恢复。
 
 ### GPU 使用说明
 
@@ -223,9 +220,10 @@ CUDA_VISIBLE_DEVICES=0 python your_script.py
 | `train_scripts/ddw_modules.py` | DDW-YOLO 自定义模块（ECA + BiFPN） |
 | `models/ddw_yolo11m_p2_bifpn_eca.yaml` | DDW-YOLO 模型定义 |
 | `configs/drone_rgb_abs.yaml` | 数据集配置（绝对路径，自动生成） |
-| `pretrained_weights/` | Faster R-CNN 预训练权重（160MB） |
-| `raw_zips/` | 原始数据集压缩包（Git LFS） |
-| `yolo/` | YOLO 格式数据集（171K 图片） |
-| `coco/` | COCO 格式标注 |
-| `logs/` | 所有日志 |
-| `runs_formal/` | 正式训练输出 |
+| `assets/ics6201_final_metrics_2026-06-07.csv` | 从最终日志提取的 6 个核心任务指标 |
+| `pretrained_weights/` | 本地预训练权重目录，不入库 |
+| `raw_zips/` | 本地原始数据目录，不入库 |
+| `yolo/` | 本地 YOLO 派生数据目录，不入库 |
+| `coco/` | 本地 COCO 派生数据目录，不入库 |
+| `logs/` | 本地运行日志，不入库 |
+| `runs_formal/` | 仅保留已跟踪的小型结果表；权重不入库 |

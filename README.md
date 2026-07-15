@@ -1,45 +1,47 @@
 # RGB 可见光无人机检测训练包
 
+本分支只保留代码、配置、轻量结果和文档。原始数据、派生数据、模型权重、checkpoint 与完整训练日志不进入 Git；获取数据或权重后请放在 `.gitignore` 已覆盖的本地目录中。
+
 ## 目录结构
 
-- `raw_zips/`：原始数据集压缩包（已整理好）
 - `configs/`：训练与数据准备配置
-- `scripts/`：数据准备脚本（解压 + VOC→YOLO + 合并）
-- `yolo/`：生成的 YOLO 数据集输出目录（运行脚本后生成）
+- `scripts/`：环境检查、数据转换、调度恢复和结果汇总
+- `train_scripts/`：Ultralytics / Detectron2 训练入口
+- `models/`：DDW-YOLO 模型配置
+- `docs/ics6201/`：项目结果、图表和提取后的轻量指标
+- `doc/`：简历与工作总结材料
+- `raw_zips/`：本地原始数据目录，需自行创建，不提交
+- `yolo/`、`coco/`、`cache/`：脚本生成的本地数据目录，不提交
 
-## 当前包含的数据集（可见光）
+## 数据集
 
-- DUT Anti-UAV（Detection，VOC XML，含 train/val/test）
-- DroneDetectionDataset（VOC XML，含 train/test；train 会再切出 val）
-- ARD-MAV（视频 + VOC XML；脚本会从视频抽帧生成图片）
+实验使用以下可见光无人机数据集：
 
-## 服务器端使用方式
+- DUT Anti-UAV Detection
+- DroneDetectionDataset
+- ARD-MAV
 
-1) 把整个 `rgb_trainpack/` 上传到服务器（建议保持目录结构不变）
+请按各数据集的授权方式获取压缩包，并放入本地 `raw_zips/`。仓库不再通过 Git LFS 分发数据集。
 
-2) 生成 YOLO 格式数据集
+## 数据准备
 
 ```bash
-cd rgb_trainpack
 python scripts/prepare_rgb_yolo.py --clear
+python scripts/prepare_rgb_coco.py --root .
 ```
 
-如果服务器没有 ffmpeg（ARD-MAV 抽帧需要），可以先跳过 ARD：
+ARD-MAV 抽帧依赖 ffmpeg。没有 ffmpeg 时可先跳过：
 
 ```bash
 python scripts/prepare_rgb_yolo.py --clear --skip-ard
 ```
 
-3) 用 Ultralytics 训练（示例）
+## 训练示例
+
+模型权重由框架下载或由使用者在本地准备，不应提交到仓库。
 
 ```bash
 yolo train model=yolo11n.pt data=configs/drone_rgb.yaml imgsz=640 batch=32 epochs=200
 ```
 
-## 输出说明
-
-- `yolo/images/{train,val,test}`：图片
-- `yolo/labels/{train,val,test}`：YOLO 标注
-- `yolo/stats.json`：各数据源与总量统计
-- `yolo/check_problems.json`：抽样校验发现的问题（若存在）
-
+完整流水线、恢复调度和历史结果见 [`docs/ics6201/PROJECT_SUMMARY.md`](docs/ics6201/PROJECT_SUMMARY.md)。

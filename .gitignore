@@ -19,7 +19,8 @@ runs_smoke/
 runs_formal/
 runs_detectron2/
 
-# 解压/生成的数据（不上传；只上传 raw_zips/ 压缩包）
+# 原始/解压/生成的数据（仓库只保留准备脚本和配置）
+raw_zips/
 yolo/
 coco/
 cache/
@@ -40,10 +41,11 @@ setup_ssh_gpu.sh
 debs/
 *.deb
 
-# 大文件（不提交，使用时按文档下载或从 LFS 部分合并）
+# 模型权重（不提交，按文档重新下载或训练）
 pretrained_weights/
-raw_zips/ARD-MAV_Glad.zip
-raw_zips/DroneDetectionDataset_train.zip
+*.pt
+*.pth
+*.ckpt
 
 # 运行时产物
 runs_validate/
