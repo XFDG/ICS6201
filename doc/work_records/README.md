@@ -1,15 +1,16 @@
 # 工作记录总索引
 
-> 整理日期：2026-07-16
+> 整理日期：2026-07-17
 > 目标：为秋招简历和技术面试保留足够的工程证据，同时让公开仓库保持安全、精简、可读。
 
 ## 推荐阅读
 
 1. 先看 [2026-06-15 至 07-15 月报](./monthly_report/2026-06-15_2026-07-15.md)，了解最新工作。
-2. 再看 [秋招简历素材库](../秋招简历素材库_AIInfra_2026.md)，按岗位选择 bullet。
-3. 需要完整时间线和结论边界时看 [AI Infra 工作总结](../秋招工作总结_AIInfra_2026.md)。
-4. 面试前按目标岗位进入 R3、FlashInfer、OE、LLMQRT、GEMM、DeepGEMM 或 ICS6201 专题。
-5. 需要追溯阶段过程时再读周报，不把周报中的早期口径当最终结论。
+2. 看 [简历候选表述与取舍](./简历候选表述.md)，比较九坤实习与专业技能的长短版本。
+3. 再看 [秋招简历素材库](../旧的简历/秋招简历素材库_AIInfra_2026.md)，按岗位选择 bullet。
+4. 需要完整时间线和结论边界时看 [AI Infra 工作总结](../旧的简历/秋招工作总结_AIInfra_2026.md)。
+5. 面试前按目标岗位进入 R3、FlashInfer、OE、LLMQRT、GEMM、DeepGEMM 或 ICS6201 专题。
+6. 需要追溯阶段过程时再读周报，不把周报中的早期口径当最终结论。
 
 ## 专题目录
 
@@ -26,6 +27,18 @@
 | P3 | AI Infra 技术调研 | 训练框架、Kernel DSL、通信融合、编译与诊断 | [research](./research/README.md) |
 | 过程记录 | 周报 | 决策演进、阶段结果与问题 | [weekly_report](./weekly_report/README.md) |
 | 论文讨论 | Native Sparse Attention | 稀疏注意力机制与工程讨论 | [paper_notes](./paper_notes/native_sparse_attention_discussion.md) |
+
+## 简历能力与证据速查
+
+| 能力方向 | 可直接使用的证据 | 主要入口 |
+|---|---|---|
+| MoE-RL 系统与训推一致性 | route 采集/回放、response-mask、18 项 CPU 测试、8 卡 20-step A/B/C、32 卡 smoke | [R3](./r3/README.md) |
+| RL 推理侧算子开发 | OE async decode、GPU token history、Triton fused-hash、TP1/TP2/TP4 正确性与吞吐 | [OE](./oe/README.md) |
+| CUDA Graph 与通信 Kernel 排障 | TP/Graph/fusion 控制变量、两卡最小复现、FTZ/sentinel 根因、位级修复和 SASS 回归 | [FlashInfer](./flashinfer/README.md) |
+| H200 Kernel 与量化推理 | SM90 GEMV 越界修复、compute-sanitizer、W4A16 AWQ、TP=2 packed-weight 与 NCCL all-reduce | [LLMQRT](./llmqrt/README.md) |
+| GPU 性能分析与调优 | Nsys range、MFU/latency、shape replay、compact rows 口径纠偏、SM90 config tuning | [GEMM/SonicMoE](./gemm_sonicmoe/README.md) |
+| 性能与能力评测 | MoE/Attention 正交评测、140 组性能用例、25,624 题能力回归、数值等价边界 | [月报](./monthly_report/2026-06-15_2026-07-15.md) |
+| AI 协作开发 | Claude Code/Codex 用于检索、实现、测试和文档；人工 review、benchmark 与回归兜底 | [简历候选表述](./简历候选表述.md) |
 
 ## 材料筛选规则
 
@@ -51,6 +64,8 @@
 | B | 有 benchmark/trace 与复现脚本 | Quack config tuning、四路 GEMM |
 | C | 短程 smoke 或单次验证 | 32 卡 R3 5-step、单轮平台能力评测 |
 | D | 上游论文/README 数据 | 技术调研中的公开性能数字 |
+
+本人确认但尚未保存脱敏公开产物的内部终态记为 U，例如 R3 128 卡 200-step、SwanLab 监控和内部开发仓合入。U 级可用于说明个人实际交付，但不得伪装成公开可复核数据，也不能外推未验证的 graph mode、reward 或收敛结论。
 
 简历主数字优先使用 A/B 级；C 级必须写明 smoke/单次；D 级只能作为背景资料。
 

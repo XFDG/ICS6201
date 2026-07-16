@@ -389,7 +389,9 @@ bash scripts/chat_h200_tp2_hf.sh /volume/pt-train/models/Qwen2.5-32B-Instruct --
 
 ## 简历建议表述
 
-> 将 LLMQRT W4A16 AWQ 推理从 RTX 5060 Laptop 迁移至 2×NVIDIA H200（SM90/CUDA 13.0）；使用 compute-sanitizer 定位并修复 decode GEMV 尾部量化 group 越界读，完成 Qwen2 packed-weight TP=2（列/行分片、group-aligned metadata 与 NCCL all-reduce）；基于 128×512 本地代码校准将 Qwen2.5-Coder-32B 量化为 AWQ W4A16，checkpoint 缩小 70.5%，固定 64-token E2E 吞吐由 2.53 提升至 4.47 tok/s（+76.8%），运行期峰值显存由 32.02 降至 10.63 GiB/rank（-66.8%），并通过 SM90 sanitizer、CUDA/PyTorch 数值对照与双卡交互验收。
+- **量化 Runtime 与后端适配**｜在支持 W4A16 AWQ、W8A8 SmoothQuant 与 FP8 的 PyTorch Extension Runtime 中，完成 FlashAttention-2/4 可配置接入，补齐 GQA 的 KV heads 展开、softcap mask 及 SDPA→Torch 回退；将 CUDA arch、ccache 与模型路径改为动态/可选配置，使工程可在本地 GPU 与 H200 环境构建部署。
+- **H200 Kernel 与 Tensor Parallel**｜在公司 2×H200（SM90/CUDA 13.0）环境完成 AWQ Runtime 迁移；使用 compute-sanitizer 将 decode 非法访存定位到 `gemv_kernel_g128`：当 `K/group_size=7` 时 warp 仍按 8 组读取，导致末尾 lane 越界访问 scale/zero；增加 group 边界保护、current-stream launch 与错误检查后，代表 shape 的 memcheck/initcheck/synccheck/racecheck 均为 0 error/0 hazard；进一步实现 Qwen2 packed-AWQ TP=2，完成 Q/K/V、gate/up 列切分及 O/down 行切分与 NCCL all-reduce。
+- **32B 量化部署与验证**｜基于 128×512 本地代码校准完成 Qwen2.5-Coder-32B W4A16 量化与双卡交付；在同模型、prompt、64-token、3 次重复的公平对照下，checkpoint 由 61.04 降至 18.02 GiB（-70.5%），E2E output 吞吐由 2.53 提升至 4.47 tok/s（+76.8%），运行期峰值显存由 32.02 降至 10.63 GiB/rank（-66.8%）；通过 10 组 CUDA/PyTorch 数值对照（最大绝对误差 0.007812）、跨 rank token 一致性及中文交互验收。
 
 ## 待办
 

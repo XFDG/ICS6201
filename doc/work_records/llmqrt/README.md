@@ -37,6 +37,12 @@ greedy decoding 和 3 次重复；TP 延迟取两个 rank 中较慢值，再报�
 - 代表 shape 通过 memcheck、initcheck、synccheck 和 racecheck，均为 0 error/0 hazard。
 - 两个 rank 与三次 benchmark 重复的 token IDs 一致；中文交互生成与正常退出已验证。
 
+## 本地工程复核（2026-07-17）
+
+- `/home/ai/workspace/LLMQRT` 的 `study` 分支可直接复核量化 Runtime、AWQ/CUTLASS 算子入口、KV Cache，以及 FlashAttention-2/4、PyTorch SDPA、Torch Attention 的选择与回退逻辑。
+- 当前本地分支还包含 CUDA 架构动态检测、可选 ccache、路径去硬编码和 Torch Attention fallback 等可移植性改造，可作为简历中“Runtime 与后端适配”的源码证据。
+- 公司 H200 上的 SM90 kernel 修复、TP=2 和 Coder-32B 最终交付代码不在该本地分支；相应数据来自本目录保存的 H200 实测快照、命令与验证记录。对外表述时保留“公司 H200 实测”边界，不宣称当前本地目录可直接复跑这些结果。
+
 ## 文档索引
 
 | 文档 | 内容 |
