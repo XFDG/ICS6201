@@ -1,6 +1,6 @@
 # 工作记录总索引
 
-> 整理日期：2026-07-15  
+> 整理日期：2026-07-16
 > 目标：为秋招简历和技术面试保留足够的工程证据，同时让公开仓库保持安全、精简、可读。
 
 ## 推荐阅读
@@ -8,7 +8,7 @@
 1. 先看 [2026-06-15 至 07-15 月报](./monthly_report/2026-06-15_2026-07-15.md)，了解最新工作。
 2. 再看 [秋招简历素材库](../秋招简历素材库_AIInfra_2026.md)，按岗位选择 bullet。
 3. 需要完整时间线和结论边界时看 [AI Infra 工作总结](../秋招工作总结_AIInfra_2026.md)。
-4. 面试前按目标岗位进入 R3、FlashInfer、OE、GEMM、DeepGEMM 或 ICS6201 专题。
+4. 面试前按目标岗位进入 R3、FlashInfer、OE、LLMQRT、GEMM、DeepGEMM 或 ICS6201 专题。
 5. 需要追溯阶段过程时再读周报，不把周报中的早期口径当最终结论。
 
 ## 专题目录
@@ -19,6 +19,7 @@
 | P0 | R3 / Router Replay | MoE RL、训推一致性、分布式训练、指标设计、CUDA Graph 排障 | [r3](./r3/README.md) |
 | P0 | FlashInfer TP2 CUDA Graph | GPU hang 最小复现、FTZ/sentinel 根因、补丁与版本回归 | [flashinfer](./flashinfer/README.md) |
 | P0 | OE Async | 异步调度、GPU token history、Triton fused-hash、多卡正确性 | [oe](./oe/README.md) |
+| P0 | LLMQRT H200 / AWQ TP=2 | SM90 kernel 排障、W4A16 量化、packed-weight TP、吞吐与显存优化 | [llmqrt](./llmqrt/README.md) |
 | P0 | H200 Grouped GEMM / SonicMoE | Nsys、MFU、shape 回放、口径纠偏、SM90 config tuning | [gemm_sonicmoe](./gemm_sonicmoe/README.md) |
 | P1 | DeepGEMM 离线交付 | cubin bundle、JIT cache、wheel、SHA 校验、TP=2 环境 | [deep_gemm](./deep_gemm/README.md) |
 | P2 | ICS6201 无人机检测 | 数据工程、多 GPU 调度、恢复机制、多 seed 实验 | [ics6201](./ics6201/README.md) |
