@@ -4,6 +4,10 @@
 > 核心结论：vLLM TP=2 + FULL CUDA Graph rollout hang 的 GPU 首因是 FlashInfer 0.6.4 MNNVL fused allreduce + RMSNorm 中的 Lamport sentinel 判断受 FTZ 影响；回移官方修复或升级到 0.6.12 后，两卡最小复现与模型级 graph replay 均通过。
 > 公开边界：不包含内部仓库、节点、模型路径、原始 trace、运行 ID 和构建产物。
 
+## 文档入口
+
+- [Lamport sentinel 与 FTZ hang 机制详解](./flashinfer_mnnvl_lamport_ftz_hang_explained_20260717.md)：解释 BF16 packed payload、FTZ predicate、永久 polling、级联阻塞和位级修复。
+
 ## 1. 现象与隔离
 
 外层最初表现为 `sample_tokens` RPC timeout 和 engine-dead 类错误，但 sampler、D2H copy 与消息队列都是等待上游 GPU 工作完成的下游位置。通过 TP1/TP2、eager/FULL graph、fused/unfused 和 PDL 开关的控制变量实验，问题被缩小到 TP=2 FULL graph replay 中的 fused allreduce + RMSNorm 路径。
