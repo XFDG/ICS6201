@@ -1,0 +1,10 @@
+kind,key,value,description
+training_data,GSM8K train,7473,The only question split allowed in Stage 1 Stage 2 and DPO pair generation.
+stage,Stage 1,Structured CoT SFT,Reconstruct ordered and partially masked four-step reasoning plus the final answer.
+stage,Stage 2,Token-weighted SFT,Continue the adapter with weighted response-token cross entropy and a key-token term.
+stage,DPO data,Preference construction,Sample five answers per training question and build correct-versus-wrong pairs.
+stage,Stage 3,DPO,Optimize the preference pairs with the Stage-2 adapter as the reference policy.
+evaluation_data,GSM8K test,1319,Held-out official GSM8K questions.
+evaluation_data,SVAMP test,300,Held-out SVAMP questions.
+evaluation,Greedy,1,Deterministic generation per question.
+evaluation,Sampled,5,Stochastic generations per question used for sampled pass at 1 and pass at 5.
