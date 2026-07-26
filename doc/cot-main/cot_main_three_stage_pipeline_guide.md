@@ -77,23 +77,23 @@ Stage 1 输出 LoRA adapter、tokenizer、checkpoint、`trainer_state.json` 与�
 
 ### 4.2 损失函数的实际形式
 
-对每个样本，prompt 和 padding 的权重为 0；CoT 第 \(t\) 个 token 的权重为：
+对每个样本，prompt 和 padding 的权重为 0；CoT 第 `t` 个 token 的权重为：
 
-\[
-w_t = w_{base} + s \cdot a_t
-\]
+```text
+weight[t] = base_weight + scale * token_weight[t]
+```
 
-其中 \(a_t\) 是训练资产给出的 token weight，默认 \(w_{base}=1.0\)、\(s=1.0\)。最终答案区域使用独立的固定权重，默认是 1.5。主损失是加权交叉熵：
+其中 `token_weight[t]` 是训练资产给出的 token weight；默认 `base_weight=1.0`、`scale=1.0`。最终答案区域使用独立的固定权重，默认是 1.5。主损失是加权交叉熵：
 
-\[
-L_{weighted} = \frac{\sum_t w_t\, CE_t}{\sum_t w_t + \epsilon}
-\]
+```text
+L_weighted = sum_t(weight[t] * CE[t]) / (sum_t(weight[t]) + epsilon)
+```
 
 另外，权重大于默认阈值 0.7 的 token 会加入一个关键 token 交叉熵项；总目标为：
 
-\[
-L_{stage2} = L_{weighted} + 0.05\,L_{key}
-\]
+```text
+L_stage2 = L_weighted + 0.05 * L_key
+```
 
 这表示 Stage 2 不仅整体加权，而且额外强调被阈值选中的位置。这里的 `LPD/token weights` 是输入资产的分数名称；当前实现负责消费这些分数和执行上述损失，并不在 Stage 2 内部重新推导该分数。
 
@@ -127,16 +127,16 @@ rejected: <incorrect response>
 
 ### 6.1 训练机制
 
-实现入口是 `train/stage_3.py`，使用 TRL 的 `DPOTrainer` 和 LoRA。DPO 的直觉不是单独最大化 `chosen` 的概率，而是让当前策略相对一个参考策略，更偏向 `chosen` 而非 `rejected`。以 \(\pi_\theta\) 为待训练策略、\(\pi_{ref}\) 为参考策略，常见 sigmoid DPO 目标可以写成：
+实现入口是 `train/stage_3.py`，使用 TRL 的 `DPOTrainer` 和 LoRA。DPO 的直觉不是单独最大化 `chosen` 的概率，而是让当前策略相对一个参考策略，更偏向 `chosen` 而非 `rejected`。以 `pi_theta` 为待训练策略、`pi_ref` 为参考策略，常见 sigmoid DPO 目标可写成以下等宽文本：
 
-\[
-L_{DPO}=-\log\sigma\left(\beta\left[
-\log\frac{\pi_\theta(y^+|x)}{\pi_{ref}(y^+|x)}-
-\log\frac{\pi_\theta(y^-|x)}{\pi_{ref}(y^-|x)}
-\right]\right)
-\]
+```text
+L_DPO = -log(sigmoid(beta * (
+  log(pi_theta(chosen | prompt) / pi_ref(chosen | prompt))
+  - log(pi_theta(rejected | prompt) / pi_ref(rejected | prompt))
+)))
+```
 
-其中 \(y^+\) 是 `chosen`，\(y^-\) 是 `rejected`；当前默认 `beta=0.3`，loss type 为 sigmoid。当输入是 Stage 2 LoRA adapter 时，代码把该 adapter 作为可训练 PEFT 模型交给 TRL，并以初始 adapter 状态作为固定参考策略，避免再复制一份完整基础模型。
+其中 `chosen` 是正确回答，`rejected` 是错误回答；当前默认 `beta=0.3`，loss type 为 sigmoid。当输入是 Stage 2 LoRA adapter 时，代码把该 adapter 作为可训练 PEFT 模型交给 TRL，并以初始 adapter 状态作为固定参考策略，避免再复制一份完整基础模型。
 
 ### 6.2 训练/验证切分与稳定性
 
@@ -160,10 +160,10 @@ Stage 3 与前两阶段一样做有限值检查。对于数值敏感的模型或
 
 计算口径为：
 
-\[
-pass@1 = \frac{\#\{\text{correct first answer}\}}{N}, \qquad
-pass@5 = \frac{\#\{\text{at least one correct among five}\}}{N}
-\]
+```text
+pass_at_1 = number_of_correct_first_answers / N
+pass_at_5 = number_of_questions_with_at_least_one_correct_answer_among_five / N
+```
 
 `pass@1_sample` 与 greedy pass@1 是两个不同的口径：前者是随机采样序列的第一条，后者是温度为零的确定性输出。`pass@5` 更接近“给模型五次尝试是否能解决题目”，通常不应直接与单次 greedy 准确率等同。
 
