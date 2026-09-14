@@ -1,0 +1,14 @@
+panel,metric,value,unit,note
+Kernel/Operator,Attention backward,3.98,x,representative packed trace
+Kernel/Operator,Sink-aware Top-K forward,3.15,x,prototype
+Kernel/Operator,Sink-aware Top-K fwd+bwd,2.09,x,prototype
+Kernel/Operator,Router GEMM microkernel,2.95,x,representative small-M
+Layer/Request,Router orth-loss fwd+bwd,18.77,%,target function
+Layer/Request,MoE layer fwd+bwd,3.97,%,not a full training step
+Layer/Request,Router request prefill/decode,3.30,%,approximately
+Layer/Request,Router long decode,4.95,%,midpoint of 4.66%-5.24%
+Stateful Decode,Single-GPU history operator,4.99,%,vs synchronous baseline
+Stateful Decode,TP2 decode safe path,4.60,%,async-unfused + batch-invariant
+Stateful Decode,TP4 decode safe path,3.00,%,async-unfused + batch-invariant
+Launch Count,Legacy orth-loss,17,ops,steady forward
+Launch Count,Compiled orth-loss,7,ops,steady forward

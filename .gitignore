@@ -48,6 +48,7 @@ pretrained_weights/
 *.ckpt
 
 # 运行时产物
+tmp/
 runs_validate/
 runs_smoke/
 runs_formal/
