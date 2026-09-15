@@ -326,7 +326,13 @@ def update_chinese_resume(source: Path, output: Path):
 
 
 def update_chinese_resume_variant(source: Path, output: Path, *, focus: str):
-    """Create a two-page Chinese resume with a training or inference emphasis."""
+    """Create a two-page Chinese resume whose evidence is truly focus-specific.
+
+    These are deliberately not the general resume with a different heading.  The
+    internship body, project order, and skills all change with the target role:
+    the training version is built around backward/MoE training work, while the
+    inference version is built around serving kernels and runtime execution.
+    """
     update_chinese_resume(source, output)
     d = Document(output)
     if len(d.tables) != 4:
@@ -337,47 +343,41 @@ def update_chinese_resume_variant(source: Path, output: Path, *, focus: str):
     cell = body_cell(d, internship.rows[2].cells[0])
     if focus == "training":
         configure_resume_metadata(d, title="冯浩然 - AI Infra 训练优化简历")
-        add_bullet(cell, "300B 级 MoE 基座模型训练优化：", "参与内部300B级MoE基座模型训练、RL rollout与推理基础设施开发，重点解决Attention反向、MoE GEMM-通信竞争、训推路由一致性与多卡稳定性问题。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=6, line_spacing=1.1)
-        add_group(cell, "训练算子优化（重点）", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=2.5, line_spacing=1.1)
-        add_numbered(cell, 1, "FA3 deterministic SWA backward 的 dQ 依赖链调度优化：", "通过Nsys/NCU与dQ/dK/dV因子隔离，定位dQ semaphore依赖链占确定性增量99.67%；在原fused kernel内将绝对ticket改为contributor-relative ticket，并使reverse scheduler与归约顺序对齐，不新增kernel/workspace/D2H。代表packed shape完整backward由6.755 ms降至1.699 ms（3.98×），2K-12K加速1.59-5.37×；1000次bitwise与3601/3601回归通过。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
-        add_numbered(cell, 2, "Sink FC1 GEMM 与通信竞争控核探究：", "训练trace显示跨stream SendRecv/AllGatherV使FC1额外退化15.48%/28.73%；搭建4×H200双stream代理，以NCCL CTA预算控制通信并行度、DeepGEMM SM budget控制计算资源，完成121组粗扫、89组细扫及Nsys重叠验证。AllGatherV代理中12 CTA + DG120使联合span降低12.80%，同通信设置下控核独立贡献7.58%。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
-        add_group(cell, "RL 训推一致性与 Rollout 稳定性", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=2.5, line_spacing=1.1)
-        add_numbered(cell, 1, "R3 Router Replay 与多卡可观测性：", "打通[token, MoE-layer, top-k] route采集、传输与训练侧回放，建立response-mask对齐、异常检测及route mismatch/fτ²/KL闭环；8×H200、Qwen3-30B-A3B BF16的20-step对照中，route mismatch由17%-19%降至0，fτ²/KL分别降低36-145×/4-7×。进一步在内部300B级MoE基座模型完成128卡单轮200-step rollout与SwanLab监控。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
-        add_numbered(cell, 2, "FlashInfer CUDA Graph hang 排查与修复：", "针对H200、vLLM TP=2 FULL CUDA Graph rollout卡死，构建两卡最小复现，经TP/Graph/fused控制变量将根因收敛至fused AllReduce + RMSNorm中Lamport -0.0 sentinel的FTZ误判；回移0x80000000位级判断后，模型级Graph on/off重复回归未再出现hang或timeout。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
-        add_group(cell, "推理算子工程经验", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=2.5, line_spacing=1.1)
-        add_numbered(cell, 1, "CUDA Graph 确定性 MoE Router GEMM：", "在vLLM中接入DeepGEMM/Triton Full-K/persistent三级后端，完成selector、capture前preflight、cache/fallback与workspace生命周期；48层Router GEMM中位耗时降低73.39%，135/135 kernel和20/20模型场景逐位一致。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
-        add_numbered(cell, 2, "OE 异步状态算子：", "将recent-token history与oe_input_ids构造保留在GPU，修复prefill/decode/mixed batch/恢复/slot reuse/reorder的跨step状态；TP1 28/28 case通过、吞吐较sync +4.99%，TP2/TP4均84/84、0 mismatch。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
+        add_bullet(cell, "300B 级 MoE 基座模型训练算子与 RL 训练基础设施：", "面向内部300B级MoE基座模型，负责训练侧热点算子与rollout训练闭环；以trace归因、最小可控实验和数值/确定性回归推进优化，核心聚焦Attention backward及MoE计算—通信竞争。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=6, line_spacing=1.1)
+        add_group(cell, "训练算子优化（主体）", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=2.5, line_spacing=1.1)
+        add_numbered(cell, 1, "FA3 deterministic SWA backward 的 dQ 依赖链调度：", "针对长序列、变长滑窗Attention的deterministic backward回退，先以Nsys/NCU和dQ/dK/dV因子隔离将99.67%的确定性增量收敛到dQ semaphore链；随后在原fused main kernel中将绝对ticket改为contributor-relative ticket，并对齐reverse scheduler与归约顺序，不新增kernel/workspace/D2H。代表packed trace完整backward由6.755 ms降至1.699 ms（3.98×），2K-12K加速1.59-5.37×；1000次自身bitwise与3601/3601回归通过。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
+        add_numbered(cell, 2, "MoE Router orth-loss 的 compiled 子图融合：", "针对每层orth-loss重复构造identity、Gram GEMM之外仍有normalize、margin、pointwise与reduction碎片化的问题，推导identity-free/margin等价式，并以torch.compile(fullgraph=True)融合周边子图；识别V1 in-place触发CopySlices backward回退后，最终采用默认关闭的V3 compiled路径。steady forward GPU operation由17降至7，目标函数forward+backward提升18.77%、峰值显存降低11.11%；4×H200完整MoE Layer forward+backward提升3.97%，value/gradient 9/9通过。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
+        add_numbered(cell, 3, "Sink FC1 GEMM—通信竞争的控核代理实验：", "针对训练trace中跨stream SendRecv/AllGatherV使FC1额外退化15.48%/28.73%的现象，先校正真实BF16 shape为8192×3072×3072并排除“慢GEMM”误判；构建4×H200双stream的all_gather(list)代理，以NCCL CTA预算控制通信并发、DeepGEMM SM budget控核，完成121组粗扫、89组细扫及Nsys grid/重叠复验。12 CTA + DG120使代理joint span降低12.80%，同通信设置下控核独立贡献7.58%；结果用于下一步训练trace验证，不外推为full-step收益。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
+        add_group(cell, "RL 训练侧路由闭环（辅助）", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=2.5, line_spacing=1.1)
+        add_numbered(cell, 1, "R3 Router Replay 的训练侧回放与观测：", "为消除rollout侧vLLM与训练侧Megatron的MoE路由偏差，打通[token, MoE-layer, top-k]采集、传输、response-mask对齐与训练回放，建立route mismatch/fτ²/KL异常闭环；8×H200、20-step对照中mismatch由17%-19%降至0，fτ²/KL降低36-145×/4-7×，并完成128卡内部300B级模型单轮200-step监控运行。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
 
         set_cell(projects.rows[4].cells[0], "2026.01-至今", latin=CN_HEADING, east_asia=CN_HEADING, size=9, bold=True)
         set_cell(projects.rows[4].cells[2], "关键 Token 加权的思维链蒸馏｜AAAI 2027 已投稿", latin=CN_HEADING, east_asia=CN_HEADING, size=8.7, bold=True, alignment=WD_ALIGN_PARAGRAPH.RIGHT)
         cell = body_cell(d, projects.rows[5].cells[0])
-        add_bullet(cell, "关键Token加权 CoT 蒸馏：", "针对通用CoT蒸馏对关键推理token区分不足的问题，参与“结构恢复—关键Token加权监督—偏好优化”三阶段框架，负责模型训练、超参调优与vLLM TP=4评测；以逐token扰动教师推理后参考答案生成似然的下降量估计重要性，并将其用于加权SFT与辅助损失。Qwen2.5-7B-Instruct在GSM8K/SVAMP取得94.01%/94.00% accuracy，较最强基线提升5.51/10.10个百分点。", latin=EN_FONT, east_asia=CN_BODY, body_size=8.55, space_after=5.5, line_spacing=1.1)
-        set_cell(projects.rows[6].cells[0], "2025.12-至今", latin=CN_HEADING, east_asia=CN_HEADING, size=9, bold=True)
-        set_cell(projects.rows[6].cells[2], "基于 PyTorch Extension 的高性能 LLM 量化推理 Runtime 开发", latin=CN_HEADING, east_asia=CN_HEADING, size=9, bold=True, alignment=WD_ALIGN_PARAGRAPH.RIGHT)
+        add_bullet(cell, "关键Token加权 CoT 蒸馏：", "针对通用CoT蒸馏无法区分关键推理token的问题，参与“结构恢复—关键Token加权监督—偏好优化”三阶段训练框架，负责训练、超参调优和vLLM TP=4评测；以逐token扰动教师推理后参考答案的生成似然下降量估计重要性，并用于加权SFT与辅助损失。Qwen2.5-7B-Instruct在GSM8K/SVAMP达到94.01%/94.00%，较最强基线提升5.51/10.10个百分点；论文已投稿AAAI 2027。", latin=EN_FONT, east_asia=CN_BODY, body_size=8.55, space_after=5.5, line_spacing=1.1)
+        set_cell(projects.rows[6].cells[0], "2026.08-09", latin=CN_HEADING, east_asia=CN_HEADING, size=9, bold=True)
+        set_cell(projects.rows[6].cells[2], "Blackwell 多精度训练验证（B200）", latin=CN_HEADING, east_asia=CN_HEADING, size=9, bold=True, alignment=WD_ALIGN_PARAGRAPH.RIGHT)
         cell = body_cell(d, projects.rows[7].cells[0])
-        add_bullet(cell, "H200 量化 Runtime 与TP2扩展：", "完成W4A16/W8A8/FP8、FlashAttention-2/4与GQA/softcap/SDPA链路适配，定位并修复量化GEMV尾组越界；实现packed-AWQ TP=2切分与NCCL all-reduce。32B W4A16在双H200上使checkpoint/峰值显存降低70.5%/66.8%，端到端输出吞吐提升76.8%。", latin=EN_FONT, east_asia=CN_BODY, body_size=8.55, space_after=5.5, line_spacing=1.1)
-        skill_focus = "聚焦GPU训练算子与大模型训练优化，具备Attention deterministic backward、MoE GEMM-通信竞争、RL训推一致性和多卡性能/正确性验证经验。"
+        add_bullet(cell, "Blackwell 多精度训练验证：", "为验证低精度训练链路的数值、重启与强扩展稳定性，以random-init + mock data重建dense decoder工作负载，建立BF16/FP8/MXFP8/NVFP4、1-8 GPU与80个Transformer Engine forward+backward shape的矩阵，并覆盖checkpoint save/load/restart。BF16/NVFP4强扩展24/24正式运行、720 optimizer steps的step-time CV<1%；8卡NVFP4相对BF16吞吐1.265×、板卡tokens/J 1.434×，80/80有限值且checkpoint恢复loss相对差异1.38e-6（不外推真实数据收敛）。", latin=EN_FONT, east_asia=CN_BODY, body_size=8.55, space_after=5.5, line_spacing=1.1)
+        skill_focus = "聚焦GPU训练算子与大模型训练优化，具备Attention backward、MoE GEMM—通信竞争、RL训练回放和多卡确定性/数值验证经验。"
     elif focus == "inference":
         configure_resume_metadata(d, title="冯浩然 - AI Infra 推理优化简历")
-        add_bullet(cell, "300B 级 MoE 基座模型推理与 Rollout 优化：", "参与内部300B级MoE基座模型推理、RL rollout与训练基础设施开发，重点解决CUDA Graph确定性、Router GEMM选核、异步状态管理、量化Runtime与多卡稳定性问题。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=6, line_spacing=1.1)
-        add_group(cell, "推理算子优化（重点）", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=2.5, line_spacing=1.1)
-        add_numbered(cell, 1, "CUDA Graph 下的确定性 MoE Router GEMM：", "在vLLM接入DeepGEMM/Triton Full-K/persistent三级后端，完成selector、capture前preflight、cache/fallback、workspace与路径回归，replay固化后端。48层Router GEMM中位耗时下降73.39%，135/135 kernel、20/20模型场景逐位一致，prefix-cache hit下TP1/TP2整请求性能提升3.81%/4.36%。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
-        add_numbered(cell, 2, "OE 异步状态算子：", "将recent-token history与oe_input_ids构造保留在GPU，以Triton fused-hash消除同步与回传，并修复prefill/decode/mixed batch/恢复/slot reuse/reorder的跨step状态；TP1 28/28 case通过、吞吐较sync +4.99%，TP2/TP4均84/84、0 mismatch，decode吞吐+4.6%/+3.0%。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
-        add_group(cell, "RL 训推一致性与 Rollout 稳定性", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=2.5, line_spacing=1.1)
-        add_numbered(cell, 1, "R3 Router Replay 与多卡可观测性：", "打通rollout路由采集、传输、训练侧回放与response-mask/mismatch/fτ²/KL闭环；8×H200、20-step对照中route mismatch由17%-19%降至0，fτ²/KL降低36-145×/4-7×，并扩展至128卡内部300B级模型的200-step监控运行。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
-        add_numbered(cell, 2, "FlashInfer CUDA Graph hang 排查与修复：", "以H200两卡最小复现和TP/Graph/fused控制变量定位fused AllReduce + RMSNorm中Lamport -0.0 sentinel的FTZ误判；采用0x80000000位级判断修复后，模型级Graph on/off重复回归未再出现hang或timeout。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
-        add_group(cell, "训练算子优化经验", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=2.5, line_spacing=1.1)
-        add_numbered(cell, 1, "FA3 deterministic SWA backward：", "定位dQ semaphore依赖链占确定性增量99.67%，在原fused kernel内完成contributor-relative ticket与reverse scheduler对齐；代表shape完整backward由6.755 ms降至1.699 ms（3.98×），3601/3601回归和1000次bitwise重复通过。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
-        add_numbered(cell, 2, "Sink FC1 GEMM 与通信竞争控核：", "在4×H200双stream代理中以NCCL CTA预算与DeepGEMM SM budget控核，完成121组粗扫和89组细扫；AllGatherV联合span降低12.80%，其中控核独立贡献7.58%。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
+        add_bullet(cell, "300B 级 MoE 基座模型推理内核与 Runtime 优化：", "面向内部300B级MoE基座模型的serving与RL rollout执行链路，负责从shape感知选核、CUDA Graph确定性到跨step状态管理和Tensor Parallel验证的推理侧优化。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=6, line_spacing=1.1)
+        add_group(cell, "推理算子与执行路径优化（主体）", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=2.5, line_spacing=1.1)
+        add_numbered(cell, 1, "CUDA Graph 下的确定性 MoE Router GEMM：", "针对batch-invariant decode小M下persistent tile无效计算和Graph replay不能动态选核的约束，在vLLM工程化接入DeepGEMM/Triton Full-K/persistent三级后端；负责tensor-signature selector、capture前数值/Graph preflight、cache/fallback、workspace生命周期与路径回归，replay中固化后端决策。48层Router GEMM中位耗时下降73.39%，135/135 kernel、20/20模型场景逐位一致；prefix-cache hit下TP1/TP2整请求性能提升3.81%/4.36%。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
+        add_numbered(cell, 2, "OE 异步状态算子与多卡安全路径：", "将recent-token history和oe_input_ids构造留在GPU，以Triton fused-hash移除TP1的GPU同步与H→D回传bubble；同时覆盖prefill/decode/mixed batch/恢复/slot reuse/reorder的跨step状态语义。TP1严格28/28 case通过、吞吐较sync +4.99%；TP>1采用async-unfused + batch-invariant安全路径后，TP2/TP4均84/84、0 mismatch，decode吞吐+4.6%/+3.0%。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
+        add_numbered(cell, 3, "CUDA Graph Rollout hang 的 Kernel 级排障：", "针对H200、vLLM TP=2 FULL CUDA Graph下rollout卡死，构建两卡最小复现并以TP/Graph/fused控制变量定位fused AllReduce + RMSNorm中Lamport -0.0 sentinel的FTZ误判；采用0x80000000位级判断后，模型级Graph on/off反复回归未再出现hang或timeout。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
+        add_group(cell, "Rollout 一致性验证（压缩保留）", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=2.5, line_spacing=1.1)
+        add_numbered(cell, 1, "R3 Router Replay：", "为验证rollout推理与训练侧路由对齐，完成route采集、response-mask对齐、训练回放及mismatch/fτ²/KL闭环；8×H200、20-step中route mismatch由17%-19%降至0，并扩展至128卡内部300B级模型的单轮200-step观测。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
 
         set_cell(projects.rows[4].cells[0], "2025.12-至今", latin=CN_HEADING, east_asia=CN_HEADING, size=9, bold=True)
         set_cell(projects.rows[4].cells[2], "基于 PyTorch Extension 的高性能 LLM 量化推理 Runtime 开发", latin=CN_HEADING, east_asia=CN_HEADING, size=9, bold=True, alignment=WD_ALIGN_PARAGRAPH.RIGHT)
         cell = body_cell(d, projects.rows[5].cells[0])
-        add_bullet(cell, "H200 量化 Runtime 部署与TP2扩展：", "为在H200双卡交付32B量化模型推理，负责W4A16/W8A8/FP8后端适配、FlashAttention-2/4与GQA/softcap/SDPA链路接入，并以Compute Sanitizer定位gemv_kernel_g128尾组越界、补充边界保护；进一步实现Qwen2 packed-AWQ TP=2列/行切分与NCCL all-reduce。代表shape四类Sanitizer检查均为0 error/0 hazard；Qwen2.5-Coder-32B W4A16使checkpoint/峰值显存降低70.5%/66.8%，端到端输出吞吐提升76.8%。", latin=EN_FONT, east_asia=CN_BODY, body_size=8.55, space_after=5.5, line_spacing=1.1)
+        add_bullet(cell, "H200 量化 Runtime 部署与 TP2 扩展：", "为在双H200交付32B量化模型推理，负责W4A16/W8A8/FP8后端、FlashAttention-2/4与GQA/softcap/SDPA链路适配；以Compute Sanitizer定位gemv_kernel_g128尾组越界并补齐边界保护，继而实现Qwen2 packed-AWQ TP=2的Q/K/V、gate/up列切分及O/down行切分与NCCL all-reduce。代表shape四类Sanitizer均0 error/0 hazard；32B W4A16使checkpoint/峰值显存降低70.5%/66.8%，端到端输出吞吐提升76.8%。", latin=EN_FONT, east_asia=CN_BODY, body_size=8.55, space_after=5.5, line_spacing=1.1)
         set_cell(projects.rows[6].cells[0], "2026.01-至今", latin=CN_HEADING, east_asia=CN_HEADING, size=9, bold=True)
         set_cell(projects.rows[6].cells[2], "关键 Token 加权的思维链蒸馏｜AAAI 2027 已投稿", latin=CN_HEADING, east_asia=CN_HEADING, size=8.7, bold=True, alignment=WD_ALIGN_PARAGRAPH.RIGHT)
         cell = body_cell(d, projects.rows[7].cells[0])
-        add_bullet(cell, "关键Token加权 CoT 蒸馏：", "负责训练、超参调优与vLLM TP=4评测，以教师推理token扰动后的参考答案似然下降量估计重要性，并用于加权SFT与辅助损失；Qwen2.5-7B-Instruct在GSM8K/SVAMP达到94.01%/94.00%，较最强基线提升5.51/10.10个百分点。", latin=EN_FONT, east_asia=CN_BODY, body_size=8.55, space_after=5.5, line_spacing=1.1)
+        add_bullet(cell, "关键Token加权 CoT 蒸馏（压缩保留）：", "负责训练、调优与vLLM TP=4评测；Qwen2.5-7B-Instruct在GSM8K/SVAMP达到94.01%/94.00%，较最强基线提升5.51/10.10个百分点。", latin=EN_FONT, east_asia=CN_BODY, body_size=8.55, space_after=5.5, line_spacing=1.1)
         skill_focus = "聚焦GPU推理算子与大模型Serving/Rollout优化，具备CUDA Graph、MoE Router GEMM、异步状态管理、量化Runtime、Tensor Parallel和多卡确定性验证经验。"
     else:
         raise ValueError(f"Unsupported resume focus: {focus}")
@@ -386,7 +386,7 @@ def update_chinese_resume_variant(source: Path, output: Path, *, focus: str):
     compact_paragraph(p, space_after=5.5, line_spacing=1.1, left=0, first=0)
     add_run(p, "2026.01-2026.04", latin=CN_HEADING, east_asia=CN_HEADING, size=8.75, bold=True)
     add_run(p, "                         摩尔线程                         算子与编译器优化实习生", latin=CN_HEADING, east_asia=CN_HEADING, size=8.75, bold=True)
-    add_bullet(internship.rows[2].cells[0], "TensorFlow MUSA Extension 算子、图优化与稳定性：", "负责muDNN GELU接入、GELU fusion链路修复、benchmark和热点算子优化，推动整网11个GELU全部融合，真实shape耗时降低36.6%；独立定位shape tensor误入device path并重构HostMemory，使inference 500轮成功率约30%提升至1000轮100%，4万/40万/80万轮长跑稳定；Logical_Or由21.2 μs降至10.7 μs，整网吞吐8187.48提升至8284.65。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
+    add_bullet(internship.rows[2].cells[0], "TensorFlow MUSA Extension（压缩保留）：", "完成GELU fusion、图优化与稳定性修复，推动整网11个GELU全部融合、真实shape耗时降低36.6%；修正shape tensor HostMemory路径后，1000轮inference成功率达100%。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
 
     cell = body_cell(d, skills.cell(1, 0))
     add_bullet(cell, "技术方向：", skill_focus, latin=EN_FONT, east_asia=CN_BODY, body_size=8.7, space_after=4, line_spacing=1.1)
@@ -627,6 +627,26 @@ def assert_two_pages(pdf_path: Path):
         raise RuntimeError(f"{pdf_path.name} has {len(reader.pages)} pages, expected exactly 2")
 
 
+def assert_focus_specific_resume(pdf_path: Path, *, focus: str):
+    """Guard against a focused version silently drifting back to a general resume."""
+    text = "\n".join(page.extract_text() or "" for page in PdfReader(pdf_path).pages)
+    if focus == "training":
+        required = ("FA3 deterministic", "orth-loss", "Blackwell 多精度训练验证")
+        excluded = ("OE 异步状态算子", "H200 量化 Runtime", "Router GEMM")
+    elif focus == "inference":
+        required = ("Router GEMM", "OE 异步状态算子", "H200 量化 Runtime")
+        excluded = ("FA3 deterministic", "orth-loss", "Blackwell 多精度训练验证")
+    else:
+        raise ValueError(f"Unsupported resume focus: {focus}")
+    missing = [token for token in required if token not in text]
+    unexpected = [token for token in excluded if token in text]
+    if missing or unexpected:
+        raise RuntimeError(
+            f"{pdf_path.name} is not a true {focus}-focused resume; "
+            f"missing={missing}, unexpected={unexpected}"
+        )
+
+
 def docx_external_links(docx_path: Path) -> set[str]:
     """Return external targets recorded in Word relationship parts."""
     targets: set[str] = set()
@@ -802,6 +822,8 @@ def main():
         add_pdf_website_link(pdf_path)
     for pdf_path in (temp_chinese_pdf, temp_training_pdf, temp_inference_pdf, temp_anonymous_pdf, temp_english_pdf):
         assert_two_pages(pdf_path)
+    assert_focus_specific_resume(temp_training_pdf, focus="training")
+    assert_focus_specific_resume(temp_inference_pdf, focus="inference")
     for docx_path, pdf_path in (
         (temp_chinese_docx, temp_chinese_pdf),
         (temp_training_docx, temp_training_pdf),
