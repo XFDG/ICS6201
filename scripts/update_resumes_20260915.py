@@ -19,10 +19,10 @@ from pathlib import Path
 from docx import Document
 from docx.enum.table import WD_CELL_VERTICAL_ALIGNMENT
 from docx.enum.text import WD_ALIGN_PARAGRAPH
-from docx.oxml import OxmlElement
+from docx.oxml import OxmlElement, parse_xml
 from docx.oxml.ns import qn
 from docx.opc.constants import RELATIONSHIP_TYPE
-from docx.shared import Pt, RGBColor
+from docx.shared import Inches, Pt, RGBColor
 from PIL import Image, ImageDraw, ImageFont
 from pypdf import PdfReader, PdfWriter
 from reportlab.lib.utils import ImageReader
@@ -37,6 +37,8 @@ CH_DOCX = DOC_DIR / "冯浩然_AiInfra香港中文大学_15024999885.docx"
 CH_PDF = DOC_DIR / "冯浩然_AiInfra香港中文大学_15024999885.pdf"
 EN_DOCX = DOC_DIR / "Haoran_Feng_AIInfra_Resume.docx"
 EN_PDF = DOC_DIR / "Haoran_Feng_AIInfra_Resume.pdf"
+ANON_DOCX = DOC_DIR / "AIInfra中文简历_匿名版_小红书水印.docx"
+ANON_PDF = DOC_DIR / "AIInfra中文简历_匿名版_小红书水印.pdf"
 INTERVIEW_DOCX = DOC_DIR / "面试介绍精简版.docx"
 WATERMARK_DIR = ROOT / "小红书商品" / "面试"
 WATERMARK_TEXT = "小红书小冯别放弃"
@@ -124,24 +126,24 @@ def next_content_paragraph(cell):
     return cell.add_paragraph()
 
 
-def add_group(cell, title: str, *, latin: str, east_asia: str, body_size: float):
+def add_group(cell, title: str, *, latin: str, east_asia: str, body_size: float, space_after=0.25, line_spacing=1.0):
     p = next_content_paragraph(cell)
-    compact_paragraph(p, space_after=0.25, line_spacing=1.0, left=7, first=-7)
+    compact_paragraph(p, space_after=space_after, line_spacing=line_spacing, left=7, first=-7)
     add_run(p, "• ", latin=latin, east_asia=east_asia, size=body_size, bold=True)
     add_run(p, title, latin=latin, east_asia=east_asia, size=body_size, bold=True)
 
 
-def add_numbered(cell, number: int, title: str, text: str, *, latin: str, east_asia: str, body_size: float):
+def add_numbered(cell, number: int, title: str, text: str, *, latin: str, east_asia: str, body_size: float, space_after=0.65, line_spacing=1.0):
     p = next_content_paragraph(cell)
-    compact_paragraph(p, space_after=0.65, line_spacing=1.0, left=13, first=-11)
+    compact_paragraph(p, space_after=space_after, line_spacing=line_spacing, left=13, first=-11)
     add_run(p, f"{number}. ", latin=latin, east_asia=east_asia, size=body_size)
     add_run(p, title, latin=latin, east_asia=east_asia, size=body_size, bold=True)
     add_run(p, text, latin=latin, east_asia=east_asia, size=body_size)
 
 
-def add_bullet(cell, title: str, text: str, *, latin: str, east_asia: str, body_size: float, space_after=0.65):
+def add_bullet(cell, title: str, text: str, *, latin: str, east_asia: str, body_size: float, space_after=0.65, line_spacing=1.0):
     p = next_content_paragraph(cell)
-    compact_paragraph(p, space_after=space_after, line_spacing=1.0, left=7, first=-7)
+    compact_paragraph(p, space_after=space_after, line_spacing=line_spacing, left=7, first=-7)
     add_run(p, "• ", latin=latin, east_asia=east_asia, size=body_size)
     add_run(p, title, latin=latin, east_asia=east_asia, size=body_size, bold=True)
     add_run(p, text, latin=latin, east_asia=east_asia, size=body_size)
@@ -177,6 +179,15 @@ def move_tail_rows_to_next_page(table, first_tail_row: int):
     page_break.append(run)
     table._tbl.addnext(page_break)
     page_break.addnext(tail_table)
+
+
+def clear_row_height(row):
+    """Remove a legacy fixed table-row height so content determines spacing."""
+    tr_pr = row._tr.trPr
+    if tr_pr is None:
+        return
+    for height in list(tr_pr.findall(qn("w:trHeight"))):
+        tr_pr.remove(height)
 
 
 def resume_template_tables(document: Document):
@@ -232,21 +243,22 @@ def update_chinese_resume(source: Path, output: Path):
     set_cell(internship_rows[1].cells[3], "大模型与高性能计算实习生", latin=CN_HEADING, east_asia=CN_HEADING, size=9, bold=True, alignment=WD_ALIGN_PARAGRAPH.RIGHT)
 
     cell = body_cell(d, internship_rows[2].cells[0])
-    body_size = 8.25
-    add_group(cell, "训练算子支持", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size)
-    add_numbered(cell, 1, "FA3 deterministic SWA backward 的 dQ 依赖链调度优化：", "针对长序列、变长滑窗 Attention 的 deterministic backward 回退，负责问题归因、调度实现与验证；通过 Nsys/NCU 和 dQ/dK/dV 因子隔离，确认 dQ semaphore 依赖链占确定性增量99.67%。在原 fused main kernel 中将绝对 ticket 改为 contributor-relative ticket，并使 reverse scheduler 与归约顺序对齐；复用既有长度元数据分流，短序列保留 fallback，不新增 kernel/workspace/D2H。代表 packed shape 完整 backward 由6.755 ms降至1.699 ms（3.98×），2K-12K加速1.59-5.37×；1000次自身bitwise、3601/3601回归通过并交付 wheel。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size)
-    add_numbered(cell, 2, "Sink FC1 GEMM 与通信竞争控核探究：", "训练 trace 显示跨 stream SendRecv/AllGatherV 使 FC1 额外退化15.48%/28.73%；纠正实际 BF16 shape 为8192×3072×3072，确认约200 μs基线正常。搭建4×H200双 stream 代理，以 NCCL CTA 预算控制通信并行度、DeepGEMM SM budget 控制计算资源，并用 Nsys 校验实际 grid 与重叠；完成121组粗扫、89组细扫及复验。AllGatherV代理中12 CTA + DG120将联合 span 降低12.80%，同通信设置下控核独立贡献7.58%；AllToAllV主要收益来自通信并行度，不归因为 GEMM。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size)
-    add_group(cell, "推理算子支持", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size)
-    add_numbered(cell, 1, "CUDA Graph 下的确定性 MoE Router GEMM：", "针对 batch-invariant decode 小M下 persistent tile 无效计算及 CUDA Graph 确定性约束，负责在 vLLM 工程化接入 DeepGEMM/Triton Full-K/persistent三级后端；设计 tensor-signature selector、capture前数值与Graph preflight、cache/fallback、workspace生命周期和路径回归，replay固化后端、不在图内动态选核。48层 Router GEMM中位耗时下降73.39%，135/135 kernel、20/20模型场景逐位一致；prefix-cache hit下TP1/TP2整请求处理性能提升3.81%/4.36%。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size)
-    add_numbered(cell, 2, "OE 异步状态算子：", "将 recent-token history 与oe_input_ids构造保留在GPU，以Triton fused-hash消除TP1同步与回传，并修复prefill/decode/mixed batch/请求恢复/slot reuse/reorder的跨step状态；TP1严格28/28 case通过、吞吐较sync +4.99%。TP>1采用async-unfused + batch-invariant安全路径后，TP2/TP4均达84/84、0 mismatch，decode吞吐+4.6%/+3.0%。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size)
-    add_group(cell, "RL 训推一致性与 Rollout 稳定性", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size)
-    add_numbered(cell, 1, "R3 Router Replay 与多卡可观测性：", "针对rollout侧vLLM与训练侧Megatron的MoE路由偏差，打通[token, MoE-layer, top-k] route采集、传输与训练侧回放，建立response-mask对齐、异常检测及route mismatch/fτ²/KL闭环；8×H200、Qwen3-30B-A3B BF16的20-step对照中，route mismatch由17%-19%降至0，fτ²/KL分别降低36-145×/4-7×。进一步扩展至128卡集群完成内部大模型竞赛题单轮200-step rollout并接入SwanLab监控，关键指标与8卡对照一致。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size)
-    add_numbered(cell, 2, "FlashInfer CUDA Graph hang 排查与修复：", "针对H200、vLLM TP=2 FULL CUDA Graph rollout卡死，构建两卡最小复现，经TP1/TP2、eager/FULL Graph、fused/unfused等控制变量将根因收敛至fused AllReduce + RMSNorm中Lamport -0.0 sentinel的FTZ误判；回移上游0x80000000位级判断修复并完成模型级Graph on/off回归，重复Graph replay未再出现hang或timeout。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size)
+    body_size = 8.45
+    add_bullet(cell, "300B 级 MoE 基座模型开发与优化：", "参与内部300B级MoE基座模型的训练、推理与RL rollout基础设施开发，围绕训练算子、推理算子和训推一致性进行性能优化、稳定性排障与多卡验证。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=6, line_spacing=1.1)
+    add_group(cell, "训练算子支持", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=2.5, line_spacing=1.1)
+    add_numbered(cell, 1, "FA3 deterministic SWA backward 的 dQ 依赖链调度优化：", "针对长序列、变长滑窗 Attention 的 deterministic backward 回退，负责问题归因、调度实现与验证；通过 Nsys/NCU 和 dQ/dK/dV 因子隔离，确认 dQ semaphore 依赖链占确定性增量99.67%。在原 fused main kernel 中将绝对 ticket 改为 contributor-relative ticket，并使 reverse scheduler 与归约顺序对齐；复用既有长度元数据分流，短序列保留 fallback，不新增 kernel/workspace/D2H。代表 packed shape 完整 backward 由6.755 ms降至1.699 ms（3.98×），2K-12K加速1.59-5.37×；1000次自身bitwise、3601/3601回归通过并交付 wheel。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
+    add_numbered(cell, 2, "Sink FC1 GEMM 与通信竞争控核探究：", "训练 trace 显示跨 stream SendRecv/AllGatherV 使 FC1 额外退化15.48%/28.73%；纠正实际 BF16 shape 为8192×3072×3072，确认约200 μs基线正常。搭建4×H200双 stream 代理，以 NCCL CTA 预算控制通信并行度、DeepGEMM SM budget 控制计算资源，并用 Nsys 校验实际 grid 与重叠；完成121组粗扫、89组细扫及复验。AllGatherV代理中12 CTA + DG120将联合 span 降低12.80%，同通信设置下控核独立贡献7.58%；AllToAllV主要收益来自通信并行度，不归因为 GEMM。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
+    add_group(cell, "推理算子支持", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=2.5, line_spacing=1.1)
+    add_numbered(cell, 1, "CUDA Graph 下的确定性 MoE Router GEMM：", "针对 batch-invariant decode 小M下 persistent tile 无效计算及 CUDA Graph 确定性约束，负责在 vLLM 工程化接入 DeepGEMM/Triton Full-K/persistent三级后端；设计 tensor-signature selector、capture前数值与Graph preflight、cache/fallback、workspace生命周期和路径回归，replay固化后端、不在图内动态选核。48层 Router GEMM中位耗时下降73.39%，135/135 kernel、20/20模型场景逐位一致；prefix-cache hit下TP1/TP2整请求处理性能提升3.81%/4.36%。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
+    add_numbered(cell, 2, "OE 异步状态算子：", "将 recent-token history 与oe_input_ids构造保留在GPU，以Triton fused-hash消除TP1同步与回传，并修复prefill/decode/mixed batch/请求恢复/slot reuse/reorder的跨step状态；TP1严格28/28 case通过、吞吐较sync +4.99%。TP>1采用async-unfused + batch-invariant安全路径后，TP2/TP4均达84/84、0 mismatch，decode吞吐+4.6%/+3.0%。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
+    add_group(cell, "RL 训推一致性与 Rollout 稳定性", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=2.5, line_spacing=1.1)
+    add_numbered(cell, 1, "R3 Router Replay 与多卡可观测性：", "针对rollout侧vLLM与训练侧Megatron的MoE路由偏差，打通[token, MoE-layer, top-k] route采集、传输与训练侧回放，建立response-mask对齐、异常检测及route mismatch/fτ²/KL闭环；8×H200、Qwen3-30B-A3B BF16的20-step对照中，route mismatch由17%-19%降至0，fτ²/KL分别降低36-145×/4-7×。进一步扩展至128卡集群，在内部300B级MoE基座模型上完成竞赛题单轮200-step rollout并接入SwanLab监控，关键指标与8卡对照一致。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
+    add_numbered(cell, 2, "FlashInfer CUDA Graph hang 排查与修复：", "针对H200、vLLM TP=2 FULL CUDA Graph rollout卡死，构建两卡最小复现，经TP1/TP2、eager/FULL Graph、fused/unfused等控制变量将根因收敛至fused AllReduce + RMSNorm中Lamport -0.0 sentinel的FTZ误判；回移上游0x80000000位级判断修复并完成模型级Graph on/off回归，重复Graph replay未再出现hang或timeout。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
     p = cell.add_paragraph()
-    compact_paragraph(p, space_after=0.55, line_spacing=1.0, left=0, first=0)
+    compact_paragraph(p, space_after=5.5, line_spacing=1.1, left=0, first=0)
     add_run(p, "2026.01-2026.04", latin=CN_HEADING, east_asia=CN_HEADING, size=8.75, bold=True)
     add_run(p, "                         摩尔线程                         算子与编译器优化实习生", latin=CN_HEADING, east_asia=CN_HEADING, size=8.75, bold=True)
-    add_bullet(cell, "TensorFlow MUSA Extension 算子、图优化与稳定性：", "负责muDNN GELU接入、GELU fusion链路修复、benchmark和热点算子优化，推动整网11个GELU全部融合，真实shape耗时降低36.6%；独立定位shape tensor误入device path并重构HostMemory，使inference 500轮成功率约30%提升至1000轮100%，4万/40万/80万轮长跑稳定；Logical_Or由21.2 μs降至10.7 μs，整网吞吐8187.48提升至8284.65。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=0.1)
+    add_bullet(cell, "TensorFlow MUSA Extension 算子、图优化与稳定性：", "负责muDNN GELU接入、GELU fusion链路修复、benchmark和热点算子优化，推动整网11个GELU全部融合，真实shape耗时降低36.6%；独立定位shape tensor误入device path并重构HostMemory，使inference 500轮成功率约30%提升至1000轮100%，4万/40万/80万轮长跑稳定；Logical_Or由21.2 μs降至10.7 μs，整网吞吐8187.48提升至8284.65。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
 
     set_section_cell(internship_rows[3].cells[0], "开源贡献")
     set_cell(internship_rows[4].cells[0], "2026.08-09", latin=CN_HEADING, east_asia=CN_HEADING, size=9, bold=True)
@@ -267,21 +279,115 @@ def update_chinese_resume(source: Path, output: Path):
     set_cell(internship_rows[7].cells[1], "", latin=CN_HEADING, east_asia=CN_HEADING, size=9, bold=True)
     set_cell(internship_rows[7].cells[2], "基于 PyTorch Extension 的高性能 LLM 量化推理 Runtime 开发", latin=CN_HEADING, east_asia=CN_HEADING, size=9, bold=True, alignment=WD_ALIGN_PARAGRAPH.RIGHT)
     cell = body_cell(d, internship_rows[8].cells[0])
-    add_bullet(cell, "量化 Runtime、Kernel 排障与TP2部署：", "在W4A16 AWQ、W8A8 SmoothQuant、FP8 Runtime中完成FlashAttention-2/4可配置接入、GQA KV-head展开、softcap mask、SDPA回退及跨GPU动态构建；以Compute Sanitizer定位gemv_kernel_g128尾组越界，补充边界保护并实现Qwen2 packed-AWQ TP=2列/行切分与NCCL all-reduce。代表shape四类Sanitizer检查均为0 error/0 hazard；Qwen2.5-Coder-32B W4A16双卡部署使checkpoint显存-70.5%、峰值显存-66.8%、端到端输出吞吐+76.8%，并通过数值、跨rank token与交互验收。", latin=EN_FONT, east_asia=CN_BODY, body_size=8.35, space_after=0.1)
+    add_bullet(cell, "H200 量化 Runtime 部署与TP2扩展：", "为在H200双卡交付32B量化模型推理，负责W4A16/W8A8/FP8后端适配、FlashAttention-2/4与GQA/softcap/SDPA链路接入，并以Compute Sanitizer定位gemv_kernel_g128尾组越界、补充边界保护；进一步实现Qwen2 packed-AWQ TP=2列/行切分与NCCL all-reduce。代表shape四类Sanitizer检查均为0 error/0 hazard；Qwen2.5-Coder-32B W4A16使checkpoint/峰值显存降低70.5%/66.8%，端到端输出吞吐提升76.8%，通过数值、跨rank token与交互验收。", latin=EN_FONT, east_asia=CN_BODY, body_size=8.55, space_after=5.5, line_spacing=1.1)
+    clear_row_height(internship_rows[8])
     set_cell(internship_rows[9].cells[0], "2026.01-至今", latin=CN_HEADING, east_asia=CN_HEADING, size=9, bold=True)
     set_cell(internship_rows[9].cells[1], "", latin=CN_HEADING, east_asia=CN_HEADING, size=9, bold=True)
     p = set_cell(internship_rows[9].cells[2], "关键 Token 加权的思维链蒸馏｜AAAI 2027 已投稿｜", latin=CN_HEADING, east_asia=CN_HEADING, size=8.7, bold=True, alignment=WD_ALIGN_PARAGRAPH.RIGHT)
     add_hyperlink(p, "项目代码", "https://github.com/jokerhan01/cot-main", latin=CN_HEADING, east_asia=CN_HEADING, size=8.7)
     cell = body_cell(d, internship_rows[10].cells[0])
-    add_bullet(cell, "方法与结果：", "参与“结构恢复—关键Token加权监督—偏好优化”三阶段框架，负责模型训练与调优；以逐Token扰动教师推理导致的参考答案生成似然下降量估计重要性，并用于加权SFT与辅助损失。完成LoRA/DPO训练和vLLM TP=4评测；Qwen2.5-7B-Instruct在GSM8K/SVAMP上取得94.01%/94.00% accuracy，较最强基线提升5.51/10.10个百分点，论文已投稿AAAI 2027。", latin=EN_FONT, east_asia=CN_BODY, body_size=8.35, space_after=0.1)
+    add_bullet(cell, "关键Token加权 CoT 蒸馏：", "针对通用CoT蒸馏对关键推理token区分不足的问题，参与“结构恢复—关键Token加权监督—偏好优化”三阶段框架，负责模型训练、超参调优与vLLM TP=4评测；以逐token扰动教师推理后参考答案生成似然的下降量估计重要性，并将其用于加权SFT与辅助损失。完成LoRA/DPO训练后，Qwen2.5-7B-Instruct在GSM8K/SVAMP取得94.01%/94.00% accuracy，较最强基线提升5.51/10.10个百分点；论文已投稿AAAI 2027。", latin=EN_FONT, east_asia=CN_BODY, body_size=8.55, space_after=5.5, line_spacing=1.1)
 
     set_section_cell(t2.cell(0, 0), "综合素质")
     cell = body_cell(d, t2.cell(1, 0))
-    add_bullet(cell, "技术方向：", "关注GPU高性能算子开发与大模型训练/推理系统优化，具备Attention、MoE Router、量化GEMM、异步状态管理、Tensor Parallel与CUDA Graph工程实践。", latin=EN_FONT, east_asia=CN_BODY, body_size=8.5, space_after=0.25)
-    add_bullet(cell, "开发与性能工程：", "熟练使用C/C++、Python、CUDA、Triton、PyTorch Extension；能够使用Nsys、NCU、Compute Sanitizer完成算子性能分析与正确性验证。", latin=EN_FONT, east_asia=CN_BODY, body_size=8.5, space_after=0.25)
-    add_bullet(cell, "语言与证书：", "IELTS 6.5、CET-6，持有华为HCIA-AI认证；具备英文技术文档阅读、检索与跨仓源码分析能力。", latin=EN_FONT, east_asia=CN_BODY, body_size=8.5, space_after=0)
+    add_bullet(cell, "技术方向：", "关注GPU高性能算子开发与大模型训练/推理系统优化，具备Attention、MoE Router、量化GEMM、异步状态管理、Tensor Parallel与CUDA Graph工程实践。", latin=EN_FONT, east_asia=CN_BODY, body_size=8.7, space_after=4, line_spacing=1.1)
+    add_bullet(cell, "开发与性能工程：", "熟练使用C/C++、Python、CUDA、Triton、PyTorch Extension；能够使用Nsys、NCU、Compute Sanitizer完成算子性能分析与正确性验证。", latin=EN_FONT, east_asia=CN_BODY, body_size=8.7, space_after=4, line_spacing=1.1)
+    add_bullet(cell, "语言与证书：", "IELTS 6.5、CET-6，持有华为HCIA-AI认证；具备英文技术文档阅读、检索与跨仓源码分析能力。", latin=EN_FONT, east_asia=CN_BODY, body_size=8.7, space_after=0, line_spacing=1.1)
 
-    move_tail_rows_to_next_page(t1, 6)
+    move_tail_rows_to_next_page(t1, 3)
+    d.save(output)
+
+
+def add_word_watermark(document: Document, text: str):
+    """Add a standard Word/Office VML watermark without changing page flow."""
+    watermark_xml = f'''<w:pict xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"
+        xmlns:v="urn:schemas-microsoft-com:vml"
+        xmlns:o="urn:schemas-microsoft-com:office:office">
+      <v:shape id="XiaohongshuWatermark" o:spid="_x0000_s1026" type="#_x0000_t136"
+        style="position:absolute;margin-left:0;margin-top:0;width:430pt;height:58pt;rotation:315;z-index:-251654144;mso-position-horizontal:center;mso-position-horizontal-relative:margin;mso-position-vertical:center;mso-position-vertical-relative:margin"
+        fillcolor="#B22222" stroked="f">
+        <v:fill opacity="0.16"/>
+        <v:textpath style="font-family:&quot;宋体&quot;;font-size:1pt" string="{text}"/>
+      </v:shape>
+    </w:pict>'''
+    for section in document.sections:
+        header = section.header
+        p = header.paragraphs[0]
+        p.clear()
+        p._p.append(parse_xml(watermark_xml))
+
+
+def update_anonymous_chinese_resume(source: Path, output: Path, *, word_watermark=True):
+    """Build a de-identified Chinese resume without retaining personal links."""
+    update_chinese_resume(source, output)
+    d = Document(output)
+    if len(d.tables) != 4:
+        raise RuntimeError(f"Expected four tables in anonymized resume, got {len(d.tables)}")
+    t0, t1, t2, t3 = d.tables
+
+    d.core_properties.title = "AI Infra Resume - Anonymous"
+    d.core_properties.author = "Anonymous Candidate"
+    d.core_properties.subject = "AI Infrastructure Resume"
+
+    set_cell(t0.cell(0, 0), "匿名候选人", latin=EN_FONT, east_asia=CN_BODY, size=26, alignment=WD_ALIGN_PARAGRAPH.CENTER)
+    set_cell(t0.cell(1, 0), "联系方式：可在面试阶段提供", latin=CN_BODY, east_asia=CN_BODY, size=10, alignment=WD_ALIGN_PARAGRAPH.CENTER)
+    set_section_cell(t0.cell(3, 0), "教育经历")
+    set_cell(t0.cell(4, 0), "硕士在读", latin=CN_HEADING, east_asia=CN_HEADING, size=9, bold=True)
+    set_cell(t0.cell(4, 1), "某港校", latin=CN_HEADING, east_asia=CN_HEADING, size=9, bold=True)
+    set_cell(t0.cell(4, 2), "集成电路与系统", latin=CN_HEADING, east_asia=CN_HEADING, size=9, bold=True, alignment=WD_ALIGN_PARAGRAPH.RIGHT)
+    set_cell(t0.cell(5, 0), "本科", latin=CN_HEADING, east_asia=CN_HEADING, size=9, bold=True)
+    set_cell(t0.cell(5, 1), "某985高校", latin=CN_HEADING, east_asia=CN_HEADING, size=9, bold=True)
+    set_cell(t0.cell(5, 2), "电子/计算机相关专业", latin=CN_HEADING, east_asia=CN_HEADING, size=9, bold=True, alignment=WD_ALIGN_PARAGRAPH.RIGHT)
+    set_cell(t0.cell(6, 0), "获得荣誉：校级学业奖学金（前20%）及竞赛创新奖学金", latin=EN_FONT, east_asia=CN_BODY, size=10)
+
+    rows = t1.rows
+    set_section_cell(rows[0].cells[0], "实习经历")
+    set_cell(rows[1].cells[0], "近期", latin=CN_HEADING, east_asia=CN_HEADING, size=9, bold=True)
+    set_cell(rows[1].cells[1], "某量化机构 AI 研究院", latin=CN_HEADING, east_asia=CN_HEADING, size=9, bold=True)
+    set_cell(rows[1].cells[3], "大模型与高性能计算实习生", latin=CN_HEADING, east_asia=CN_HEADING, size=9, bold=True, alignment=WD_ALIGN_PARAGRAPH.RIGHT)
+    cell = body_cell(d, rows[2].cells[0])
+    body_size = 8.45
+    add_bullet(cell, "百亿级 MoE 基座模型开发与优化：", "参与训练、推理与RL rollout基础设施开发，围绕训练算子、推理算子和训推一致性完成性能优化、稳定性排障与多卡验证。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=6, line_spacing=1.1)
+    add_group(cell, "训练算子支持", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=2.5, line_spacing=1.1)
+    add_numbered(cell, 1, "FA3 deterministic SWA backward：", "定位长序列变长滑窗Attention deterministic backward回退的dQ依赖链，并在原fused kernel内完成ticket与scheduler对齐；代表shape完整backward由6.755 ms降至1.699 ms（3.98×），3601/3601回归和1000次逐位重复通过。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
+    add_numbered(cell, 2, "Sink FC1 GEMM 与通信竞争控核：", "构建4×H200双stream代理，以NCCL CTA预算和DeepGEMM SM budget控制通信、计算资源，完成121组粗扫和89组细扫；AllGatherV代理中联合span降低12.80%，其中控核独立贡献7.58%。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
+    add_group(cell, "推理算子支持", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=2.5, line_spacing=1.1)
+    add_numbered(cell, 1, "CUDA Graph 确定性 MoE Router GEMM：", "在推理引擎中接入多后端选择、capture前preflight、cache/fallback与workspace生命周期；48层Router GEMM中位耗时降低73.39%，135/135 kernel和20/20模型场景逐位一致。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
+    add_numbered(cell, 2, "OE 异步状态算子：", "将历史token构造保留在GPU，并修复prefill/decode/mixed batch/恢复/slot reuse/reorder的跨step状态；TP1 28/28 case通过、吞吐+4.99%，TP2/TP4均84/84、0 mismatch。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
+    add_group(cell, "RL 训推一致性与 Rollout 稳定性", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=2.5, line_spacing=1.1)
+    add_numbered(cell, 1, "Router Replay 与多卡可观测性：", "打通路由采集、传输、训练侧回放与指标闭环；代表性MoE模型20-step对照中，route mismatch由17%-19%降至0，fτ²/KL分别降低36-145×/4-7×，并扩展至128卡监控运行。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
+    add_numbered(cell, 2, "CUDA Graph hang 排查与修复：", "以两卡最小复现和TP/Graph/fused控制变量定位FTZ导致的Lamport sentinel误判，采用0x80000000位级判断修复；模型级Graph on/off回归中未再出现hang或timeout。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
+    p = cell.add_paragraph()
+    compact_paragraph(p, space_after=5.5, line_spacing=1.1, left=0, first=0)
+    add_run(p, "此前", latin=CN_HEADING, east_asia=CN_HEADING, size=8.75, bold=True)
+    add_run(p, "                               某GPU厂商                               算子与编译器优化实习生", latin=CN_HEADING, east_asia=CN_HEADING, size=8.75, bold=True)
+    add_bullet(cell, "TensorFlow设备后端、图优化与稳定性：", "完成GELU接入、融合修复与热点路径优化，推动整网11个GELU融合、真实shape耗时降低36.6%；重构HostMemory路径使1000轮成功率达到100%，并完成长跑验证。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
+
+    rows = t2.rows
+    set_section_cell(rows[0].cells[0], "开源贡献")
+    set_cell(rows[1].cells[0], "近年", latin=CN_HEADING, east_asia=CN_HEADING, size=9, bold=True)
+    set_cell(rows[1].cells[2], "外部开源贡献", latin=CN_HEADING, east_asia=CN_HEADING, size=9, bold=True, alignment=WD_ALIGN_PARAGRAPH.RIGHT)
+    cell = body_cell(d, rows[2].cells[0])
+    add_bullet(cell, "已合入多个外部项目PR：", "涉及存储持久化、RDMA端口恢复、内存注销生命周期、队列失败传播及算子边界条件修复。", latin=EN_FONT, east_asia=CN_BODY, body_size=8.55, space_after=4, line_spacing=1.1)
+    set_section_cell(rows[3].cells[0], "项目与科研")
+    set_cell(rows[4].cells[0], "近期", latin=CN_HEADING, east_asia=CN_HEADING, size=9, bold=True)
+    set_cell(rows[4].cells[1], "", latin=CN_HEADING, east_asia=CN_HEADING, size=9, bold=True)
+    set_cell(rows[4].cells[2], "高性能大模型量化推理 Runtime", latin=CN_HEADING, east_asia=CN_HEADING, size=9, bold=True, alignment=WD_ALIGN_PARAGRAPH.RIGHT)
+    cell = body_cell(d, rows[5].cells[0])
+    add_bullet(cell, "量化 Runtime 部署与TP扩展：", "完成多精度后端、Attention与多卡构建适配，定位并修复量化GEMV尾组越界；实现TP=2切分与all-reduce，代表性双卡模型显存显著降低、输出吞吐提升76.8%。", latin=EN_FONT, east_asia=CN_BODY, body_size=8.55, space_after=5.5, line_spacing=1.1)
+    set_cell(rows[6].cells[0], "近期", latin=CN_HEADING, east_asia=CN_HEADING, size=9, bold=True)
+    set_cell(rows[6].cells[1], "", latin=CN_HEADING, east_asia=CN_HEADING, size=9, bold=True)
+    set_cell(rows[6].cells[2], "关键Token加权 CoT 蒸馏研究", latin=CN_HEADING, east_asia=CN_HEADING, size=8.7, bold=True, alignment=WD_ALIGN_PARAGRAPH.RIGHT)
+    cell = body_cell(d, rows[7].cells[0])
+    add_bullet(cell, "训练与评测：", "负责训练、调优与多卡评测，将token重要性用于加权监督；7B模型在两个数学推理基准上分别达到94.01%/94.00%，较最强基线提升5.51/10.10个百分点。", latin=EN_FONT, east_asia=CN_BODY, body_size=8.55, space_after=5.5, line_spacing=1.1)
+
+    set_section_cell(t3.cell(0, 0), "综合素质")
+    cell = body_cell(d, t3.cell(1, 0))
+    add_bullet(cell, "技术方向：", "GPU高性能算子开发与大模型训练/推理系统优化。", latin=EN_FONT, east_asia=CN_BODY, body_size=8.7, space_after=4, line_spacing=1.1)
+    add_bullet(cell, "开发与性能工程：", "C/C++、Python、CUDA、Triton、PyTorch Extension；熟悉Nsys、NCU与Compute Sanitizer。", latin=EN_FONT, east_asia=CN_BODY, body_size=8.7, space_after=4, line_spacing=1.1)
+    add_bullet(cell, "语言：", "IELTS 6.5、CET-6，具备英文技术文档阅读与跨仓源码分析能力。", latin=EN_FONT, east_asia=CN_BODY, body_size=8.7, space_after=0, line_spacing=1.1)
+    if word_watermark:
+        add_word_watermark(d, WATERMARK_TEXT)
     d.save(output)
 
 
@@ -310,6 +416,7 @@ def update_english_resume(source: Path, output: Path):
 
     cell = body_cell(d, internship_rows[2].cells[0])
     body_size = 8.0
+    add_bullet(cell, "300B-class MoE foundation model development and optimization: ", "Developing training, inference, and RL-rollout infrastructure for an internal 300B-class MoE foundation model, with ownership spanning kernel performance, runtime stability, and multi-GPU validation.", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=0.45)
     add_group(cell, "Training Kernel Support", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size)
     add_numbered(cell, 1, "FA3 deterministic SWA backward: ", "Used Nsys/NCU factorization to attribute 99.67% of deterministic overhead to the dQ semaphore chain. Implemented contributor-relative tickets aligned with the reverse scheduler in the fused kernel, with no new kernel/workspace/D2H and a short-sequence fallback. Cut packed backward from 6.755 to 1.699 ms (3.98x), achieved 1.59-5.37x at 2K-12K, and passed 3,601/3,601 regressions plus 1,000 bitwise repeats.", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size)
     add_numbered(cell, 2, "Sink FC1 GEMM and communication contention: ", "Corrected FC1 to BF16 8192x3072x3072 and isolated cross-stream communication contention rather than a slow GEMM. Built a 4xH200 dual-stream proxy, sweeping NCCL CTA budgets and DeepGEMM SM budgets (121 coarse, 89 fine) with Nsys grid/overlap checks. In the AllGather proxy, 12 CTA + DG120 reduced joint span by 12.80%, including 7.58% independent gain from compute throttling; AllToAll gains were attributed to communication parallelism.", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size)
@@ -317,7 +424,7 @@ def update_english_resume(source: Path, output: Path):
     add_numbered(cell, 1, "Deterministic MoE Router GEMM under CUDA Graph: ", "Integrated DeepGEMM, Triton Full-K, and persistent backends in vLLM; owned the tensor-signature selector, pre-capture numeric/graph preflight, cache/fallback, workspace lifecycle, and path tests. Replay freezes the backend decision. Reduced median latency of 48 router GEMMs by 73.39%, passed 135/135 kernel and 20/20 model bitwise checks, and improved prefix-cache-hit request throughput by 3.81%/4.36% on TP1/TP2.", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size)
     add_numbered(cell, 2, "Asynchronous OE state operator: ", "Kept recent-token history and oe_input_ids construction on GPU with Triton fused hashing, fixing cross-step state for prefill/decode/mixed batches/recovery/slot reuse/reorder. Passed 28/28 TP1 cases with +4.99% throughput; the TP>1 async-unfused batch-invariant path reached 84/84 with zero mismatches and +4.6%/+3.0% decode throughput on TP2/TP4.", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size)
     add_group(cell, "RL Training-Inference Consistency and Rollout Reliability", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size)
-    add_numbered(cell, 1, "R3 Router Replay and multi-GPU observability: ", "Built token/layer/top-k route capture, transport, training-side replay, response-mask alignment, and mismatch/f-tau2/KL diagnostics between vLLM and Megatron. On 8xH200/Qwen3-30B-A3B, reduced route mismatch from 17-19% to 0, f-tau2 by 36-145x, and KL by 4-7x; extended to a monitored 128-GPU, 200-step rollout with aligned key metrics.", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size)
+    add_numbered(cell, 1, "R3 Router Replay and multi-GPU observability: ", "Built token/layer/top-k route capture, transport, training-side replay, response-mask alignment, and mismatch/f-tau2/KL diagnostics between vLLM and Megatron. On 8xH200/Qwen3-30B-A3B, reduced route mismatch from 17-19% to 0, f-tau2 by 36-145x, and KL by 4-7x; extended to a monitored 128-GPU, 200-step rollout on an internal 300B-class MoE foundation model with aligned key metrics.", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size)
     add_numbered(cell, 2, "FlashInfer CUDA Graph hang: ", "Reproduced a vLLM TP=2 FULL CUDA Graph rollout hang on two H200 GPUs. TP/eager/graph/fused controls traced it to FTZ misclassifying a Lamport -0.0 sentinel in fused AllReduce + RMSNorm. Backported the upstream 0x80000000 bitwise fix; repeated model graph on/off replays had no hang or timeout.", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size)
     p = cell.add_paragraph()
     compact_paragraph(p, space_after=0.55, line_spacing=1.0)
@@ -344,13 +451,14 @@ def update_english_resume(source: Path, output: Path):
     set_cell(internship_rows[7].cells[1], "", latin=EN_FONT, east_asia=CN_BODY, size=9, bold=True)
     set_cell(internship_rows[7].cells[2], "High-Performance Quantized LLM Runtime with PyTorch Extensions", latin=EN_FONT, east_asia=CN_BODY, size=8.8, bold=True, alignment=WD_ALIGN_PARAGRAPH.RIGHT)
     cell = body_cell(d, internship_rows[8].cells[0])
-    add_bullet(cell, "Quantized runtime, kernel debugging, and TP2 deployment: ", "Added configurable FlashAttention-2/4, GQA KV-head expansion, soft-cap masking, SDPA fallback, and multi-GPU builds to a W4A16/W8A8/FP8 runtime. Used Compute Sanitizer to fix a tail-group out-of-bounds access and implemented packed-AWQ TP=2 sharding with NCCL all-reduce. All four Sanitizer modes passed representative shapes; two-GPU Qwen2.5-Coder-32B W4A16 reduced checkpoint/peak memory by 70.5%/66.8% and increased end-to-end output throughput by 76.8%.", latin=EN_FONT, east_asia=CN_BODY, body_size=8.0, space_after=0.1)
+    add_bullet(cell, "H200 quantized-runtime deployment and TP2 extension: ", "To deliver 32B quantized inference on two H200 GPUs, owned W4A16/W8A8/FP8 backend adaptation, FlashAttention-2/4 and GQA/soft-cap/SDPA integration, and kernel debugging. Used Compute Sanitizer to fix a tail-group out-of-bounds access, then implemented packed-AWQ TP=2 sharding with NCCL all-reduce. All four Sanitizer modes passed representative shapes; two-GPU Qwen2.5-Coder-32B W4A16 reduced checkpoint/peak memory by 70.5%/66.8% and increased end-to-end output throughput by 76.8%.", latin=EN_FONT, east_asia=CN_BODY, body_size=8.0, space_after=0.2)
+    clear_row_height(internship_rows[8])
     set_cell(internship_rows[9].cells[0], "Jan 2026 - Present", latin=EN_FONT, east_asia=CN_BODY, size=9, bold=True)
     set_cell(internship_rows[9].cells[1], "", latin=EN_FONT, east_asia=CN_BODY, size=9, bold=True)
     p = set_cell(internship_rows[9].cells[2], "Token-Weighted CoT Distillation | AAAI 2027 Submission | ", latin=EN_FONT, east_asia=CN_BODY, size=8.5, bold=True, alignment=WD_ALIGN_PARAGRAPH.RIGHT)
     add_hyperlink(p, "Code", "https://github.com/jokerhan01/cot-main", latin=EN_FONT, east_asia=CN_BODY, size=8.5)
     cell = body_cell(d, internship_rows[10].cells[0])
-    add_bullet(cell, "Method and results: ", "Trained and tuned a three-stage structure-recovery, token-weighted supervision, and preference-optimization pipeline; token importance was estimated from reference-answer likelihood drops after teacher-rationale perturbations. Completed LoRA/DPO training and vLLM TP=4 evaluation. Qwen2.5-7B-Instruct reached 94.01%/94.00% on GSM8K/SVAMP, +5.51/+10.10 points over the strongest baselines; manuscript submitted to AAAI 2027.", latin=EN_FONT, east_asia=CN_BODY, body_size=8.0, space_after=0.1)
+    add_bullet(cell, "Token-weighted CoT distillation: ", "To address the lack of token-level importance awareness in generic CoT distillation, contributed to a three-stage structure-recovery, token-weighted supervision, and preference-optimization pipeline. Owned training, hyperparameter tuning, and vLLM TP=4 evaluation; estimated importance from reference-answer likelihood drops after teacher-rationale perturbations and applied it to weighted SFT plus an auxiliary loss. Qwen2.5-7B-Instruct reached 94.01%/94.00% on GSM8K/SVAMP, +5.51/+10.10 points over the strongest baselines; manuscript submitted to AAAI 2027.", latin=EN_FONT, east_asia=CN_BODY, body_size=8.0, space_after=0.1)
 
     set_section_cell(t2.cell(0, 0), "SKILLS", english=True)
     cell = body_cell(d, t2.cell(1, 0))
@@ -468,28 +576,27 @@ def watermark_pdf_in_place(pdf_path: Path, text: str) -> bool:
 
 def main():
     TMP_ROOT.mkdir(parents=True, exist_ok=True)
-    temp_ch_docx = TMP_ROOT / CH_DOCX.name
-    temp_en_docx = TMP_ROOT / EN_DOCX.name
-    temp_intro_docx = TMP_ROOT / INTERVIEW_DOCX.name
-    update_chinese_resume(CH_DOCX, temp_ch_docx)
-    update_english_resume(EN_DOCX, temp_en_docx)
-    update_interview_intro(INTERVIEW_DOCX, temp_intro_docx)
-    temp_ch_pdf = convert_to_pdf(temp_ch_docx, TMP_ROOT)
-    temp_en_pdf = convert_to_pdf(temp_en_docx, TMP_ROOT)
-    assert_two_pages(temp_ch_pdf)
-    assert_two_pages(temp_en_pdf)
+    temp_anonymous_docx = TMP_ROOT / ANON_DOCX.name
+    temp_english_docx = TMP_ROOT / EN_DOCX.name
+    update_anonymous_chinese_resume(CH_DOCX, temp_anonymous_docx, word_watermark=False)
+    update_english_resume(EN_DOCX, temp_english_docx)
+    temp_anonymous_pdf = convert_to_pdf(temp_anonymous_docx, TMP_ROOT)
+    temp_english_pdf = convert_to_pdf(temp_english_docx, TMP_ROOT)
+    assert_two_pages(temp_anonymous_pdf)
+    assert_two_pages(temp_english_pdf)
 
-    # Install only after both document/PDF pairs pass the page-count gate.
-    os.replace(temp_ch_docx, CH_DOCX)
-    os.replace(temp_en_docx, EN_DOCX)
-    os.replace(temp_intro_docx, INTERVIEW_DOCX)
-    os.replace(temp_ch_pdf, CH_PDF)
-    os.replace(temp_en_pdf, EN_PDF)
+    # The DOCX watermark is inserted after conversion; the PDF uses a raster
+    # overlay for reliable CJK rendering in all common viewers.
+    anonymous_doc = Document(temp_anonymous_docx)
+    add_word_watermark(anonymous_doc, WATERMARK_TEXT)
+    anonymous_doc.save(temp_anonymous_docx)
+    watermark_pdf_in_place(temp_anonymous_pdf, WATERMARK_TEXT)
 
-    changed = 0
-    for pdf_path in sorted(WATERMARK_DIR.glob("*.pdf")):
-        changed += int(watermark_pdf_in_place(pdf_path, WATERMARK_TEXT))
-    print(f"updated resumes; watermarked {changed} PDF files")
+    os.replace(temp_anonymous_docx, ANON_DOCX)
+    os.replace(temp_anonymous_pdf, ANON_PDF)
+    os.replace(temp_english_docx, EN_DOCX)
+    os.replace(temp_english_pdf, EN_PDF)
+    print("updated anonymous Chinese resume and English resume")
 
 
 if __name__ == "__main__":
