@@ -5,6 +5,8 @@
 ## 常用入口
 
 - 当前中文简历：[Word](doc/冯浩然_AiInfra香港中文大学_15024999885.docx) / [PDF](doc/冯浩然_AiInfra香港中文大学_15024999885.pdf)
+- 训练优化定向版：[Word](doc/冯浩然_AIInfra中文简历_训练优化版.docx) / [PDF](doc/冯浩然_AIInfra中文简历_训练优化版.pdf)
+- 推理优化定向版：[Word](doc/冯浩然_AIInfra中文简历_推理优化版.docx) / [PDF](doc/冯浩然_AIInfra中文简历_推理优化版.pdf)
 - 当前英文简历：[Word](doc/Haoran_Feng_AIInfra_Resume.docx) / [PDF](doc/Haoran_Feng_AIInfra_Resume.pdf)
 - 可分享匿名简历：[Word](doc/AIInfra中文简历_匿名版_小红书水印.docx) / [PDF](doc/AIInfra中文简历_匿名版_小红书水印.pdf)
 - 面试介绍：[Markdown](doc/面试介绍精简版.md) / [Word](doc/面试介绍精简版.docx)

@@ -15,6 +15,8 @@ import shutil
 import subprocess
 from copy import deepcopy
 from pathlib import Path
+from xml.etree import ElementTree
+from zipfile import ZipFile
 
 from docx import Document
 from docx.enum.table import WD_CELL_VERTICAL_ALIGNMENT
@@ -25,6 +27,7 @@ from docx.opc.constants import RELATIONSHIP_TYPE
 from docx.shared import Inches, Pt, RGBColor
 from PIL import Image, ImageDraw, ImageFont
 from pypdf import PdfReader, PdfWriter
+from pypdf.annotations import Link
 from reportlab.lib.utils import ImageReader
 from reportlab.pdfgen import canvas
 
@@ -35,6 +38,10 @@ TMP_ROOT = ROOT / "tmp" / "pdfs" / "resume_update_20260915"
 
 CH_DOCX = DOC_DIR / "冯浩然_AiInfra香港中文大学_15024999885.docx"
 CH_PDF = DOC_DIR / "冯浩然_AiInfra香港中文大学_15024999885.pdf"
+TRAIN_DOCX = DOC_DIR / "冯浩然_AIInfra中文简历_训练优化版.docx"
+TRAIN_PDF = DOC_DIR / "冯浩然_AIInfra中文简历_训练优化版.pdf"
+INFER_DOCX = DOC_DIR / "冯浩然_AIInfra中文简历_推理优化版.docx"
+INFER_PDF = DOC_DIR / "冯浩然_AIInfra中文简历_推理优化版.pdf"
 EN_DOCX = DOC_DIR / "Haoran_Feng_AIInfra_Resume.docx"
 EN_PDF = DOC_DIR / "Haoran_Feng_AIInfra_Resume.pdf"
 ANON_DOCX = DOC_DIR / "AIInfra中文简历_匿名版_小红书水印.docx"
@@ -44,6 +51,9 @@ WATERMARK_DIR = ROOT / "小红书商品" / "面试"
 WATERMARK_TEXT = "小红书小冯别放弃"
 WATERMARK_VERSION = "raster-v2"
 WATERMARK_FONT = "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc"
+PERSONAL_WEBSITE = "https://xfdg.github.io/"
+MOONCAKE_PRS_URL = "https://github.com/kvcache-ai/Mooncake/pulls?q=is%3Apr+is%3Amerged"
+MIRAGE_PR_URL = "https://github.com/mirage-project/mirage/pull/755"
 
 CN_BODY = "宋体"
 CN_HEADING = "黑体"
@@ -77,6 +87,17 @@ def set_cell(cell, text: str, *, latin: str, east_asia: str, size: float, bold=F
     p.paragraph_format.line_spacing = 1.0
     run = p.add_run(text)
     set_run_font(run, latin=latin, east_asia=east_asia, size=size, bold=bold)
+    return p
+
+
+def set_contact_cell(cell, prefix: str, link_label: str, *, latin: str, east_asia: str, size: float):
+    """Set the centered contact line and retain an actual Word hyperlink."""
+    p = reset_cell(cell)
+    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p.paragraph_format.space_after = Pt(0)
+    p.paragraph_format.line_spacing = 1.0
+    add_run(p, prefix, latin=latin, east_asia=east_asia, size=size)
+    add_hyperlink(p, link_label, PERSONAL_WEBSITE, latin=latin, east_asia=east_asia, size=size)
     return p
 
 
@@ -224,7 +245,14 @@ def update_chinese_resume(source: Path, output: Path):
     t0, t1, t2 = resume_template_tables(d)
 
     set_cell(t0.cell(0, 0), "冯浩然", latin=EN_FONT, east_asia=CN_BODY, size=26, alignment=WD_ALIGN_PARAGRAPH.CENTER)
-    set_cell(t0.cell(1, 0), "电话：(+86)15024999885   邮箱：225010160@link.cuhk.edu.cn   个人网站", latin=CN_BODY, east_asia=CN_BODY, size=10, alignment=WD_ALIGN_PARAGRAPH.CENTER)
+    set_contact_cell(
+        t0.cell(1, 0),
+        "电话：(+86)15024999885   邮箱：225010160@link.cuhk.edu.cn   个人网站：",
+        "xfdg.github.io",
+        latin=CN_BODY,
+        east_asia=CN_BODY,
+        size=10,
+    )
     set_section_cell(t0.cell(3, 0), "教育经历")
     set_cell(t0.cell(4, 0), "2025.09-2027.06(预计)", latin=CN_HEADING, east_asia=CN_HEADING, size=9, bold=True)
     set_cell(t0.cell(4, 1), "香港中文大学（深圳）", latin=CN_HEADING, east_asia=CN_HEADING, size=9, bold=True)
@@ -283,8 +311,7 @@ def update_chinese_resume(source: Path, output: Path):
     clear_row_height(internship_rows[8])
     set_cell(internship_rows[9].cells[0], "2026.01-至今", latin=CN_HEADING, east_asia=CN_HEADING, size=9, bold=True)
     set_cell(internship_rows[9].cells[1], "", latin=CN_HEADING, east_asia=CN_HEADING, size=9, bold=True)
-    p = set_cell(internship_rows[9].cells[2], "关键 Token 加权的思维链蒸馏｜AAAI 2027 已投稿｜", latin=CN_HEADING, east_asia=CN_HEADING, size=8.7, bold=True, alignment=WD_ALIGN_PARAGRAPH.RIGHT)
-    add_hyperlink(p, "项目代码", "https://github.com/jokerhan01/cot-main", latin=CN_HEADING, east_asia=CN_HEADING, size=8.7)
+    set_cell(internship_rows[9].cells[2], "关键 Token 加权的思维链蒸馏｜AAAI 2027 已投稿", latin=CN_HEADING, east_asia=CN_HEADING, size=8.7, bold=True, alignment=WD_ALIGN_PARAGRAPH.RIGHT)
     cell = body_cell(d, internship_rows[10].cells[0])
     add_bullet(cell, "关键Token加权 CoT 蒸馏：", "针对通用CoT蒸馏对关键推理token区分不足的问题，参与“结构恢复—关键Token加权监督—偏好优化”三阶段框架，负责模型训练、超参调优与vLLM TP=4评测；以逐token扰动教师推理后参考答案生成似然的下降量估计重要性，并将其用于加权SFT与辅助损失。完成LoRA/DPO训练后，Qwen2.5-7B-Instruct在GSM8K/SVAMP取得94.01%/94.00% accuracy，较最强基线提升5.51/10.10个百分点；论文已投稿AAAI 2027。", latin=EN_FONT, east_asia=CN_BODY, body_size=8.55, space_after=5.5, line_spacing=1.1)
 
@@ -295,6 +322,76 @@ def update_chinese_resume(source: Path, output: Path):
     add_bullet(cell, "语言与证书：", "IELTS 6.5、CET-6，持有华为HCIA-AI认证；具备英文技术文档阅读、检索与跨仓源码分析能力。", latin=EN_FONT, east_asia=CN_BODY, body_size=8.7, space_after=0, line_spacing=1.1)
 
     move_tail_rows_to_next_page(t1, 3)
+    d.save(output)
+
+
+def update_chinese_resume_variant(source: Path, output: Path, *, focus: str):
+    """Create a two-page Chinese resume with a training or inference emphasis."""
+    update_chinese_resume(source, output)
+    d = Document(output)
+    if len(d.tables) != 4:
+        raise RuntimeError(f"Expected four tables in focused resume, got {len(d.tables)}")
+    _, internship, projects, skills = d.tables
+    body_size = 8.45
+
+    cell = body_cell(d, internship.rows[2].cells[0])
+    if focus == "training":
+        configure_resume_metadata(d, title="冯浩然 - AI Infra 训练优化简历")
+        add_bullet(cell, "300B 级 MoE 基座模型训练优化：", "参与内部300B级MoE基座模型训练、RL rollout与推理基础设施开发，重点解决Attention反向、MoE GEMM-通信竞争、训推路由一致性与多卡稳定性问题。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=6, line_spacing=1.1)
+        add_group(cell, "训练算子优化（重点）", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=2.5, line_spacing=1.1)
+        add_numbered(cell, 1, "FA3 deterministic SWA backward 的 dQ 依赖链调度优化：", "通过Nsys/NCU与dQ/dK/dV因子隔离，定位dQ semaphore依赖链占确定性增量99.67%；在原fused kernel内将绝对ticket改为contributor-relative ticket，并使reverse scheduler与归约顺序对齐，不新增kernel/workspace/D2H。代表packed shape完整backward由6.755 ms降至1.699 ms（3.98×），2K-12K加速1.59-5.37×；1000次bitwise与3601/3601回归通过。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
+        add_numbered(cell, 2, "Sink FC1 GEMM 与通信竞争控核探究：", "训练trace显示跨stream SendRecv/AllGatherV使FC1额外退化15.48%/28.73%；搭建4×H200双stream代理，以NCCL CTA预算控制通信并行度、DeepGEMM SM budget控制计算资源，完成121组粗扫、89组细扫及Nsys重叠验证。AllGatherV代理中12 CTA + DG120使联合span降低12.80%，同通信设置下控核独立贡献7.58%。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
+        add_group(cell, "RL 训推一致性与 Rollout 稳定性", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=2.5, line_spacing=1.1)
+        add_numbered(cell, 1, "R3 Router Replay 与多卡可观测性：", "打通[token, MoE-layer, top-k] route采集、传输与训练侧回放，建立response-mask对齐、异常检测及route mismatch/fτ²/KL闭环；8×H200、Qwen3-30B-A3B BF16的20-step对照中，route mismatch由17%-19%降至0，fτ²/KL分别降低36-145×/4-7×。进一步在内部300B级MoE基座模型完成128卡单轮200-step rollout与SwanLab监控。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
+        add_numbered(cell, 2, "FlashInfer CUDA Graph hang 排查与修复：", "针对H200、vLLM TP=2 FULL CUDA Graph rollout卡死，构建两卡最小复现，经TP/Graph/fused控制变量将根因收敛至fused AllReduce + RMSNorm中Lamport -0.0 sentinel的FTZ误判；回移0x80000000位级判断后，模型级Graph on/off重复回归未再出现hang或timeout。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
+        add_group(cell, "推理算子工程经验", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=2.5, line_spacing=1.1)
+        add_numbered(cell, 1, "CUDA Graph 确定性 MoE Router GEMM：", "在vLLM中接入DeepGEMM/Triton Full-K/persistent三级后端，完成selector、capture前preflight、cache/fallback与workspace生命周期；48层Router GEMM中位耗时降低73.39%，135/135 kernel和20/20模型场景逐位一致。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
+        add_numbered(cell, 2, "OE 异步状态算子：", "将recent-token history与oe_input_ids构造保留在GPU，修复prefill/decode/mixed batch/恢复/slot reuse/reorder的跨step状态；TP1 28/28 case通过、吞吐较sync +4.99%，TP2/TP4均84/84、0 mismatch。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
+
+        set_cell(projects.rows[4].cells[0], "2026.01-至今", latin=CN_HEADING, east_asia=CN_HEADING, size=9, bold=True)
+        set_cell(projects.rows[4].cells[2], "关键 Token 加权的思维链蒸馏｜AAAI 2027 已投稿", latin=CN_HEADING, east_asia=CN_HEADING, size=8.7, bold=True, alignment=WD_ALIGN_PARAGRAPH.RIGHT)
+        cell = body_cell(d, projects.rows[5].cells[0])
+        add_bullet(cell, "关键Token加权 CoT 蒸馏：", "针对通用CoT蒸馏对关键推理token区分不足的问题，参与“结构恢复—关键Token加权监督—偏好优化”三阶段框架，负责模型训练、超参调优与vLLM TP=4评测；以逐token扰动教师推理后参考答案生成似然的下降量估计重要性，并将其用于加权SFT与辅助损失。Qwen2.5-7B-Instruct在GSM8K/SVAMP取得94.01%/94.00% accuracy，较最强基线提升5.51/10.10个百分点。", latin=EN_FONT, east_asia=CN_BODY, body_size=8.55, space_after=5.5, line_spacing=1.1)
+        set_cell(projects.rows[6].cells[0], "2025.12-至今", latin=CN_HEADING, east_asia=CN_HEADING, size=9, bold=True)
+        set_cell(projects.rows[6].cells[2], "基于 PyTorch Extension 的高性能 LLM 量化推理 Runtime 开发", latin=CN_HEADING, east_asia=CN_HEADING, size=9, bold=True, alignment=WD_ALIGN_PARAGRAPH.RIGHT)
+        cell = body_cell(d, projects.rows[7].cells[0])
+        add_bullet(cell, "H200 量化 Runtime 与TP2扩展：", "完成W4A16/W8A8/FP8、FlashAttention-2/4与GQA/softcap/SDPA链路适配，定位并修复量化GEMV尾组越界；实现packed-AWQ TP=2切分与NCCL all-reduce。32B W4A16在双H200上使checkpoint/峰值显存降低70.5%/66.8%，端到端输出吞吐提升76.8%。", latin=EN_FONT, east_asia=CN_BODY, body_size=8.55, space_after=5.5, line_spacing=1.1)
+        skill_focus = "聚焦GPU训练算子与大模型训练优化，具备Attention deterministic backward、MoE GEMM-通信竞争、RL训推一致性和多卡性能/正确性验证经验。"
+    elif focus == "inference":
+        configure_resume_metadata(d, title="冯浩然 - AI Infra 推理优化简历")
+        add_bullet(cell, "300B 级 MoE 基座模型推理与 Rollout 优化：", "参与内部300B级MoE基座模型推理、RL rollout与训练基础设施开发，重点解决CUDA Graph确定性、Router GEMM选核、异步状态管理、量化Runtime与多卡稳定性问题。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=6, line_spacing=1.1)
+        add_group(cell, "推理算子优化（重点）", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=2.5, line_spacing=1.1)
+        add_numbered(cell, 1, "CUDA Graph 下的确定性 MoE Router GEMM：", "在vLLM接入DeepGEMM/Triton Full-K/persistent三级后端，完成selector、capture前preflight、cache/fallback、workspace与路径回归，replay固化后端。48层Router GEMM中位耗时下降73.39%，135/135 kernel、20/20模型场景逐位一致，prefix-cache hit下TP1/TP2整请求性能提升3.81%/4.36%。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
+        add_numbered(cell, 2, "OE 异步状态算子：", "将recent-token history与oe_input_ids构造保留在GPU，以Triton fused-hash消除同步与回传，并修复prefill/decode/mixed batch/恢复/slot reuse/reorder的跨step状态；TP1 28/28 case通过、吞吐较sync +4.99%，TP2/TP4均84/84、0 mismatch，decode吞吐+4.6%/+3.0%。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
+        add_group(cell, "RL 训推一致性与 Rollout 稳定性", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=2.5, line_spacing=1.1)
+        add_numbered(cell, 1, "R3 Router Replay 与多卡可观测性：", "打通rollout路由采集、传输、训练侧回放与response-mask/mismatch/fτ²/KL闭环；8×H200、20-step对照中route mismatch由17%-19%降至0，fτ²/KL降低36-145×/4-7×，并扩展至128卡内部300B级模型的200-step监控运行。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
+        add_numbered(cell, 2, "FlashInfer CUDA Graph hang 排查与修复：", "以H200两卡最小复现和TP/Graph/fused控制变量定位fused AllReduce + RMSNorm中Lamport -0.0 sentinel的FTZ误判；采用0x80000000位级判断修复后，模型级Graph on/off重复回归未再出现hang或timeout。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
+        add_group(cell, "训练算子优化经验", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=2.5, line_spacing=1.1)
+        add_numbered(cell, 1, "FA3 deterministic SWA backward：", "定位dQ semaphore依赖链占确定性增量99.67%，在原fused kernel内完成contributor-relative ticket与reverse scheduler对齐；代表shape完整backward由6.755 ms降至1.699 ms（3.98×），3601/3601回归和1000次bitwise重复通过。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
+        add_numbered(cell, 2, "Sink FC1 GEMM 与通信竞争控核：", "在4×H200双stream代理中以NCCL CTA预算与DeepGEMM SM budget控核，完成121组粗扫和89组细扫；AllGatherV联合span降低12.80%，其中控核独立贡献7.58%。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
+
+        set_cell(projects.rows[4].cells[0], "2025.12-至今", latin=CN_HEADING, east_asia=CN_HEADING, size=9, bold=True)
+        set_cell(projects.rows[4].cells[2], "基于 PyTorch Extension 的高性能 LLM 量化推理 Runtime 开发", latin=CN_HEADING, east_asia=CN_HEADING, size=9, bold=True, alignment=WD_ALIGN_PARAGRAPH.RIGHT)
+        cell = body_cell(d, projects.rows[5].cells[0])
+        add_bullet(cell, "H200 量化 Runtime 部署与TP2扩展：", "为在H200双卡交付32B量化模型推理，负责W4A16/W8A8/FP8后端适配、FlashAttention-2/4与GQA/softcap/SDPA链路接入，并以Compute Sanitizer定位gemv_kernel_g128尾组越界、补充边界保护；进一步实现Qwen2 packed-AWQ TP=2列/行切分与NCCL all-reduce。代表shape四类Sanitizer检查均为0 error/0 hazard；Qwen2.5-Coder-32B W4A16使checkpoint/峰值显存降低70.5%/66.8%，端到端输出吞吐提升76.8%。", latin=EN_FONT, east_asia=CN_BODY, body_size=8.55, space_after=5.5, line_spacing=1.1)
+        set_cell(projects.rows[6].cells[0], "2026.01-至今", latin=CN_HEADING, east_asia=CN_HEADING, size=9, bold=True)
+        set_cell(projects.rows[6].cells[2], "关键 Token 加权的思维链蒸馏｜AAAI 2027 已投稿", latin=CN_HEADING, east_asia=CN_HEADING, size=8.7, bold=True, alignment=WD_ALIGN_PARAGRAPH.RIGHT)
+        cell = body_cell(d, projects.rows[7].cells[0])
+        add_bullet(cell, "关键Token加权 CoT 蒸馏：", "负责训练、超参调优与vLLM TP=4评测，以教师推理token扰动后的参考答案似然下降量估计重要性，并用于加权SFT与辅助损失；Qwen2.5-7B-Instruct在GSM8K/SVAMP达到94.01%/94.00%，较最强基线提升5.51/10.10个百分点。", latin=EN_FONT, east_asia=CN_BODY, body_size=8.55, space_after=5.5, line_spacing=1.1)
+        skill_focus = "聚焦GPU推理算子与大模型Serving/Rollout优化，具备CUDA Graph、MoE Router GEMM、异步状态管理、量化Runtime、Tensor Parallel和多卡确定性验证经验。"
+    else:
+        raise ValueError(f"Unsupported resume focus: {focus}")
+
+    p = internship.rows[2].cells[0].add_paragraph()
+    compact_paragraph(p, space_after=5.5, line_spacing=1.1, left=0, first=0)
+    add_run(p, "2026.01-2026.04", latin=CN_HEADING, east_asia=CN_HEADING, size=8.75, bold=True)
+    add_run(p, "                         摩尔线程                         算子与编译器优化实习生", latin=CN_HEADING, east_asia=CN_HEADING, size=8.75, bold=True)
+    add_bullet(internship.rows[2].cells[0], "TensorFlow MUSA Extension 算子、图优化与稳定性：", "负责muDNN GELU接入、GELU fusion链路修复、benchmark和热点算子优化，推动整网11个GELU全部融合，真实shape耗时降低36.6%；独立定位shape tensor误入device path并重构HostMemory，使inference 500轮成功率约30%提升至1000轮100%，4万/40万/80万轮长跑稳定；Logical_Or由21.2 μs降至10.7 μs，整网吞吐8187.48提升至8284.65。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
+
+    cell = body_cell(d, skills.cell(1, 0))
+    add_bullet(cell, "技术方向：", skill_focus, latin=EN_FONT, east_asia=CN_BODY, body_size=8.7, space_after=4, line_spacing=1.1)
+    add_bullet(cell, "开发与性能工程：", "熟练使用C/C++、Python、CUDA、Triton、PyTorch Extension；能够使用Nsys、NCU、Compute Sanitizer完成算子性能分析与正确性验证。", latin=EN_FONT, east_asia=CN_BODY, body_size=8.7, space_after=4, line_spacing=1.1)
+    add_bullet(cell, "语言与证书：", "IELTS 6.5、CET-6，持有华为HCIA-AI认证；具备英文技术文档阅读、检索与跨仓源码分析能力。", latin=EN_FONT, east_asia=CN_BODY, body_size=8.7, space_after=0, line_spacing=1.1)
     d.save(output)
 
 
@@ -398,7 +495,14 @@ def update_english_resume(source: Path, output: Path):
     t0, t1, t2 = resume_template_tables(d)
 
     set_cell(t0.cell(0, 0), "Haoran Feng", latin=EN_FONT, east_asia=CN_BODY, size=26, alignment=WD_ALIGN_PARAGRAPH.CENTER)
-    set_cell(t0.cell(1, 0), "Phone: (+86) 150 2499 9885    Email: 225010160@link.cuhk.edu.cn    Portfolio", latin=EN_FONT, east_asia=CN_BODY, size=10, alignment=WD_ALIGN_PARAGRAPH.CENTER)
+    set_contact_cell(
+        t0.cell(1, 0),
+        "Phone: (+86) 150 2499 9885    Email: 225010160@link.cuhk.edu.cn    Website: ",
+        "xfdg.github.io",
+        latin=EN_FONT,
+        east_asia=CN_BODY,
+        size=10,
+    )
     set_section_cell(t0.cell(3, 0), "EDUCATION", english=True)
     set_cell(t0.cell(4, 0), "Sep 2025 - Jun 2027 (Expected)", latin=EN_FONT, east_asia=CN_BODY, size=9, bold=True)
     set_cell(t0.cell(4, 1), "CUHK-Shenzhen", latin=EN_FONT, east_asia=CN_BODY, size=9, bold=True)
@@ -455,8 +559,7 @@ def update_english_resume(source: Path, output: Path):
     clear_row_height(internship_rows[8])
     set_cell(internship_rows[9].cells[0], "Jan 2026 - Present", latin=EN_FONT, east_asia=CN_BODY, size=9, bold=True)
     set_cell(internship_rows[9].cells[1], "", latin=EN_FONT, east_asia=CN_BODY, size=9, bold=True)
-    p = set_cell(internship_rows[9].cells[2], "Token-Weighted CoT Distillation | AAAI 2027 Submission | ", latin=EN_FONT, east_asia=CN_BODY, size=8.5, bold=True, alignment=WD_ALIGN_PARAGRAPH.RIGHT)
-    add_hyperlink(p, "Code", "https://github.com/jokerhan01/cot-main", latin=EN_FONT, east_asia=CN_BODY, size=8.5)
+    set_cell(internship_rows[9].cells[2], "Token-Weighted CoT Distillation | AAAI 2027 Submission", latin=EN_FONT, east_asia=CN_BODY, size=8.5, bold=True, alignment=WD_ALIGN_PARAGRAPH.RIGHT)
     cell = body_cell(d, internship_rows[10].cells[0])
     add_bullet(cell, "Token-weighted CoT distillation: ", "To address the lack of token-level importance awareness in generic CoT distillation, contributed to a three-stage structure-recovery, token-weighted supervision, and preference-optimization pipeline. Owned training, hyperparameter tuning, and vLLM TP=4 evaluation; estimated importance from reference-answer likelihood drops after teacher-rationale perturbations and applied it to weighted SFT plus an auxiliary loss. Qwen2.5-7B-Instruct reached 94.01%/94.00% on GSM8K/SVAMP, +5.51/+10.10 points over the strongest baselines; manuscript submitted to AAAI 2027.", latin=EN_FONT, east_asia=CN_BODY, body_size=8.0, space_after=0.1)
 
@@ -503,6 +606,8 @@ def convert_to_pdf(docx_path: Path, outdir: Path) -> Path:
     # `svp` is the LibreOffice headless VCL backend available on this host;
     # `gen` attempts to open an X display even with --headless.
     env.setdefault("SAL_USE_VCLPLUGIN", "svp")
+    pdf_path = outdir / f"{docx_path.stem}.pdf"
+    pdf_path.unlink(missing_ok=True)
     proc = subprocess.run(
         ["libreoffice", "--headless", "--convert-to", "pdf", "--outdir", str(outdir), str(docx_path)],
         env=env,
@@ -511,7 +616,6 @@ def convert_to_pdf(docx_path: Path, outdir: Path) -> Path:
         text=True,
         check=False,
     )
-    pdf_path = outdir / f"{docx_path.stem}.pdf"
     if proc.returncode != 0 or not pdf_path.exists():
         raise RuntimeError(f"PDF conversion failed for {docx_path.name}: {proc.stdout}\n{proc.stderr}")
     return pdf_path
@@ -521,6 +625,108 @@ def assert_two_pages(pdf_path: Path):
     reader = PdfReader(pdf_path)
     if len(reader.pages) != 2:
         raise RuntimeError(f"{pdf_path.name} has {len(reader.pages)} pages, expected exactly 2")
+
+
+def docx_external_links(docx_path: Path) -> set[str]:
+    """Return external targets recorded in Word relationship parts."""
+    targets: set[str] = set()
+    with ZipFile(docx_path) as archive:
+        for name in archive.namelist():
+            if not name.startswith("word/") or not name.endswith(".rels"):
+                continue
+            root = ElementTree.fromstring(archive.read(name))
+            for relation in root:
+                if relation.attrib.get("TargetMode") == "External" and relation.attrib.get("Target"):
+                    targets.add(relation.attrib["Target"])
+    return targets
+
+
+def pdf_external_links(pdf_path: Path) -> set[str]:
+    """Return URI actions embedded in a PDF, including table-cell hyperlinks."""
+    targets: set[str] = set()
+    reader = PdfReader(pdf_path)
+    for page in reader.pages:
+        for reference in page.get("/Annots", []):
+            annotation = reference.get_object()
+            action = annotation.get("/A")
+            if action and action.get("/URI"):
+                targets.add(str(action["/URI"]))
+    return targets
+
+
+def assert_required_link(docx_path: Path, pdf_path: Path, url: str):
+    normalized = url.rstrip("/")
+    for artifact, targets in ((docx_path, docx_external_links(docx_path)), (pdf_path, pdf_external_links(pdf_path))):
+        if normalized not in {target.rstrip("/") for target in targets}:
+            raise RuntimeError(f"Missing hyperlink {url} in {artifact.name}")
+
+
+def pdf_word_boxes(pdf_path: Path):
+    """Read Poppler word boxes as (page index, page height, text, box)."""
+    proc = subprocess.run(
+        ["pdftotext", "-bbox", str(pdf_path), "-"],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+        check=False,
+    )
+    if proc.returncode != 0:
+        raise RuntimeError(f"Could not extract text boxes from {pdf_path.name}: {proc.stderr}")
+    root = ElementTree.fromstring(proc.stdout)
+    results = []
+    pages = [element for element in root.iter() if element.tag.rsplit("}", 1)[-1] == "page"]
+    for page_index, page in enumerate(pages):
+        page_height = float(page.attrib["height"])
+        for word in (element for element in page.iter() if element.tag.rsplit("}", 1)[-1] == "word"):
+            text = word.text or ""
+            results.append(
+                (
+                    page_index,
+                    page_height,
+                    text,
+                    (
+                        float(word.attrib["xMin"]),
+                        float(word.attrib["yMin"]),
+                        float(word.attrib["xMax"]),
+                        float(word.attrib["yMax"]),
+                    ),
+                )
+            )
+    return results
+
+
+def add_pdf_website_link(pdf_path: Path):
+    """Add transparent contact and portfolio links to a generated PDF.
+
+    LibreOffice 7.3 omits table-cell hyperlink annotations during DOCX-to-PDF
+    conversion. The first rectangle covers the centered Website field. The
+    remaining rectangles recover the visible Mooncake PR group and Mirage PR
+    by locating their Poppler text boxes after conversion.
+    """
+    reader = PdfReader(pdf_path)
+    writer = PdfWriter()
+    writer.append_pages_from_reader(reader)
+    writer.add_annotation(0, Link(rect=(390, 663, 560, 683), border=[0, 0, 0], url=PERSONAL_WEBSITE))
+    anchors = (
+        ("#3601/#3604/#3660/#3726", MOONCAKE_PRS_URL),
+        ("#755", MIRAGE_PR_URL),
+    )
+    found = {needle: False for needle, _ in anchors}
+    for page_index, page_height, text, (x_min, y_min, x_max, y_max) in pdf_word_boxes(pdf_path):
+        for needle, url in anchors:
+            if needle in text and not found[needle]:
+                # Poppler uses a top-left origin; PDF annotations use bottom-left.
+                rect = (x_min - 1, page_height - y_max - 1, x_max + 1, page_height - y_min + 1)
+                writer.add_annotation(page_index, Link(rect=rect, border=[0, 0, 0], url=url))
+                found[needle] = True
+    if not found["#3601/#3604/#3660/#3726"] or not found["#755"]:
+        raise RuntimeError(f"Open-source link anchors missing in {pdf_path.name}")
+    metadata = {str(k): str(v) for k, v in (reader.metadata or {}).items() if k and v}
+    writer.add_metadata(metadata)
+    temporary = pdf_path.with_suffix(".link.tmp.pdf")
+    with temporary.open("wb") as handle:
+        writer.write(handle)
+    os.replace(temporary, pdf_path)
 
 
 def watermark_pdf_in_place(pdf_path: Path, text: str) -> bool:
@@ -576,14 +782,33 @@ def watermark_pdf_in_place(pdf_path: Path, text: str) -> bool:
 
 def main():
     TMP_ROOT.mkdir(parents=True, exist_ok=True)
+    temp_chinese_docx = TMP_ROOT / CH_DOCX.name
+    temp_training_docx = TMP_ROOT / TRAIN_DOCX.name
+    temp_inference_docx = TMP_ROOT / INFER_DOCX.name
     temp_anonymous_docx = TMP_ROOT / ANON_DOCX.name
     temp_english_docx = TMP_ROOT / EN_DOCX.name
+    update_chinese_resume(CH_DOCX, temp_chinese_docx)
+    update_chinese_resume_variant(CH_DOCX, temp_training_docx, focus="training")
+    update_chinese_resume_variant(CH_DOCX, temp_inference_docx, focus="inference")
     update_anonymous_chinese_resume(CH_DOCX, temp_anonymous_docx, word_watermark=False)
     update_english_resume(EN_DOCX, temp_english_docx)
+
+    temp_chinese_pdf = convert_to_pdf(temp_chinese_docx, TMP_ROOT)
+    temp_training_pdf = convert_to_pdf(temp_training_docx, TMP_ROOT)
+    temp_inference_pdf = convert_to_pdf(temp_inference_docx, TMP_ROOT)
     temp_anonymous_pdf = convert_to_pdf(temp_anonymous_docx, TMP_ROOT)
     temp_english_pdf = convert_to_pdf(temp_english_docx, TMP_ROOT)
-    assert_two_pages(temp_anonymous_pdf)
-    assert_two_pages(temp_english_pdf)
+    for pdf_path in (temp_chinese_pdf, temp_training_pdf, temp_inference_pdf, temp_english_pdf):
+        add_pdf_website_link(pdf_path)
+    for pdf_path in (temp_chinese_pdf, temp_training_pdf, temp_inference_pdf, temp_anonymous_pdf, temp_english_pdf):
+        assert_two_pages(pdf_path)
+    for docx_path, pdf_path in (
+        (temp_chinese_docx, temp_chinese_pdf),
+        (temp_training_docx, temp_training_pdf),
+        (temp_inference_docx, temp_inference_pdf),
+        (temp_english_docx, temp_english_pdf),
+    ):
+        assert_required_link(docx_path, pdf_path, PERSONAL_WEBSITE)
 
     # The DOCX watermark is inserted after conversion; the PDF uses a raster
     # overlay for reliable CJK rendering in all common viewers.
@@ -592,11 +817,20 @@ def main():
     anonymous_doc.save(temp_anonymous_docx)
     watermark_pdf_in_place(temp_anonymous_pdf, WATERMARK_TEXT)
 
-    os.replace(temp_anonymous_docx, ANON_DOCX)
-    os.replace(temp_anonymous_pdf, ANON_PDF)
-    os.replace(temp_english_docx, EN_DOCX)
-    os.replace(temp_english_pdf, EN_PDF)
-    print("updated anonymous Chinese resume and English resume")
+    for source, destination in (
+        (temp_chinese_docx, CH_DOCX),
+        (temp_chinese_pdf, CH_PDF),
+        (temp_training_docx, TRAIN_DOCX),
+        (temp_training_pdf, TRAIN_PDF),
+        (temp_inference_docx, INFER_DOCX),
+        (temp_inference_pdf, INFER_PDF),
+        (temp_anonymous_docx, ANON_DOCX),
+        (temp_anonymous_pdf, ANON_PDF),
+        (temp_english_docx, EN_DOCX),
+        (temp_english_pdf, EN_PDF),
+    ):
+        os.replace(source, destination)
+    print("updated linked Chinese/English resumes and focused Chinese variants")
 
 
 if __name__ == "__main__":
