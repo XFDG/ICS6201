@@ -386,7 +386,9 @@ def update_chinese_resume_variant(source: Path, output: Path, *, focus: str):
     compact_paragraph(p, space_after=5.5, line_spacing=1.1, left=0, first=0)
     add_run(p, "2026.01-2026.04", latin=CN_HEADING, east_asia=CN_HEADING, size=8.75, bold=True)
     add_run(p, "                         摩尔线程                         算子与编译器优化实习生", latin=CN_HEADING, east_asia=CN_HEADING, size=8.75, bold=True)
-    add_bullet(internship.rows[2].cells[0], "TensorFlow MUSA Extension 算子与编译器优化：", "负责TensorFlow on MUSA的算子支持、图优化与稳定性治理：完成muDNN GELU接入、GELU fusion链路修复及benchmark，推动整网11个GELU全部融合、真实shape耗时降低36.6%；独立定位StridedSlice<int32>/Pack<int32>的shape tensor误入device path根因并重构HostMemory路径，使inference 500轮成功率约30%提升至1000轮100%，4万/40万/80万轮长跑稳定；优化Logical_Or scalar broadcast将21.2 μs降至10.7 μs，整网吞吐由8187.48提升至8284.65。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
+    musa_cell = internship.rows[2].cells[0]
+    add_bullet(musa_cell, "GELU 融合与图优化：", "针对大图场景中部分GELU未被融合、整网图优化收益受限的问题，负责muDNN GELU接入、fusion链路修复与benchmark建设；补齐融合条件和回归验证后，推动整网11个GELU全部融合，真实shape耗时降低36.6%。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
+    add_bullet(musa_cell, "整网稳定性与热点算子优化：", "针对长跑OOM/随机崩溃及Logical_Or热点，定位StridedSlice<int32>/Pack<int32>将shape tensor误送device path的根因并重构HostMemory路径，使inference 500轮成功率由约30%提升至1000轮100%，4万/40万/80万轮长跑稳定；同时优化Logical_Or scalar broadcast并补齐Logical_And测试，平均耗时由21.2 μs降至10.7 μs，整网吞吐由8187.48提升至8284.65。", latin=EN_FONT, east_asia=CN_BODY, body_size=body_size, space_after=5.5, line_spacing=1.1)
 
     cell = body_cell(d, skills.cell(1, 0))
     add_bullet(cell, "技术方向：", skill_focus, latin=EN_FONT, east_asia=CN_BODY, body_size=8.7, space_after=4, line_spacing=1.1)
