@@ -1,47 +1,23 @@
-# RGB 可见光无人机检测训练包
+# AI Infra 求职与技术材料
 
-本分支只保留代码、配置、轻量结果和文档。原始数据、派生数据、模型权重、checkpoint 与完整训练日志不进入 Git；获取数据或权重后请放在 `.gitignore` 已覆盖的本地目录中。
+`me` 分支用于维护 AI Infra 求职材料、可公开技术文档、脱敏工作记录及小红书交付物。无人机检测课程项目已独立保存在 [`drone-monitoring`](https://github.com/XFDG/ICS6201/tree/drone-monitoring) 分支，不再出现在本分支的当前文件树中。
 
-## 目录结构
+## 常用入口
 
-- `configs/`：训练与数据准备配置
-- `scripts/`：环境检查、数据转换、调度恢复和结果汇总
-- `train_scripts/`：Ultralytics / Detectron2 训练入口
-- `models/`：DDW-YOLO 模型配置
-- `docs/ics6201/`：项目结果、图表和提取后的轻量指标
-- `doc/`：简历与工作总结材料
-- `raw_zips/`：本地原始数据目录，需自行创建，不提交
-- `yolo/`、`coco/`、`cache/`：脚本生成的本地数据目录，不提交
+- 当前中文简历：[Word](doc/冯浩然_AiInfra香港中文大学_15024999885.docx) / [PDF](doc/冯浩然_AiInfra香港中文大学_15024999885.pdf)
+- 当前英文简历：[Word](doc/Haoran_Feng_AIInfra_Resume.docx) / [PDF](doc/Haoran_Feng_AIInfra_Resume.pdf)
+- 可分享匿名简历：[Word](doc/AIInfra中文简历_匿名版_小红书水印.docx) / [PDF](doc/AIInfra中文简历_匿名版_小红书水印.pdf)
+- 面试介绍：[Markdown](doc/面试介绍精简版.md) / [Word](doc/面试介绍精简版.docx)
+- 公开技术文档：[doc/open_doc/](doc/open_doc/)
+- 脱敏工作记录与证据：[doc/work_records/](doc/work_records/)
+- 面试题库：[doc/面试押题/](doc/面试押题/)
+- 小红书交付物：[小红书商品/](小红书商品/)
 
-## 数据集
+## 目录约定
 
-实验使用以下可见光无人机数据集：
+- `doc/`：个人简历、面试材料、公开技术文档、脱敏工作记录；旧版本统一在 `doc/旧的简历/`。
+- `小红书商品/`：商品宣传文案、面试资料和技术 PDF。
+- `tools/documents/`：简历、公开文档及 PDF 的生成与渲染脚本。
+- `output/`：历史导出件；新产物应优先归入对应的 `doc/` 目录，而非继续扩展此目录。
 
-- DUT Anti-UAV Detection
-- DroneDetectionDataset
-- ARD-MAV
-
-请按各数据集的授权方式获取压缩包，并放入本地 `raw_zips/`。仓库不再通过 Git LFS 分发数据集。
-
-## 数据准备
-
-```bash
-python scripts/prepare_rgb_yolo.py --clear
-python scripts/prepare_rgb_coco.py --root .
-```
-
-ARD-MAV 抽帧依赖 ffmpeg。没有 ffmpeg 时可先跳过：
-
-```bash
-python scripts/prepare_rgb_yolo.py --clear --skip-ard
-```
-
-## 训练示例
-
-模型权重由框架下载或由使用者在本地准备，不应提交到仓库。
-
-```bash
-yolo train model=yolo11n.pt data=configs/drone_rgb.yaml imgsz=640 batch=32 epochs=200
-```
-
-完整流水线、恢复调度和历史结果见 [`docs/ics6201/PROJECT_SUMMARY.md`](docs/ics6201/PROJECT_SUMMARY.md)。
+提交前请确认不包含内部仓库链接、节点或路径、访问凭据、模型权重、数据集和原始运行日志。

@@ -1,57 +1,18 @@
 __pycache__/
 *.py[cod]
-*.so
-*.pyd
-*.egg-info/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
 .ipynb_checkpoints/
 
 .env
-env_server.sh
-env.sh
 *.key
 *.pem
-
-logs/
-runs_smoke/
-runs_formal/
-runs_detectron2/
-
-# 原始/解压/生成的数据（仓库只保留准备脚本和配置）
-raw_zips/
-yolo/
-coco/
-cache/
+*.pub
 
 .vscode/
 .idea/
 .DS_Store
 
-# 自动生成文件
-configs/drone_rgb_abs.yaml
-validation_report.md
-training_report.md
-
-# 敏感/临时文件
-*.pub
-*pub
-setup_ssh_gpu.sh
-debs/
-*.deb
-
-# 模型权重（不提交，按文档重新下载或训练）
-pretrained_weights/
-*.pt
-*.pth
-*.ckpt
-
-# 运行时产物
+# Local rendering and temporary artifacts
 tmp/
-runs_validate/
-runs_smoke/
-runs_formal/
-runs_formal_aborted_*/
-runs_detectron2/
-yolo_validate/

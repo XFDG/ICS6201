@@ -11,7 +11,7 @@
 4. 看 [简历候选表述与取舍](./简历候选表述.md)，比较九坤实习与专业技能的长短版本。
 5. 再看 [秋招简历素材库](../旧的简历/秋招简历素材库_AIInfra_2026.md)，按岗位选择 bullet。
 6. 需要完整时间线和结论边界时看 [AI Infra 工作总结](../旧的简历/秋招工作总结_AIInfra_2026.md)。
-7. 面试前按目标岗位进入 R3、FlashInfer、OE、LLMQRT、GEMM、DeepGEMM 或 ICS6201 专题。
+7. 面试前按目标岗位进入 R3、FlashInfer、OE、LLMQRT、GEMM 或 DeepGEMM 专题。
 8. 需要追溯阶段过程时再读周报，不把周报中的早期口径当最终结论。
 
 ## 专题目录
@@ -26,7 +26,6 @@
 | P0 | LLMQRT H200 / AWQ TP=2 | SM90 kernel 排障、W4A16 量化、packed-weight TP、吞吐与显存优化 | [llmqrt](./llmqrt/README.md) |
 | P0 | H200 Grouped GEMM / SonicMoE | Nsys、MFU、shape 回放、口径纠偏、SM90 config tuning | [gemm_sonicmoe](./gemm_sonicmoe/README.md) |
 | P1 | DeepGEMM 离线交付 | cubin bundle、JIT cache、wheel、SHA 校验、TP=2 环境 | [deep_gemm](./deep_gemm/README.md) |
-| P2 | ICS6201 无人机检测 | 数据工程、多 GPU 调度、恢复机制、多 seed 实验 | [ics6201](./ics6201/README.md) |
 | P3 | AI Infra 技术调研 | 训练框架、Kernel DSL、通信融合、编译与诊断 | [research](./research/README.md) |
 | 过程记录 | 周报 | 决策演进、阶段结果与问题 | [weekly_report](./weekly_report/README.md) |
 | 论文讨论 | Native Sparse Attention | 稀疏注意力机制与工程讨论 | [paper_notes](./paper_notes/native_sparse_attention_discussion.md) |
@@ -63,7 +62,7 @@
 
 | 等级 | 定义 | 示例 |
 |---|---|---|
-| A | 有同口径对照与聚合数据 | R3 20-step A/B/C、ICS 三 seed |
+| A | 有同口径对照与聚合数据 | R3 20-step A/B/C |
 | B | 有 benchmark/trace 与复现脚本 | Quack config tuning、四路 GEMM |
 | C | 短程 smoke 或单次验证 | 32 卡 R3 5-step、单轮平台能力评测 |
 | D | 上游论文/README 数据 | 技术调研中的公开性能数字 |
