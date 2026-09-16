@@ -1,0 +1,237 @@
+you 
+
+you 
+
+Hey Hey, hello Hey, hello, hello, hello I'm going to take a look at the phone Okay 
+
+That's the Flon Hoon, right? Yes You're on the other side 好的, so 2 -面流程也比较简单主要还是两个部分一个是先了解一下之前的做过的项目主要是它的挑战然后里面用了什么样的一些创新的方法或者什么样的结果然后第二部分写一个算法题然后如果可以稍微留几分钟时间再发散的交流一下看你有什么想了解的好 
+
+明白好的行那要不你先介绍一下之前的项目经验 
+
+就是非常非常迅崩掉的问题 我去打通了就是把这个论文复现了之后去增加了检测指标 并且对起了异常检测然后都覆盖了多项的测试最后是在长轮的实验中把K把那个KL降低了降低到了4到7倍然后把这个FTAO2的这个论文中这个指标呢降低了就是就是降低了有最高是145倍吧 
+
+H200上呢 就是开启确定性场景之后它RouterGIM它的那个实现比较简单和单一没法去针对那个M比较小的情况有一个很好的适配然后呢我就去采用了一种多种降级的策略把它最终把它的那个中位数耗时从789微秒经济到了210微秒也就是降低了73 %的样子 然后第三类我觉得我做的工作就是一些系统稳定性的问题和修复比如说我就处理过一些在L也是在L场景中它可能会出现一个开启TP和QDAGraph的时候这两个同时开启的时候就会导致有Hunt的情况我一步步往下深入定位是发现最终的它一个FUSE算子的实现是有一个小小的Bug或不它修好之后呢就我们就再也没有出现过Hunt的这个问题 这是我这段时期主要涉及的三个大方面吧 嗯OK我们一个月来吧就是现在是那个罗富丽的那篇什么Rooter Play对对对 然后你这个你能讲一下它这个基本原理然后它这个指标分别是什么样一个含义吗 
+
+嗯好的它基本原理就是在那个VLAM推理的时候它会记录下每层的那个Token MOE layer和TopK这个ID 就是专家数的ID就是专家数的ID然后把它记录下来然后一起放在Rooter replay的而不是那个Rooter测的那个数据收集的那个里面然后再得到那个数据之后再进行下一次的训练的你刚才说是在VRM那里面是吗嗯对本来不就是本来不就是那个Rooter阶段的吗嗯对就是在推理阶段把它那个推理的就每个Token每层专就是专家层和 它那个专家ID都记录下来呀嗯嗯然后回放是在训练测是吗对对回放是在训练测因为是强化学习的对嗯嗯接住嗯好然后就是回放在训练测然后训练测就是呃之后这个指标呢就是嗯对嗯然后有三个指标我在里面简历写的就是Rooter mismatch率就是说这个 偏移呃就是没对的上的这个率就是说呃他第二轮呃训练的专他记录到的那个不一致的那个专专家术然后除以那个第一轮就是呃第一轮推理采集的所有的专家术然后这是一个笔值当他这个笔值当然是越低越好越低说明他呃靠近的就是呃走走的路径也是越对的是这样的也更能复现他那个呃推理测的一个场景 呃推推理测的一个情况然后FAFAO2呢他是一个呃论文中提到的一个那个计算指标就是代表着这个这个呃这个偏移离两倍的结果就是说他这个采集之后的路由呃他使用的TopK他会就是呃里面偏移了呃怎么说就是说他也他有个参数嘛他他其中的一个参数偏移了呃本来是呃就是说训练测的 偏移到了呃呃相对于呃相对于推理的road测他这个参数偏移了两倍的概率两倍的呃呃概率越大然后他他这个当然就是越差了呃呃然后所以说我们就要把它尽可能讲一下嗯嗯嗯这底是什么参数的这个偏移呃呃就是那个呃我想我想一下就是我算呃呃对这个是他一个呃呃他嗯 我介绍这个之前我还得跟您介绍一下就是说怎么去压缩他因为他这个tokenmoe layer topk这是一个三元组呃我是实现了一个压缩就是在论文中它是实现了一个压缩压缩成一串哈希值这样的话呃呃每一层就是只处理只存一个值就好了然后复复现的话就是这种有点类似于矿头和底矿的然后这个值偏离原来的值的两倍的一个概率嗯嗯 
+
+你是指就是把他的这个这个一个三元组然后通过某种编码它变成了一个哈希值吗对对对哈希值这个我觉得就我理解你这个他这个应该是一个呃怎么说呢就是一个serialized deserialized的世界化反应世界化的过程这个东西应该是等价的吧嗯对是等价的嗯这个FAO2嗯等等我想一下那这个我确确实这个项目有点久我但是我知道这个指标其实是 跟KL差不多都是衡量他这个这种的这个是那个训练的稳定性的当然就是越低越好我们那会儿的呃就是呃呃监测它就是这么监测的对 
+
+ok然后你刚才说那个router mismatch这个东西他这个这个这个我理解他本来就应该是降到零是吧嗯对你做到是play之后他肯定是是是一一对应的这个对对对对他肯定是一一对应的就是就是之前是就是之前跟之前那种没有的做对比就是降到零肯定是正常的的之前是嗯嗯就这几个指标你跟paypal的这个嗯嗯 是是能够对齐的是吗是完全是有提升还是说怎么样呃呃就是能完完全对齐kl是我们在那个强化学习就是rl他们要看的就是代表一个理散就是呃就是交叉商他叫交叉商越低他当然是越好的然后那个FAO2是论文中原本带的这个指标嗯对因为我理解这个呃这个东西台说他他就是就是一个 你只要正确复现他应该这个值都是能对齐的是吧嗯是的是的都是能对齐一个有没有bug的问题是吧对对对对对对就检测文嗯嗯嗯那你能具体讲一下就是你从这点VRM拿出到这个哈希值然后到这个呃第一个就是他这个哈希值是怎么引扣的他能减少多少这个我理解他主要还是为了嗯减少一些这个这个这个这个要传输或者是要要要在这个迅推阶段交换的这个数据量是吧嗯是的 是的他他能压缩多少然后他在这个megaTone的这个这个这个这个呃呃训练的这个阶段他是怎么再去作用你是怎么再去把他这个反序列化然后去直接是把他那个router的这个gm给他剃掉了吗还是还是怎么操作不是不是的就是他去序列化的话您可以理解为压缩到了三分之一的那个呃就是类型因为他们三个类型的话他都是那个int 的他都是硬性的嗯嗯然后做了一个编码之后就压缩到了他原本的三分之一然后和随router的数据一起传说然后在megaTone的时候就是在选选topkk的时候他会判断我开没开r3我如果开了r3的话ok那我走r3这条路把它反解码回来然后走就直接就直接不行不执行topk了然后就是把topk这个东西去做一个代替然后其他的吧还是正常走嗯不知道我解释清楚了吗 明白因为你哎但是这里面他会出现一个问题啊就是 就是说白了你在那个routing的这个gm的这个计算跟在在训练跟tree他有可能是不一样的是吧嗯对对他这个你是等于在gm之后就是这个这个router之后你去把那个topk给他强制的这个转了 对对对对对对他也是这个嗯他反向的时候因为他不可以本来就是你传哪一个你你取了哪一个他反向哪一个嘛所以这个他也不影响那个后续后续的这个是的是的ok了解然后嗯嗯这个然后你们是只只讯了30b是吧没有做更大的这个模型是吗300b300b内部是300b 对对我在你是写的是一个30b哦哦哦那我可能可能那个简历大少打了一位就是我在我个人机器上看到后面有一个300b的200部那这300b它是不是还得做tp啊嗯得做tp tp等于tp等于2啊不是tp等于8然后EP是也开了EP但是EP开的不大EP是那这个tp阶段你这个还是有无确定性啊嗯 
+
+是的但是但是就是嗯嗯对吧你26肯定是这个肯定他是不确定的呀 不是吧就是嗯他记录的是tokenLayer和TopK那tp就是指示板他那层Layer给他平平平平平平平平掉了吗那他tokentoken还有不是我的意思就是嗯你是做这个确定性计算吗那如果你有26只要设计是64肯定是有不确定性的呀 嗯哦对对对对我懂你意思就是就是他他没开去去确定性的话他那splay的k的话就是这种的不顺序规约的话肯定会有不确定是的是的就是只是能尽可能的去减少它影响所以你只是做这个EP的这个routing阶段的replay没有考虑这个tp的这个不确定性了是的是的就是就是把它控制在一个合理范围不让它崩掉就好了这是我们的一开始的逻辑也不是说一定要把它降到 0是在我的本地机器上撤侧的我本地机器是一个单节点机器就单节点8卡它就没有没有是那种跨卡那种嗯跨节点那种东西嗯ok嗯ok然后那你继续往下下面是这个我们看有一个router gem这块具体是嗯嗯因为你这个gm你不已经那个 你你是在talk key阶段去那什么的替代的话那这块为什么还需要做这个r不是这个是另外一个方面这个不是跟上面那个是一样的这个是推理纯推理场景r很纯推理和训练场景就是他他需要训练的时候r不是r我们有部分做做做算法的他需要就是定一个bazline但是我们不开确定性的话就r非顺序规约的话可能会导致两次相同的paj的话它结果不一样r 如果结果不一样就没法去定定bazline所以说他他就会选择开开启确定性来定bazline这个确定性的话就是纯的就是最最笨最笨的实现没有一些任何的优化以至于他就是我拿router replay我优化这个来举例的话他router gem的话呃进行gm计算的时候他是定死写死了的一个配置就是显示写写死的一个配置然后他不会根据他的数据做做那种动态的变化 
+
+算法之间他他们优化之后要看精度然后呢那跟什么确定呢就是跟这个baz来确定就是他在算法这个比方他做增讯或者什么时候截断的时候他要去做这个比较的时候做evaluation做比较的时候他是要用一个确定性的方式去做比较对对对对对嗯因为确定性肯定是能复现的你开不确定性的话那你的尺度有时候会对不上去尤其是特别小的精度 
+
+一亿复复复复的那个阶段他就对不上了一亿复复之后他就对不上了那这东西我理解只在就是你两个 完全一样的这个浮现情况下就是就是 才有意义吧嗯完全固定着这个权重如果你对已经都修改了这个你两个权重嗯是否一定需要用这个方式去对比呢嗯不用了那就是只是在这种场场场场景才才可以 
+
+That means 
+
+ok 
+
+that you can say and and that's the question it is the package and it the package the m is it it is the 去看看有没有更好的方法就是既能时间确定性又能让他保证去根据输入去动态调整 然后我就去看一下网上有没有看源的项目 尽量是用看源项目就不要重复造轮子了 然后还真有看玩项目就是deap gym 我们那会儿的数据类型是三种 一种是bf16 一种是fp16 一种是fp32 但是deap playground只支持bf16 然后我就先把bf16场景下我就接入了dip в 让它去进行动态判断 去进行确定性认算 剩下的那两个 我就去自己的尝试 去用Traden去手写了一个 动态规划的排骨 它主要的保证 就是说在K维度上 我不对它进行切分 但是M和N维度上 做一个胎脸 然后这样的话 也能保证正确性 然后所以说 就把整个的RooterSIM的实现 做了一个简单的小替换 
+
+OK 然后你刚才说的用Traden实现的是因为它没有没有那个是呃那个你刚才说没有什么精度它是没有K维度上的做切分所以说它还是保证了一个顺序相加 我知道我就说你是因为DVG少了一个少了一个这个数据类型是吗 对对对少了两个数据类型DeepGEM它不只是是FP16和FP32 啊 
+
+OK 
+
+那也就是说你这个K就不切了是吗 嗯对 不切K了只切M和N OK 那这个 嗯 这个你们的这个 是接入到VRM里面是吗嗯是的就是在它这个开启BandroidInverm情况下你会再给它做一个Dispatch如果是这个M很小就Dispatch让你自己这个Kernel上是吧嗯是Fallback的Persition那你能呃讲一下就是这个它当前那个 对对我理解VRM它应该是那个SynemaSynLab的那那那些Kernel吧它们后来有优化吗这块对是有优化的嗯有优化就是优化完还是用这个128这种是吧呃就是我们内部的那个VRM它它版本比较老它就写死的是这种路然后我们要去更新社区的feature呢它它这个可能会引入一些其他的问题就是我给它做一个简单的 小修补是这么一个情况哦但社区也社区也没修吗一直没修吗这方啊社区的话反正反正我那会开发的时候我是目前是没有看到就是有有这种情况的发生对OK然后然后然后你能讲一下就是你这个Fallback的Persition这个这个这个这个三级方案是具体是指什么样这个嗯三级方案 就是还是BF16这个类型首先去看他有没有那个Deep Gym的这个View就有没有Deep Gym的这个包有的话就走这个包然后没有的话就走我的FuK而我的FuK在在特殊场景下如果是支持不了的话或者说是他呃就是他会预先计算出一些的那种Shape嘛他如果这些Shape的话都满足不了的话那就去走原来的那个最最老的那个视线所以是这个 
+
+是很弹节目的是 Simple了是吧嗯 对嗯那这个你能讲一下就是这个 PMK 这个这个Cardone 这个具体 es就是他是怎么做到这个确定性的呢就是或者说你说一下这个 PMKT ALMTA原始的这个CineMotionLab他们确定性计算这个原理是是怎么做的呢就是3DFuK 的话就是嗯还是那个就是说 
+
+should it be 0S student 
+
+Not sure you don't want to do ini dodgy sad Teng ост temp um update 
+
+over encoding 就是把一些 我们最近的 一个就是最近刚输出的 最近的两个token 然后拿回来做数学运算 然后给他 塞一部分到约 我们现在正在 decode的计算过程中 就是目的是为了让 我们现在decode的token和 前面最近的两个token 去增强他的一个联系 是这么一个情况 然后那这个的话他理论上是就是有很大开销的他之前的时间是有很大开销的他要用到很多同步的操作就是说他先要在CPU端计算完他这个数据就是decode之后decode完GPU传给CPU然后CPU再把现在接收到的和前面两个然后拿起来做数学运算运算完之后CPU再传给GPU然后GPU再去接收到这个时候之后再进行计算 那这个的话来回的两次数据传输H2D D2H的传输就导致了很多的时间碎片然后就是造成了那种利用率的上不去从那时间线上来说就是能看到很多bubble我改进的方法就是说把GPU还是传给CPU但是GPU同时也在做运算然后CPU拿到之后不去做那种 
+
+然后GPU的话感查就是说他会有一个察觉到那个buffer里面东西如果变的话那就是立马要进行一个重新的新的计算否则的话他还是进行自己的计算 我先理解一下你这个算法就是说你会把有类似一个华生窗口的话你最后decode 出出来两个这个token会接到我想想你这个是接到下一轮的对下一轮的heighting size里就是就是就是又重新把它走embedding进去之后就是正常你是输入的是上一轮的输出的token对吧对对对对现在变成三个token了是这意思吗对这就是上一轮的输出的token是这种的token是这种token是这种token是这种token的 上一轮的上一轮的上一轮的token加上加上这一加上就是特殊变化的这个token然后一起送给下一轮的下一轮来做decode decode的他还不是说比方说我是第N加2步的时候把N加1N加2都挣到这个进来算下一步是吧不是不是不是这个他是额外做了一个对刷新的一个token是吧是的 是的 额外做刷新这个token这个的产生这个是没法避免的就是这个的耗是没法避免的只能是通过就是数据传输这种应答的这个地方去来做这个token它是就那你每次输出是几个呀每次输出的还是一个呀每次输出的就是计算完的话它是一个一个往外蹦的还是一个对对就是就是您可以理解为它这个限制是两个然后 然后出来的时候是一个是吗对对对嗯嗯进去的时候你可能还得有一个有一个映射层之类的是吧嗯对对对就是那个hash嘛就是有有有有一个hash表然后给它映射成一个向量然后这个向量加到它呃呃就是那个hide的维度就那个那个维度里然后然后那然后那些数再去进GPU再去进行decode呃再去进行运算然后输出一个token是这样的 嗯嗯嗯我大致教你意思那这个就是嗯这个是涉及一些这个CPU计算所以你要把它这个回传是吗对对CPU计算以及就是CPU和GPU这种的数据传输这个就是和很费时间的很麻烦这就是为什么要回传就是因为涉及到一些这个CPU计算是吗对对对因为因为要涉及到一些CPU计算OK然后你现在做法是搞了一个这个就是就是大家这个 这个呃呃有一个这个共识的一个buffer然后你去你去bzpo是吗对对对对对在这个crum里面你去有一个路口去去去去去去po这个东西是吗是的是的是的是的 但是他这个你你你 啊这听起来好像他他就是一个stream的一个问题啊他也不涉及说 他的这个这个计算时间他的这个计算时间他的顺序始终是固定的是吧嗯你不会说是因为我正算了其他的然后我破到你这个更新了我再刷新这这这好像也不是这么一个原理啊他都是一步连一步啊对对不是这个原理嗯你这个东西我理解是不是嗯是不是有一个什么以外他就可以了这个就是你要你要计算下一个的时候你你得等 那个东西这个这个stream event到位了然后然后你再开始计算嗯对您您的理解是正确的就大体上是正确的大体上是这么个路径啊OK然后这个为什么还跟tp有关系呢呃就是tp的我那块测的是单卡吗单卡的话就不用考虑这种通信的方式然后你tp的话的话因为我是用采用的广播的方式 
+
+所以说就可能or reduce他这个会overlap掉就是我这个抢抢花的时间被or reduce这个又消耗出去了 嗯嗯行行我们稍微快点吧 然后我看呃你要不就介绍一下这个mower这块的然后跟还有那个touch这个roundtime这块的两个内容吧 好好好好 mower的话就是我今年呃呃刚开年开始做的呃他们那边是负责了一个就是呃一个小模型一家公司的一个小模型的那个mosa优化操作把把他们的生态从库打迁移到mosa上然后我就负责一些把一些算子没有实现的算子给他实现了然后有呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃呃 
+
+试组 कhi이 finished and then to // Gumb 
+
+就是发发现他呃呃呃在在写算子的时候他可能有一个算子的数据类型还写写写错了导致他最后一 comunic dumped. 
+
+Okay. 
+
+Alright, that bench will match. Touch is what you 3D Touch is what I've done I can find the way around 
+
+Pten problem 
+
+I've done a perfect irrigation And I'm gonna install the case 
+
+After the while 也尝试了简单尝试下W8A8和LP8 对 嗯 
+
+行 这个等于是一个就是个人的项目做了一些量化的尝试是吧 是的 好的 行 那我大致了解了 下面这块你看还有什么要补充的吗 就是 
+
+九昆的那个flash infer的那个修复的话 我想特地提一嘴 就是说这个我觉得能反映我的一个真实能力 就是它首先是它它库大开库大graph和那个tp的话就会抗住 然后呃 我我那会儿通通排查发现就是说呃 当库大graph关的时候它可以 当tp等于1的时候它也可以 但是我判断应该是tp的问题 因为只有当tp的时候才会有all reduce这个问题 然后呢我就尝试的 
+
+一个合法的正规数呢 误判为负零 然后就导致它轮循永远无法推出 然后最后不结束 最后就触发timeout 然后我把那个修复呃 改成安慰比较的时候 呃 就呃 然后这个问题就完全解决了 对 嗯 这个这个是它检测 是不是 这收到这个数据之后 它检测的时候有一个有一个这个信号量是吧 对对对对 有一个标志位 就有一个信号量 您可以 嗯 然后这个东西它一开始设的是负零是吗 还是什么东西 对 负零 就是说它是您可以拿tp2的为例 他们俩共占一个信道 当一个东西发完之后 他另外一个才能发 然后当然后他们互相有各自的一个那个呃 互相开开了一个内存存放着各自各自的标志位 当另外一个对 当另外一个发完就改那个标志位 然后那标这个这个这个是一个感觉也是一个偶线 因为它是一个fp32 然后是非常小的一个值 是吧 是的 是的 是的 是的 是的 那你们是你们当时是稳定复线吗 这个东西 还是说就是不稳定复线 但是但是十次里面有五次 是 就是五次到六次这样子 fp32的话 就是denomal这个这个预值应该非常非常小吧 是的 是的 是的 Ok 这个是一个 还是推理模型 推理模型的感觉可能 不哭了哭了哭了 这个是 这是个看员模型吗 还是什么 是我们内部的模型 Ok ok 了解 行 那我知道这个对 这个还挺有趣的 行 好 行 下面这块你看有什么要 还要想说聊一下吗 没有了 行 那我们就写题吧 好 直接这样 留一点时间 
+
+好 ok 呃 你可以看到这个题目吗 嗯 我没看到 我刷新一下页面啊 我重新进一下看的 那确实还没进入 嗯 我这没看到呀 就是一片空白 这里 那我重新重新启动一下 嗯 好 
+
+嗯嗯 哎 你可以看到吗 嗯 你可以看到吗 还是空白呀 好奇怪啊 我点了上面这有个刷新键 然后 刷新不了 就是还是全完全空白 刚刚我还退出去重重重重重进了一次 还是不行 呃 因为你在 退退重重进一次再试一下 你在退出重进 然后我在我在那个什么下行 你在发戏 行 不行 
+
+I'm going to get you. 
+
+Hey, 
+
+can you hear your sound? Can you see it? It's still empty. I don't want to go through the app. 
+
+Hey, 
+
+I'm not going to go through the app. I'm sorry. I'm sorry. I'm sorry. I'm sorry. 
+
+I'm sorry. 
+
+Okay, okay. 
+
+Okay, now I can. Okay, I can see it. Okay, let's look at the topic. Let's look at the text. It's not a problem. If it's not a problem, you can think about the idea of the idea. 
+
+I'll give two examples. First, it's the first thing. It's not a problem. 
+
+Frisier七, you only need to renew the capacity. You don't want to be able to restrict what's happened. Whatever you have to do whenuu this humor What do you need to be able to accent? 
+
+If minimum, if ... 我說 Dape is equal to 1 ,5 
+
+The output is higher 
+
+this kind of thing here 
+
+and then And then these line 呃 这些数组切成五份 然后且保证每份的呃 每份的值最小 就是输出那个呃 尽可能的把它均均均切为五份 保证呃 它的那个平平平平平平平平均的最小最大值最小 嗯嗯 对 哦 你试试 行 我试试一下 
+
+那就是说 我想想 
+
+H All right. 
+
+Thank you. 
+
+最基本的出入出出有了 
+
+我想是我有个想法 就是说 他 
+
+我的想法是就是用二分的方式 因为你想他就是要么是就是选定一个最小值和选选定一个最大值 然后就是说每次用二分的思想当当当这个每次就是按按中间这个密的值 密的值他会运多少次对吧 然后这个次数如果是呃大于这个天数的话 那说明我们这个密的选的有点小了 然后我们就文有1 然后当如果这个密的数小于那个对呢 
+
+就说明他那个选的有点大了然后呢对然后然后就汪佐伊大体是这么一个情况 ok 可以你可以写一下嗯嗯好就很就是我我我是就是想我这个苏鲁销我也懒得懒得删了然后我就定一个left和right intleft leftft 
+
+mute问题tv交友 Ditormex ID退 
+
+OK OK 
+
+want to restart 
+
+you can select the medium 其实你是可以从那个题目里面推断出来的 ,就是他给数值员推断出来的 呃 我数值上一届吧 肯定不会像那么大那么小 哦那倒也 也是哦就是就是我写习惯了嘛上一届就是一个是零一个是五乘十的负次 Oh, 
+
+yeah, yeah, yeah This is 5x10 I'm sorry 
+
+I'm just gonna write this 
+
+If now Then, it will be a little bit Right If now 等于 day ,刚刚好ns等于mid 
+
+,然后break就跳出了saltns ,然后fide函数的话就是说它要走几次嘛 ,然后fide是fide int x ,然后想想想想想那这个应该是 
+
+我就不是 ,我直接这种定得了 
+
+int wait ,它是数据是i一共是50100 
+
+fide x4 
+
+嗯 嗯 
+
+大于 
+
+大于 大于 大于 大于 大于 x 应该叫limit 这个更好 no wait等于0 ,然后count结加然后这样等于这个对 
+
+kont应该是1 ,因为它进来的话它就都会装嗯我想我大概写完了 
+
+你这个wt的大于10次次方 10的就是5x10的十次方不是10的四次方的话哦那就505哈 
+
+好嘞嗯好嘞看没看到没看到它不一定是这个500啊最大的会是500啊哦不是这个它有更新啊它这里有更新的就每次输出它都会更新的对它也更新的你迭代了一点啊对对对你迭代你是你迭代是把最大的日子找出来的吗对把他 最大自小值都找出来然后把他们当做那个呃呃左右边界吗那可能也不太对哦呃呃想想想在在中15最大日子比方说你那个呃呃哦哦哦是哦是哦是哦那那那那那我其实大概明白了 
+
+然后我书记组数据看一下吧 10的话10的话1123456781910然后对等155 
+
+哎16哦16的话那我这可能是因为这儿设置成1了这个其实是不对的 嗯哎这是14 
+
+嗯嗯嗯等等等等等等等等等等 helps to find meets 
+
+哦起碎有有一次相加就是入侦价就是嗯嗯当它相加大于limit的时候这个等于0然后这个等于然后那我w0 Wesley Continue. 
+
+This is the problem. 
+
+Oh, my God. 
+
+This is the 12th. 
+
+It's too much. This is the 12th. 
+
+It's at least in the 12th. It's not possible to do this. And the left and right will add. 
+
+This is 15. This is the problem. This is the 12th. This is the 6th. 
+
+And the left is the 3, 2, 4, 1, 4. And the right is 3. This is the 6th. 
+
+The right is 4. If no, no, no, no, no, no, no, no. Continue. Okay. 
+
+Now. 
+
+Now. 
+
+Day. 
+
+Now. As. 
+
+Mid break. Not as. 
+
+Let's look at the next one. 1, 2, 3, 1, 1, 4. 
+
+那就是这个 ,我一猜 ,我大概猜一下 ,就是说 ,这个 ,这出了问题. 
+
+嗯 ,我要left小于right ,然后那 ,对. és ,我现在这个大于 ,大于填术 ,说明它这个选的太小了 ,左门要移。 This is equal to the leader It takes a big load or 
+
+Let's re jeu 
+
+it's 2 .2 there's 25 we're 
+
+0, 
+
+0, 1, 1, it is 1. And 1 plus 2, it is not big. 
+
+It's 2 plus 2. 2 plus 2. 2 plus 2, it is 0. And this is 2. And 2 plus 3. It's not bad. And this is 3. 
+
+If it's not bad, it's not bad. 
+
+If this is... 
+
+Yeah, it's like this. 
+
+Um, 
+
+this is the logic of the problem. It's the logic of the problem. 
+
+Okay. 
+
+Yeah. mm. Yeah. That's it. Um. Okay. That's the guess of the problem. Just... HS Steel have shut off. Oh, no, no, no, no, no. Yeah. O like analogy There's no idea, okay. I can go back up I feel bad There's evenAyzy 
+
+Well I'll switch Alt Going to begin FROM Should beierte ot Is Jewish 
+
+I will get modastic example 
+
+If not, we can limit, don't shoot NFS. Retail Corona等于 W -D Fur, Left is different guess change every pallet Null is different And rather the view is different To 
+
+send left is different 
+
+This wün Lincoln seems superb So... 
+
+Alright. 
+
+I think it's just a natural policy to breakira Ensign that is 
+
+We are doing a lot of different things, from the bottom of the graph, the the the the the the the the the the the the the the the the the the the the the the the 
+
+the the the the the the the the the the the the the technically the the the the the the the the the the the the the the the the the the 
+
+It's a lot of it is Anyway.. 
+
+much for my toim ot 
+
+uh 更贴近实际生产一点 然后去往那个底层 要么往底层 要么就是做 就往大做 要么是往往往深做 要么就是往大做 这是挺符合我的一个个人的发 发展方向的 OK 行 那你还有什么想 两点问题吗 嗯 还有一个最后一个就是说 如果我这面面完了 且通过的话 可能还会有几面呢 您知道吗 嗯 应该至少还有两面 哦 还有一个就是还 还会有个技术面是吧 至少有一个对对对对明白明白行好嘞嗯好行那没问题我们就先到这嗯好行感谢您的时间感谢你参加我们的面试谢谢拜拜 
