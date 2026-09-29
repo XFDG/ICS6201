@@ -1264,7 +1264,8 @@
       }
     }
   ],
-  "directories": [
+  "naming_version": 2,
+  "removed_directories": [
     {
       "original": "doc/旧的简历/20260716_134121__冯浩然_秋招简历_AIInfra_20260618",
       "archived": "doc/旧的简历/Word解包附件/秋招简历 6月18日",
@@ -1529,5 +1530,5 @@
       ]
     }
   ],
-  "naming_version": 2
+  "removed_directories_note": "Word 解包附件按用户要求移出仓库；原始 Word 文档保留，可重新解包。以下记录仅用于历史追溯。"
 }
