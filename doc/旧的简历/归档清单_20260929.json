@@ -1,0 +1,1533 @@
+{
+  "timestamp_timezone": "Asia/Shanghai",
+  "files": [
+    {
+      "original": "doc/AIInfra中文简历_匿名版_小红书水印.docx",
+      "archived": "doc/旧的简历/匿名水印简历 9月15日.docx",
+      "mtime_ns": 1789486777262096603,
+      "size": 60121,
+      "sha256": "46a8dd4d3c1ff6138c3bc771ff191bd7dc231b511f452ed09797d07098cf6f68",
+      "previous_archived": "doc/旧的简历/20260915_233937__AIInfra中文简历_匿名版_小红书水印.docx",
+      "date_evidence": [
+        {
+          "date": "2026-09-01T22:21:00+08:00",
+          "source": "Word core.xml modified"
+        },
+        {
+          "source": "Git content change (rename/copy excluded)",
+          "commit": "b2f8f5386dc7eda85fba899ee1224a703ce1c795",
+          "date": "2026-09-15T23:42:08+08:00",
+          "subject": "add linked training and inference resume variants",
+          "status": "M",
+          "blob": "aba311b01fa166d1290de18be7f0472581ab17cc"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-09-15T23:42:08+08:00",
+        "source": "Git 实际内容修改；Word/PDF 时间较旧或缺失"
+      }
+    },
+    {
+      "original": "doc/AIInfra中文简历_匿名版_小红书水印.pdf",
+      "archived": "doc/旧的简历/匿名水印简历 9月15日.pdf",
+      "mtime_ns": 1789486777325227000,
+      "size": 272656,
+      "sha256": "84b3af385c4730b422b6875a4a4016cd6db2e9e9f5d1f270553edba736af615a",
+      "previous_archived": "doc/旧的简历/20260915_233937__AIInfra中文简历_匿名版_小红书水印.pdf",
+      "date_evidence": [
+        {
+          "date": "2026-09-15T23:39:36+08:00",
+          "source": "PDF ModDate/CreationDate"
+        },
+        {
+          "source": "Git content change (rename/copy excluded)",
+          "commit": "b2f8f5386dc7eda85fba899ee1224a703ce1c795",
+          "date": "2026-09-15T23:42:08+08:00",
+          "subject": "add linked training and inference resume variants",
+          "status": "M",
+          "blob": "f21091bbf033d5cf833cb0ecf8bb3b1ba8416b74"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-09-15T23:39:36+08:00",
+        "source": "PDF ModDate/CreationDate"
+      }
+    },
+    {
+      "original": "doc/Haoran_Feng_AIInfra_Resume.docx",
+      "archived": "doc/旧的简历/英文简历 9月15日.docx",
+      "mtime_ns": 1789486771800705628,
+      "size": 22591,
+      "sha256": "4b0e453bab98cf5af28e46435923a5a72eabf40956602f22931f1580e3b294e5",
+      "previous_archived": "doc/旧的简历/20260915_233931__Haoran_Feng_AIInfra_Resume.docx",
+      "date_evidence": [
+        {
+          "date": "2026-09-01T23:00:00+08:00",
+          "source": "Word core.xml modified"
+        },
+        {
+          "source": "Git content change (rename/copy excluded)",
+          "commit": "b2f8f5386dc7eda85fba899ee1224a703ce1c795",
+          "date": "2026-09-15T23:42:08+08:00",
+          "subject": "add linked training and inference resume variants",
+          "status": "M",
+          "blob": "cb16a0fba5aaf5b1c2ae1d786b0ecbd59b068195"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-09-15T23:42:08+08:00",
+        "source": "Git 实际内容修改；Word/PDF 时间较旧或缺失"
+      }
+    },
+    {
+      "original": "doc/Haoran_Feng_AIInfra_Resume.pdf",
+      "archived": "doc/旧的简历/英文简历 9月15日.pdf",
+      "mtime_ns": 1789486777247835000,
+      "size": 53101,
+      "sha256": "45485bd9f425f1d41e94767b50730f5dd8466a558d0108d3931b53480466c8b7",
+      "previous_archived": "doc/旧的简历/20260915_233937__Haoran_Feng_AIInfra_Resume.pdf",
+      "date_evidence": [
+        {
+          "date": "2026-09-15T23:39:37+08:00",
+          "source": "PDF ModDate/CreationDate"
+        },
+        {
+          "source": "Git content change (rename/copy excluded)",
+          "commit": "b2f8f5386dc7eda85fba899ee1224a703ce1c795",
+          "date": "2026-09-15T23:42:08+08:00",
+          "subject": "add linked training and inference resume variants",
+          "status": "M",
+          "blob": "fa91bbeed26ebbef109383a88e8ef7c222f50cd2"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-09-15T23:39:37+08:00",
+        "source": "PDF ModDate/CreationDate"
+      }
+    },
+    {
+      "original": "doc/冯浩然_AIInfra中文简历_推理优化版.docx",
+      "archived": "doc/旧的简历/推理简历 9月16日.docx",
+      "mtime_ns": 1789490432210543347,
+      "size": 60288,
+      "sha256": "1565bec7a1f50db727dab3e81e2bf313656818eae1957e1ea716a467f530564e",
+      "previous_archived": "doc/旧的简历/20260916_004032__冯浩然_AIInfra中文简历_推理优化版.docx",
+      "date_evidence": [
+        {
+          "date": "2026-09-01T22:21:00+08:00",
+          "source": "Word core.xml modified"
+        },
+        {
+          "source": "Git content change (rename/copy excluded)",
+          "commit": "c4b03b6f2269bf5228ac3b5393e26a44c5def24c",
+          "date": "2026-09-16T00:41:05+08:00",
+          "subject": "expand MUSA experience with STAR bullets",
+          "status": "M",
+          "blob": "7f48cef8b8d7fa24a3971ebfba4aa6e7b479e1e9"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-09-16T00:41:05+08:00",
+        "source": "Git 实际内容修改；Word/PDF 时间较旧或缺失"
+      }
+    },
+    {
+      "original": "doc/冯浩然_AIInfra中文简历_推理优化版.pdf",
+      "archived": "doc/旧的简历/推理简历 9月16日.pdf",
+      "mtime_ns": 1789490433312444000,
+      "size": 209735,
+      "sha256": "22df63d4121413a33b8445982ea1f253a7a2122a4373c20497f7b13f00e47087",
+      "previous_archived": "doc/旧的简历/20260916_004033__冯浩然_AIInfra中文简历_推理优化版.pdf",
+      "date_evidence": [
+        {
+          "date": "2026-09-16T00:40:33+08:00",
+          "source": "PDF ModDate/CreationDate"
+        },
+        {
+          "source": "Git content change (rename/copy excluded)",
+          "commit": "c4b03b6f2269bf5228ac3b5393e26a44c5def24c",
+          "date": "2026-09-16T00:41:05+08:00",
+          "subject": "expand MUSA experience with STAR bullets",
+          "status": "M",
+          "blob": "375049ab61b7e369c17f79f42320bb698eab0c23"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-09-16T00:40:33+08:00",
+        "source": "PDF ModDate/CreationDate"
+      }
+    },
+    {
+      "original": "doc/冯浩然_AIInfra中文简历_训练优化版.docx",
+      "archived": "doc/旧的简历/训练简历 9月16日.docx",
+      "mtime_ns": 1789490431002069598,
+      "size": 60823,
+      "sha256": "06c7a20b62d7d3792f1fa039f6ba6898dc1c6c331f716adee75bb26ff39ebece",
+      "previous_archived": "doc/旧的简历/20260916_004031__冯浩然_AIInfra中文简历_训练优化版.docx",
+      "date_evidence": [
+        {
+          "date": "2026-09-01T22:21:00+08:00",
+          "source": "Word core.xml modified"
+        },
+        {
+          "source": "Git content change (rename/copy excluded)",
+          "commit": "c4b03b6f2269bf5228ac3b5393e26a44c5def24c",
+          "date": "2026-09-16T00:41:05+08:00",
+          "subject": "expand MUSA experience with STAR bullets",
+          "status": "M",
+          "blob": "cc2ca0219d2ee63ec94a0c18607b0ced0ffa9a6b"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-09-16T00:41:05+08:00",
+        "source": "Git 实际内容修改；Word/PDF 时间较旧或缺失"
+      }
+    },
+    {
+      "original": "doc/冯浩然_AIInfra中文简历_训练优化版.pdf",
+      "archived": "doc/旧的简历/训练简历 9月16日.pdf",
+      "mtime_ns": 1789490432109238000,
+      "size": 234798,
+      "sha256": "42cb4775126274711bc94bcf15b7cc606c5b8e3113c0a33dc8b5ec4773cc3d32",
+      "previous_archived": "doc/旧的简历/20260916_004032__冯浩然_AIInfra中文简历_训练优化版.pdf",
+      "date_evidence": [
+        {
+          "date": "2026-09-16T00:40:31+08:00",
+          "source": "PDF ModDate/CreationDate"
+        },
+        {
+          "source": "Git content change (rename/copy excluded)",
+          "commit": "c4b03b6f2269bf5228ac3b5393e26a44c5def24c",
+          "date": "2026-09-16T00:41:05+08:00",
+          "subject": "expand MUSA experience with STAR bullets",
+          "status": "M",
+          "blob": "aa5e4cdf47c1e2ad750c178683369b8821daf659"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-09-16T00:40:31+08:00",
+        "source": "PDF ModDate/CreationDate"
+      }
+    },
+    {
+      "original": "doc/冯浩然_AiInfra香港中文大学_15024999885.docx",
+      "archived": "doc/旧的简历/综合简历 9月15日.docx",
+      "mtime_ns": 1789486771595746381,
+      "size": 61367,
+      "sha256": "bff413b4b7ccb44cf6281e5e2e06f87bb96c7785ced2aece5e1db94b4aea9f8f",
+      "previous_archived": "doc/旧的简历/20260915_233931__冯浩然_AiInfra香港中文大学_15024999885.docx",
+      "date_evidence": [
+        {
+          "date": "2026-09-01T22:21:00+08:00",
+          "source": "Word core.xml modified"
+        },
+        {
+          "source": "Git content change (rename/copy excluded)",
+          "commit": "b2f8f5386dc7eda85fba899ee1224a703ce1c795",
+          "date": "2026-09-15T23:42:08+08:00",
+          "subject": "add linked training and inference resume variants",
+          "status": "M",
+          "blob": "3be7cf5b57b714308caeb825ee164b324c29fcef"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-09-15T23:42:08+08:00",
+        "source": "Git 实际内容修改；Word/PDF 时间较旧或缺失"
+      }
+    },
+    {
+      "original": "doc/冯浩然_AiInfra香港中文大学_15024999885.pdf",
+      "archived": "doc/旧的简历/综合简历 9月15日.pdf",
+      "mtime_ns": 1789486777194758000,
+      "size": 247360,
+      "sha256": "c52e816f4e89aeb2a73f256d52a17d4d5d2d1a71a00ef054255355b75d89cc20",
+      "previous_archived": "doc/旧的简历/20260915_233937__冯浩然_AiInfra香港中文大学_15024999885.pdf",
+      "date_evidence": [
+        {
+          "date": "2026-09-15T23:39:32+08:00",
+          "source": "PDF ModDate/CreationDate"
+        },
+        {
+          "source": "Git content change (rename/copy excluded)",
+          "commit": "b2f8f5386dc7eda85fba899ee1224a703ce1c795",
+          "date": "2026-09-15T23:42:08+08:00",
+          "subject": "add linked training and inference resume variants",
+          "status": "M",
+          "blob": "c1430e8350e1efcedfba08bd409929af02882eca"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-09-15T23:39:32+08:00",
+        "source": "PDF ModDate/CreationDate"
+      }
+    },
+    {
+      "original": "doc/面试介绍精简版.docx",
+      "archived": "doc/旧的简历/面试介绍 9月23日.docx",
+      "mtime_ns": 1790133410788812663,
+      "size": 16177,
+      "sha256": "d9780214a5c1292c39e6fda889e8ce069b0b169938092cc5533931242b8252a5",
+      "previous_archived": "doc/旧的简历/20260923_111650__面试介绍精简版.docx",
+      "date_evidence": [
+        {
+          "date": "2026-09-01T22:50:00+08:00",
+          "source": "Word core.xml modified"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-09-23T11:16:50.788813+08:00",
+        "source": "本地内容不同于 Git 已记录版本；以原 mtime 回退，内部时间可能沿用模板"
+      }
+    },
+    {
+      "original": "doc/面试介绍精简版.md",
+      "archived": "doc/旧的简历/面试介绍 9月29日.md",
+      "mtime_ns": 1790652171830852461,
+      "size": 1627,
+      "sha256": "8bab78769109571d3ba7bddfa716c2ac93241929df2ac719c7f534f2ebd1fe71",
+      "previous_archived": "doc/旧的简历/20260929_112251__面试介绍精简版.md",
+      "date_evidence": [],
+      "naming_date": {
+        "date": "2026-09-29T11:22:51.830852+08:00",
+        "source": "本地内容不同于 Git 已记录版本；以原 mtime 回退，内部时间可能沿用模板"
+      }
+    },
+    {
+      "original": "doc/面试押题/深挖_TE_RDMA资源生命周期_3604_3660.md",
+      "archived": "doc/旧的简历/RDMA押题 9月11日.md",
+      "mtime_ns": 1789114820606109000,
+      "size": 10608,
+      "sha256": "1d4a3dde123e5d994b18141f3195c135cdeefe805c86890abb5da9e1beec3ec5",
+      "previous_archived": "doc/旧的简历/20260911_162020__深挖_TE_RDMA资源生命周期_3604_3660.md",
+      "date_evidence": [
+        {
+          "source": "Git content change (rename/copy excluded)",
+          "commit": "0c4aa56fc4afc0920a0a2bad387bb5dfe9a4ee77",
+          "date": "2026-09-11T16:21:33+08:00",
+          "subject": "docs: organize interview preparation materials",
+          "status": "A",
+          "blob": "7dff947cbaea5157d8d624be6dbb5967d9b9aff0"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-09-11T16:21:33+08:00",
+        "source": "Git 内容记录（无有效文档时间）"
+      }
+    },
+    {
+      "original": "doc/面试押题/面试复盘_R3与FlashInfer根因_20260818.md",
+      "archived": "doc/旧的简历/R3复盘 9月1日.md",
+      "mtime_ns": 1789114812873521000,
+      "size": 15780,
+      "sha256": "d355b030fd6399f57b3da9d324421c337b39a694ece9f233491c1fd46f945c94",
+      "previous_archived": "doc/旧的简历/20260911_162012__面试复盘_R3与FlashInfer根因_20260818.md",
+      "date_evidence": [
+        {
+          "source": "Git content change (rename/copy excluded)",
+          "commit": "6b6624e0faadf9987bc5c20a2d8f924b2624dbc0",
+          "date": "2026-09-01T22:52:54+08:00",
+          "subject": "plus giithub pr",
+          "status": "M",
+          "blob": "8fdaa1ec7b84d54996463668880e458684f40101"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-09-01T22:52:54+08:00",
+        "source": "Git 实际内容修改；Word/PDF 时间较旧或缺失"
+      }
+    },
+    {
+      "original": "doc/面试押题/面试复盘_R3与FlashInfer根因_20260818.pdf",
+      "archived": "doc/旧的简历/R3复盘 8月18日.pdf",
+      "mtime_ns": 1789114820608775532,
+      "size": 444011,
+      "sha256": "55b8e0b3e68c5d00df84dc10844bb5581c38f769aac434ad81cc9ffdb6af598c",
+      "previous_archived": "doc/旧的简历/20260911_162020__面试复盘_R3与FlashInfer根因_20260818.pdf",
+      "date_evidence": [
+        {
+          "date": "2026-08-18T17:16:50+08:00",
+          "source": "PDF ModDate/CreationDate"
+        },
+        {
+          "source": "Git content change (rename/copy excluded)",
+          "commit": "167e3fe36b4112421a0a80f39bfc54f33df6a56b",
+          "date": "2026-08-18T17:42:14+08:00",
+          "subject": "docs: add R3 & FlashInfer 面试复盘 (口径缝合 + FTZ/Lamport 根因)",
+          "status": "A",
+          "blob": "d4982995658b0b2024ecd0e5a12f74c45831a916"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-08-18T17:16:50+08:00",
+        "source": "PDF ModDate/CreationDate"
+      }
+    },
+    {
+      "original": "doc/面试押题/面试押题_FlashInfer与R3_20260914.md",
+      "archived": "doc/旧的简历/FlashInfer与R3押题 9月16日.md",
+      "mtime_ns": 1789522192111091705,
+      "size": 21054,
+      "sha256": "3160c23acfa9c973e588dc422d5d0a1b11ad6b300363a8cc085d4be2def2f919",
+      "previous_archived": "doc/旧的简历/20260916_092952__面试押题_FlashInfer与R3_20260914.md",
+      "date_evidence": [
+        {
+          "source": "Git content change (rename/copy excluded)",
+          "commit": "403995294c01eed092aa44beb582e87b4cb1b23b",
+          "date": "2026-09-16T09:29:32+08:00",
+          "subject": "v1",
+          "status": "M",
+          "blob": "6618baee4c04c22d6a59435c0261d5d4c1d6851c"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-09-16T09:29:32+08:00",
+        "source": "Git 实际内容修改；Word/PDF 时间较旧或缺失"
+      }
+    },
+    {
+      "original": "doc/面试押题/面试押题_FlashInfer与R3_20260914.pdf",
+      "archived": "doc/旧的简历/FlashInfer与R3押题 9月14日.pdf",
+      "mtime_ns": 1789401885070973235,
+      "size": 483237,
+      "sha256": "05637c23d9b871314335e0d6d3ab50a7ff20dfe3c03c4fdb350fbd5d9e284d77",
+      "previous_archived": "doc/旧的简历/20260915_000445__面试押题_FlashInfer与R3_20260914.pdf",
+      "date_evidence": [
+        {
+          "date": "2026-09-14T18:15:29+08:00",
+          "source": "PDF ModDate/CreationDate"
+        },
+        {
+          "source": "Git content change (rename/copy excluded)",
+          "commit": "80eb82fc26c93dcc09709702f5e6929c6f1e2047",
+          "date": "2026-09-15T00:04:45+08:00",
+          "subject": "面试押题：FlashInfer FTZ sentinel hang + R3 Router Replay",
+          "status": "A",
+          "blob": "8c575b20f80409a15c8d8370c3f3cb964a991aca"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-09-14T18:15:29+08:00",
+        "source": "PDF ModDate/CreationDate"
+      }
+    },
+    {
+      "original": "doc/面试押题/面试押题_Mooncake_阿里_20260827.md",
+      "archived": "doc/旧的简历/Mooncake押题 8月28日.md",
+      "mtime_ns": 1789114820609930094,
+      "size": 24122,
+      "sha256": "109323e82bf3c1e71ef9cbfb7238ebd32405d35f049cbd15144c6efed38940c3",
+      "previous_archived": "doc/旧的简历/20260911_162020__面试押题_Mooncake_阿里_20260827.md",
+      "date_evidence": [
+        {
+          "source": "Git content change (rename/copy excluded)",
+          "commit": "06ffd08817afa6a5243df907e27914bce0fc12d0",
+          "date": "2026-08-28T09:41:24+08:00",
+          "subject": "docs: add Mooncake 面试押题 (架构速成 + 8 PR 逐条 + 4 深挖 + 通用追问)",
+          "status": "A",
+          "blob": "91486c79988621e07d4e1245759649993b6bbd07"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-08-28T09:41:24+08:00",
+        "source": "Git 内容记录（无有效文档时间）"
+      }
+    },
+    {
+      "original": "doc/面试押题/面试押题_Mooncake_阿里_20260827.pdf",
+      "archived": "doc/旧的简历/Mooncake押题 8月27日.pdf",
+      "mtime_ns": 1789114820612367855,
+      "size": 491421,
+      "sha256": "9276e2f36562de49f9fe924e3ccec61889c42320827530777645ccd292577e2c",
+      "previous_archived": "doc/旧的简历/20260911_162020__面试押题_Mooncake_阿里_20260827.pdf",
+      "date_evidence": [
+        {
+          "date": "2026-08-27T16:17:30+08:00",
+          "source": "PDF ModDate/CreationDate"
+        },
+        {
+          "source": "Git content change (rename/copy excluded)",
+          "commit": "06ffd08817afa6a5243df907e27914bce0fc12d0",
+          "date": "2026-08-28T09:41:24+08:00",
+          "subject": "docs: add Mooncake 面试押题 (架构速成 + 8 PR 逐条 + 4 深挖 + 通用追问)",
+          "status": "A",
+          "blob": "6de8779e56f47a5bd8495087ff0a85e852401e6c"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-08-27T16:17:30+08:00",
+        "source": "PDF ModDate/CreationDate"
+      }
+    },
+    {
+      "original": "doc/面试押题/面试押题_量化Runtime与RouterGEMM_20260831.md",
+      "archived": "doc/旧的简历/Runtime与Router押题 9月11日.md",
+      "mtime_ns": 1789114820613466032,
+      "size": 20504,
+      "sha256": "32cdb1066f4a203b6d46723dbaed8c51be73f97bbcc18fbcf4ef533cd1ab25a4",
+      "previous_archived": "doc/旧的简历/20260911_162020__面试押题_量化Runtime与RouterGEMM_20260831.md",
+      "date_evidence": [
+        {
+          "source": "Git content change (rename/copy excluded)",
+          "commit": "d16320b96bb84d49d6f9baf7bdc79bcff247012d",
+          "date": "2026-09-11T16:20:12+08:00",
+          "subject": "面试押题：量化Runtime(AWQ W4A16) + BI Router GEMM 三级后端",
+          "status": "A",
+          "blob": "5db09dfdba8496437acdd0ad23bf429a5c46d1a9"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-09-11T16:20:12+08:00",
+        "source": "Git 内容记录（无有效文档时间）"
+      }
+    },
+    {
+      "original": "doc/面试押题/面试押题_量化Runtime与RouterGEMM_20260831.pdf",
+      "archived": "doc/旧的简历/Runtime与Router押题 8月31日.pdf",
+      "mtime_ns": 1789114820615643307,
+      "size": 456131,
+      "sha256": "2f3f00dad5a3e218feca67446843b739a4561393c3abef62cafa58036d2aab3f",
+      "previous_archived": "doc/旧的简历/20260911_162020__面试押题_量化Runtime与RouterGEMM_20260831.pdf",
+      "date_evidence": [
+        {
+          "date": "2026-08-31T10:07:27+08:00",
+          "source": "PDF ModDate/CreationDate"
+        },
+        {
+          "source": "Git content change (rename/copy excluded)",
+          "commit": "d16320b96bb84d49d6f9baf7bdc79bcff247012d",
+          "date": "2026-09-11T16:20:12+08:00",
+          "subject": "面试押题：量化Runtime(AWQ W4A16) + BI Router GEMM 三级后端",
+          "status": "A",
+          "blob": "f93ef6fcea09fed0b726e0ad9ce371be90df35ea"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-08-31T10:07:27+08:00",
+        "source": "PDF ModDate/CreationDate"
+      }
+    },
+    {
+      "original": "doc/旧的简历/F同学_AIInfra_匿名简历_小红书水印.pdf",
+      "archived": "doc/旧的简历/匿名水印简历 7月27日.pdf",
+      "mtime_ns": 1786438455417459543,
+      "size": 1391304,
+      "sha256": "8a36c2974603ff5eb5e74a6b1a33f34f6261848270d8e3da73f3f576167190fd",
+      "previous_archived": "doc/旧的简历/20260811_165415__F同学_AIInfra_匿名简历_小红书水印.pdf",
+      "date_evidence": [
+        {
+          "source": "Git content change (rename/copy excluded)",
+          "commit": "8809f5609875bc464b9948d72a0a5cf87a9c92e0",
+          "date": "2026-07-27T20:54:50+08:00",
+          "subject": "now",
+          "status": "A",
+          "blob": "2023d774ef581093f384d8a4db9c34db2e0d7fb3"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-07-27T20:54:50+08:00",
+        "source": "Git 内容记录（无有效文档时间）"
+      }
+    },
+    {
+      "original": "doc/旧的简历/Haoran_Feng_AIInfra_CUHK-Shenzhen_15024999885.docx",
+      "archived": "doc/旧的简历/英文简历 8月15日.docx",
+      "mtime_ns": 1789114812786287861,
+      "size": 26982,
+      "sha256": "c98f44568950b46ecb0af3a3ad2b6269550fff0611078c25f326a8e14db26b56",
+      "previous_archived": "doc/旧的简历/20260911_162012__Haoran_Feng_AIInfra_CUHK-Shenzhen_15024999885.docx",
+      "date_evidence": [
+        {
+          "date": "2026-08-15T16:52:00+08:00",
+          "source": "Word core.xml modified"
+        },
+        {
+          "source": "Git content change (rename/copy excluded)",
+          "commit": "1df9ae98aa24b059dd03cc63032dfc42da4676b0",
+          "date": "2026-08-15T16:55:35+08:00",
+          "subject": "web",
+          "status": "M",
+          "blob": "91b65115e100b3cb37d88ebe20f6adc3e2473db2"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-08-15T16:52:00+08:00",
+        "source": "Word core.xml modified"
+      }
+    },
+    {
+      "original": "doc/旧的简历/Haoran_Feng_AIInfra_CUHK-Shenzhen_15024999885.pdf",
+      "archived": "doc/旧的简历/英文简历 8月15日.pdf",
+      "mtime_ns": 1789114812788174099,
+      "size": 302869,
+      "sha256": "065cc3b55d42b42dc4c09f493e8c606db441c372fe32efc557499ea7c478f354",
+      "previous_archived": "doc/旧的简历/20260911_162012__Haoran_Feng_AIInfra_CUHK-Shenzhen_15024999885.pdf",
+      "date_evidence": [
+        {
+          "date": "2026-08-15T16:52:49+08:00",
+          "source": "PDF ModDate/CreationDate"
+        },
+        {
+          "source": "Git content change (rename/copy excluded)",
+          "commit": "1df9ae98aa24b059dd03cc63032dfc42da4676b0",
+          "date": "2026-08-15T16:55:35+08:00",
+          "subject": "web",
+          "status": "M",
+          "blob": "d35311fbe7cc3493407ac7a7d2976e981f073b84"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-08-15T16:52:49+08:00",
+        "source": "PDF ModDate/CreationDate"
+      }
+    },
+    {
+      "original": "doc/旧的简历/冯浩然_AIInfra中文简历_RL训练推理算子版_20260911.docx",
+      "archived": "doc/旧的简历/训推RL简历 9月11日.docx",
+      "mtime_ns": 1789122004054690516,
+      "size": 66068,
+      "sha256": "5661a91bea75eb4fbd1512079e36a94b3b61881cc0d0aadf8371e33ef47b0933",
+      "previous_archived": "doc/旧的简历/20260911_182004__冯浩然_AIInfra中文简历_RL训练推理算子版_20260911.docx",
+      "date_evidence": [
+        {
+          "date": "2026-09-11T18:20:04+08:00",
+          "source": "Word core.xml modified"
+        },
+        {
+          "source": "Git content change (rename/copy excluded)",
+          "commit": "1f0ff52eba25df24da426e4e09b6d606a77a35bc",
+          "date": "2026-09-14T16:28:57+08:00",
+          "subject": "report",
+          "status": "A",
+          "blob": "e6896f83435a70c9d76bc162ef92f52162b006c7"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-09-11T18:20:04+08:00",
+        "source": "Word core.xml modified"
+      }
+    },
+    {
+      "original": "doc/旧的简历/冯浩然_AIInfra中文简历_RL训练推理算子版_20260911.pdf",
+      "archived": "doc/旧的简历/训推RL简历 9月11日.pdf",
+      "mtime_ns": 1789122005186538916,
+      "size": 288227,
+      "sha256": "39a97e13b435a41e81b9ce6b216e7160a6a8f0c58dc1a13b2d723644e4032bfe",
+      "previous_archived": "doc/旧的简历/20260911_182005__冯浩然_AIInfra中文简历_RL训练推理算子版_20260911.pdf",
+      "date_evidence": [
+        {
+          "date": "2026-09-11T18:20:05+08:00",
+          "source": "PDF ModDate/CreationDate"
+        },
+        {
+          "source": "Git content change (rename/copy excluded)",
+          "commit": "1f0ff52eba25df24da426e4e09b6d606a77a35bc",
+          "date": "2026-09-14T16:28:57+08:00",
+          "subject": "report",
+          "status": "A",
+          "blob": "f87797680daa4fc0c2485d6d12024845eca6f522"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-09-11T18:20:05+08:00",
+        "source": "PDF ModDate/CreationDate"
+      }
+    },
+    {
+      "original": "doc/旧的简历/冯浩然_AIInfra中文简历_RL训练推理算子版_内容审阅稿.md",
+      "archived": "doc/旧的简历/训推RL审阅稿 9月16日.md",
+      "mtime_ns": 1789522192107105000,
+      "size": 8958,
+      "sha256": "be4efddd6d500e760f557dbeb9d5a168d0fbfbf755015d692d67f60c42e0f8f3",
+      "previous_archived": "doc/旧的简历/20260916_092952__冯浩然_AIInfra中文简历_RL训练推理算子版_内容审阅稿.md",
+      "date_evidence": [
+        {
+          "source": "Git content change (rename/copy excluded)",
+          "commit": "403995294c01eed092aa44beb582e87b4cb1b23b",
+          "date": "2026-09-16T09:29:32+08:00",
+          "subject": "v1",
+          "status": "M",
+          "blob": "ea3b6551269529a74f639202e4c1ca98542f07d9"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-09-16T09:29:32+08:00",
+        "source": "Git 实际内容修改；Word/PDF 时间较旧或缺失"
+      }
+    },
+    {
+      "original": "doc/旧的简历/冯浩然_AIInfra面试自我介绍.docx",
+      "archived": "doc/旧的简历/面试介绍 7月24日.docx",
+      "mtime_ns": 1789114812858384171,
+      "size": 17759,
+      "sha256": "794a14a44b448f12005f56029095a700cc69e2f0be7d40d332edfe4f1f73c32d",
+      "previous_archived": "doc/旧的简历/20260911_162012__冯浩然_AIInfra面试自我介绍.docx",
+      "date_evidence": [
+        {
+          "date": "2026-04-24T19:46:00+08:00",
+          "source": "Word core.xml modified"
+        },
+        {
+          "source": "Git content change (rename/copy excluded)",
+          "commit": "7bcbcf2b6e0c5e9ffa97d50e974404528f5bef47",
+          "date": "2026-07-24T18:08:52+08:00",
+          "subject": "fail",
+          "status": "M",
+          "blob": "bcddd5458b717cdc674dfb0a672e0b448ef3b529"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-07-24T18:08:52+08:00",
+        "source": "Git 实际内容修改；Word/PDF 时间较旧或缺失"
+      }
+    },
+    {
+      "original": "doc/旧的简历/冯浩然_AIInfra面试自我介绍_精简版.pdf",
+      "archived": "doc/旧的简历/面试介绍 9月1日.pdf",
+      "mtime_ns": 1789114812859850816,
+      "size": 84665,
+      "sha256": "5193f43e57f4fca14a42b088c4c6029f13e3bc975bba59a1890f883ff9f07633",
+      "previous_archived": "doc/旧的简历/20260911_162012__冯浩然_AIInfra面试自我介绍_精简版.pdf",
+      "date_evidence": [
+        {
+          "date": "2026-09-01T22:38:46+08:00",
+          "source": "PDF ModDate/CreationDate"
+        },
+        {
+          "source": "Git content change (rename/copy excluded)",
+          "commit": "6b6624e0faadf9987bc5c20a2d8f924b2624dbc0",
+          "date": "2026-09-01T22:52:54+08:00",
+          "subject": "plus giithub pr",
+          "status": "A",
+          "blob": "c293d992cf107ad74d0ada224ed84eeb613420ce"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-09-01T22:38:46+08:00",
+        "source": "PDF ModDate/CreationDate"
+      }
+    },
+    {
+      "original": "doc/旧的简历/冯浩然_AiInfra香港中文大学_15024999885.docx",
+      "archived": "doc/旧的简历/综合简历 8月15日.docx",
+      "mtime_ns": 1789114812861551813,
+      "size": 69903,
+      "sha256": "9e7d7d3c95c3472e5edc6bfe7123e6d47d7eb893c32e8bb14c2381f55174f539",
+      "previous_archived": "doc/旧的简历/20260911_162012__冯浩然_AiInfra香港中文大学_15024999885.docx",
+      "date_evidence": [
+        {
+          "date": "2026-08-15T16:51:00+08:00",
+          "source": "Word core.xml modified"
+        },
+        {
+          "source": "Git content change (rename/copy excluded)",
+          "commit": "1df9ae98aa24b059dd03cc63032dfc42da4676b0",
+          "date": "2026-08-15T16:55:35+08:00",
+          "subject": "web",
+          "status": "M",
+          "blob": "601567b61250f354a7b32a7b2cfff864f0c9dc20"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-08-15T16:51:00+08:00",
+        "source": "Word core.xml modified"
+      }
+    },
+    {
+      "original": "doc/旧的简历/冯浩然_AiInfra香港中文大学_15024999885.pdf",
+      "archived": "doc/旧的简历/综合简历 8月15日.pdf",
+      "mtime_ns": 1789114812864407534,
+      "size": 439673,
+      "sha256": "93fe1c4d9e8f3a97de764fa2f612266cc42e56202a52e0ae9058b95352d1193c",
+      "previous_archived": "doc/旧的简历/20260911_162012__冯浩然_AiInfra香港中文大学_15024999885.pdf",
+      "date_evidence": [
+        {
+          "date": "2026-08-15T16:51:36+08:00",
+          "source": "PDF ModDate/CreationDate"
+        },
+        {
+          "source": "Git content change (rename/copy excluded)",
+          "commit": "1df9ae98aa24b059dd03cc63032dfc42da4676b0",
+          "date": "2026-08-15T16:55:35+08:00",
+          "subject": "web",
+          "status": "M",
+          "blob": "f6bee6cff2b3e4760909692aac49f6e7a8a50db6"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-08-15T16:51:36+08:00",
+        "source": "PDF ModDate/CreationDate"
+      }
+    },
+    {
+      "original": "doc/旧的简历/冯浩然_AiInfra香港中文大学_15024999885_开源贡献版.docx",
+      "archived": "doc/旧的简历/开源贡献简历 9月1日.docx",
+      "mtime_ns": 1789114812866158177,
+      "size": 69353,
+      "sha256": "5b17d43ac1d8a17a5bffe616977d18115885c7a6af283bd845c4c797a04a4f24",
+      "previous_archived": "doc/旧的简历/20260911_162012__冯浩然_AiInfra香港中文大学_15024999885_开源贡献版.docx",
+      "date_evidence": [
+        {
+          "date": "2026-09-01T21:51:00+08:00",
+          "source": "Word core.xml modified"
+        },
+        {
+          "source": "Git content change (rename/copy excluded)",
+          "commit": "6b6624e0faadf9987bc5c20a2d8f924b2624dbc0",
+          "date": "2026-09-01T22:52:54+08:00",
+          "subject": "plus giithub pr",
+          "status": "C070",
+          "blob": "b835efaaccbcd16dbd0dd5cffba17214d0d9cda7"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-09-01T21:51:00+08:00",
+        "source": "Word core.xml modified"
+      }
+    },
+    {
+      "original": "doc/旧的简历/冯浩然_AiInfra香港中文大学_15024999885_开源贡献版.pdf",
+      "archived": "doc/旧的简历/开源贡献简历 9月1日.pdf",
+      "mtime_ns": 1789114812868995035,
+      "size": 439613,
+      "sha256": "81686ee8c8c67d3614b39972c4c0e1470fe242290d605b5308f932dcbabc056a",
+      "previous_archived": "doc/旧的简历/20260911_162012__冯浩然_AiInfra香港中文大学_15024999885_开源贡献版.pdf",
+      "date_evidence": [
+        {
+          "date": "2026-09-01T21:51:34+08:00",
+          "source": "PDF ModDate/CreationDate"
+        },
+        {
+          "source": "Git content change (rename/copy excluded)",
+          "commit": "6b6624e0faadf9987bc5c20a2d8f924b2624dbc0",
+          "date": "2026-09-01T22:52:54+08:00",
+          "subject": "plus giithub pr",
+          "status": "A",
+          "blob": "5805ead9fd296b01986811c31b14d33fc7b4bfea"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-09-01T21:51:34+08:00",
+        "source": "PDF ModDate/CreationDate"
+      }
+    },
+    {
+      "original": "doc/旧的简历/冯浩然_AiInfra香港中文大学_15024999885_项目与科研版.pdf",
+      "archived": "doc/旧的简历/科研简历 9月1日.pdf",
+      "mtime_ns": 1789114812871858852,
+      "size": 448583,
+      "sha256": "bf65fb238f651e19afde7fa4826160657f769cdda877138ed9d407d53fbbae21",
+      "previous_archived": "doc/旧的简历/20260911_162012__冯浩然_AiInfra香港中文大学_15024999885_项目与科研版.pdf",
+      "date_evidence": [
+        {
+          "date": "2026-09-01T22:14:04+08:00",
+          "source": "PDF ModDate/CreationDate"
+        },
+        {
+          "source": "Git content change (rename/copy excluded)",
+          "commit": "6b6624e0faadf9987bc5c20a2d8f924b2624dbc0",
+          "date": "2026-09-01T22:52:54+08:00",
+          "subject": "plus giithub pr",
+          "status": "A",
+          "blob": "82afed37e8ebc56d0df903e82e31416903a667c7"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-09-01T22:14:04+08:00",
+        "source": "PDF ModDate/CreationDate"
+      }
+    },
+    {
+      "original": "doc/旧的简历/冯浩然_秋招简历_AIInfra_20260618.docx",
+      "archived": "doc/旧的简历/秋招简历 6月18日.docx",
+      "mtime_ns": 1784180481076304930,
+      "size": 78845,
+      "sha256": "f5a1b116e9be243cb97b1874636b96222be4739e8e85da143ae94e62a7f25044",
+      "previous_archived": "doc/旧的简历/20260716_134121__冯浩然_秋招简历_AIInfra_20260618.docx",
+      "date_evidence": [
+        {
+          "source": "Git content change (rename/copy excluded)",
+          "commit": "a2e66c6a7144763f534a6709ca9671fc1d1a8b89",
+          "date": "2026-06-18T18:05:32+08:00",
+          "subject": "resmue",
+          "status": "A",
+          "blob": "2ac753317a7bf7045a65cdcb55dba9d3c93bc445"
+        },
+        {
+          "date": "2026-06-18T14:32:47+08:00",
+          "source": "同版 PDF ModDate/CreationDate"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-06-18T14:32:47+08:00",
+        "source": "同版 PDF ModDate/CreationDate"
+      }
+    },
+    {
+      "original": "doc/旧的简历/冯浩然_秋招简历_AIInfra_20260618.md",
+      "archived": "doc/旧的简历/秋招简历 7月17日.md",
+      "mtime_ns": 1784254497405167000,
+      "size": 5956,
+      "sha256": "feaf4d4f951193461ec0ab71ea5396bb1a3c304bdcea8a70471aa4ff67df46b3",
+      "previous_archived": "doc/旧的简历/20260717_101457__冯浩然_秋招简历_AIInfra_20260618.md",
+      "date_evidence": [
+        {
+          "source": "Git content change (rename/copy excluded)",
+          "commit": "726fac009841d16e98a5f9709c44320272f2bcf6",
+          "date": "2026-07-17T01:08:45+08:00",
+          "subject": "v3",
+          "status": "M",
+          "blob": "d4e90bc6f538a8a52e84c3f73cb94d021caf226d"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-07-17T01:08:45+08:00",
+        "source": "Git 实际内容修改；Word/PDF 时间较旧或缺失"
+      }
+    },
+    {
+      "original": "doc/旧的简历/冯浩然_秋招简历_AIInfra_20260618.pdf",
+      "archived": "doc/旧的简历/秋招简历 6月18日.pdf",
+      "mtime_ns": 1784180481078121234,
+      "size": 124458,
+      "sha256": "17a6cd5cded6f3f0f0c647d65a81ed1b776f93fbc698a6c242c598679c4fdbc0",
+      "previous_archived": "doc/旧的简历/20260716_134121__冯浩然_秋招简历_AIInfra_20260618.pdf",
+      "date_evidence": [
+        {
+          "date": "2026-06-18T14:32:47+08:00",
+          "source": "PDF ModDate/CreationDate"
+        },
+        {
+          "source": "Git content change (rename/copy excluded)",
+          "commit": "a2e66c6a7144763f534a6709ca9671fc1d1a8b89",
+          "date": "2026-06-18T18:05:32+08:00",
+          "subject": "resmue",
+          "status": "A",
+          "blob": "19cc2b5d05bb1b5422abd6d416baa49966398872"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-06-18T14:32:47+08:00",
+        "source": "PDF ModDate/CreationDate"
+      }
+    },
+    {
+      "original": "doc/旧的简历/冯浩然_香港中文大学_15024999885.docx",
+      "archived": "doc/旧的简历/综合简历 3月11日.docx",
+      "mtime_ns": 1784180481079531362,
+      "size": 62450,
+      "sha256": "51474ddfc32ae9ab1e36d8e8f02f3221e027f786490e4133fc1b29325a22fe83",
+      "previous_archived": "doc/旧的简历/20260716_134121__冯浩然_香港中文大学_15024999885.docx",
+      "date_evidence": [
+        {
+          "date": "2026-03-11T11:01:00+08:00",
+          "source": "Word core.xml modified"
+        },
+        {
+          "source": "Git content change (rename/copy excluded)",
+          "commit": "a29dd59cd4d8b28fc4124e34d0cecc42d4d64e12",
+          "date": "2026-06-18T08:59:00+08:00",
+          "subject": "me",
+          "status": "A",
+          "blob": "550166ea9491b2483c123c6e2682aa0a3dd22f0e"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-03-11T11:01:00+08:00",
+        "source": "Word core.xml modified"
+      }
+    },
+    {
+      "original": "doc/旧的简历/冯浩然_香港中文大学_15024999885.pdf",
+      "archived": "doc/旧的简历/综合简历 3月11日.pdf",
+      "mtime_ns": 1784180481082022064,
+      "size": 377296,
+      "sha256": "f0bc4a2f47f8cf55ede54f21b902b2b39e696e07fb1884e4a16ac6f17d0cfa16",
+      "previous_archived": "doc/旧的简历/20260716_134121__冯浩然_香港中文大学_15024999885.pdf",
+      "date_evidence": [
+        {
+          "date": "2026-03-11T10:40:16+08:00",
+          "source": "PDF ModDate/CreationDate"
+        },
+        {
+          "source": "Git content change (rename/copy excluded)",
+          "commit": "a29dd59cd4d8b28fc4124e34d0cecc42d4d64e12",
+          "date": "2026-06-18T08:59:00+08:00",
+          "subject": "me",
+          "status": "A",
+          "blob": "cf8cb650f90af6032dfdc9b37284ad320f87d572"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-03-11T10:40:16+08:00",
+        "source": "PDF ModDate/CreationDate"
+      }
+    },
+    {
+      "original": "doc/旧的简历/小冯别放弃_AIInfra秋招记录_匿名简历.pdf",
+      "archived": "doc/旧的简历/匿名简历 7月24日.pdf",
+      "mtime_ns": 1786438455440730480,
+      "size": 1149349,
+      "sha256": "2e16ccde82373838c93551143aed79fb5448a5578c8b0efa7994bb366b326f13",
+      "previous_archived": "doc/旧的简历/20260811_165415__小冯别放弃_AIInfra秋招记录_匿名简历.pdf",
+      "date_evidence": [
+        {
+          "date": "2026-07-24T15:47:56+08:00",
+          "source": "PDF ModDate/CreationDate"
+        },
+        {
+          "source": "Git content change (rename/copy excluded)",
+          "commit": "7bcbcf2b6e0c5e9ffa97d50e974404528f5bef47",
+          "date": "2026-07-24T18:08:52+08:00",
+          "subject": "fail",
+          "status": "A",
+          "blob": "70f5e4598f6c164fab0eadda8ded55ba52a4209b"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-07-24T15:47:56+08:00",
+        "source": "PDF ModDate/CreationDate"
+      }
+    },
+    {
+      "original": "doc/旧的简历/最新0.1.docx",
+      "archived": "doc/旧的简历/简历草稿0.1 7月16日.docx",
+      "mtime_ns": 1784254497408634256,
+      "size": 66337,
+      "sha256": "d96300d96549cc512055acf798ebace80f174bc93a5ecfb916f461e24968eca6",
+      "previous_archived": "doc/旧的简历/20260717_101457__最新0.1.docx",
+      "date_evidence": [
+        {
+          "date": "2026-07-16T09:40:00+08:00",
+          "source": "Word core.xml modified"
+        },
+        {
+          "source": "Git content change (rename/copy excluded)",
+          "commit": "4d8871e7492c8811818dc4f0276f8f308d9369a6",
+          "date": "2026-07-16T09:41:38+08:00",
+          "subject": "v1",
+          "status": "R063",
+          "blob": "e232de9dc1be077f8fb511698840b5934aebed4d"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-07-16T09:40:00+08:00",
+        "source": "Word core.xml modified"
+      }
+    },
+    {
+      "original": "doc/旧的简历/最新0.2.docx",
+      "archived": "doc/旧的简历/简历草稿0.2 7月17日.docx",
+      "mtime_ns": 1784254497407307811,
+      "size": 69651,
+      "sha256": "528d03d953bcae6420b3a0612d038718e9934d7264b8d21380964ebad8a7a6f1",
+      "previous_archived": "doc/旧的简历/20260717_101457__最新0.2.docx",
+      "date_evidence": [
+        {
+          "date": "2026-07-17T00:48:00+08:00",
+          "source": "Word core.xml modified"
+        },
+        {
+          "source": "Git content change (rename/copy excluded)",
+          "commit": "726fac009841d16e98a5f9709c44320272f2bcf6",
+          "date": "2026-07-17T01:08:45+08:00",
+          "subject": "v3",
+          "status": "M",
+          "blob": "3b7e2effa4ac5a126531654ca3c1e950de6005ea"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-07-17T00:48:00+08:00",
+        "source": "Word core.xml modified"
+      }
+    },
+    {
+      "original": "doc/旧的简历/最新0.3.docx",
+      "archived": "doc/旧的简历/简历草稿0.3 7月22日.docx",
+      "mtime_ns": 1784713032975981000,
+      "size": 67990,
+      "sha256": "b9f77639b720d65c00350c3d37ec28884abebf416c51be877cdbaf3e30cb4eea",
+      "previous_archived": "doc/旧的简历/20260722_173712__最新0.3.docx",
+      "date_evidence": [
+        {
+          "date": "2026-07-22T17:36:00+08:00",
+          "source": "Word core.xml modified"
+        },
+        {
+          "source": "Git content change (rename/copy excluded)",
+          "commit": "1e7c6546ec82274dc9ed42af30edc84a2e2af782",
+          "date": "2026-07-22T18:45:01+08:00",
+          "subject": "final",
+          "status": "R060",
+          "blob": "5ab76eec09bb79e8e51ed2eaf8c104effbc284a1"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-07-22T17:36:00+08:00",
+        "source": "Word core.xml modified"
+      }
+    },
+    {
+      "original": "doc/旧的简历/最新0.4.docx",
+      "archived": "doc/旧的简历/简历草稿0.4 7月23日.docx",
+      "mtime_ns": 1786438455442141551,
+      "size": 69959,
+      "sha256": "8f9589dac9f9c9a945a3d25836b2bdf2ae6a3711563099507613eb804ebac2e0",
+      "previous_archived": "doc/旧的简历/20260811_165415__最新0.4.docx",
+      "date_evidence": [
+        {
+          "date": "2026-07-23T22:55:00+08:00",
+          "source": "Word core.xml modified"
+        },
+        {
+          "source": "Git content change (rename/copy excluded)",
+          "commit": "97d06f33221c2e2ce4f8527fdabe60de81309dd3",
+          "date": "2026-07-23T23:37:07+08:00",
+          "subject": "docs: sync English resume with latest Chinese version",
+          "status": "M",
+          "blob": "e826836d420a17c7f123a0531a693a1d244f5440"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-07-23T22:55:00+08:00",
+        "source": "Word core.xml modified"
+      }
+    },
+    {
+      "original": "doc/旧的简历/秋招工作总结_AIInfra_2026.md",
+      "archived": "doc/旧的简历/工作总结 7月15日.md",
+      "mtime_ns": 1784180481083996772,
+      "size": 17854,
+      "sha256": "cec7eb1917713ac9aa893328cf3293bc07b941d774eb05f045d0b251a54bf174",
+      "previous_archived": "doc/旧的简历/20260716_134121__秋招工作总结_AIInfra_2026.md",
+      "date_evidence": [
+        {
+          "source": "Git content change (rename/copy excluded)",
+          "commit": "c1df88c13c420f28d394bb35767b97dd36945e4e",
+          "date": "2026-07-15T23:34:06+08:00",
+          "subject": "docs: add June-July AI infra monthly report",
+          "status": "M",
+          "blob": "d6d8183f736322fc464e918f69ae42a96726362b"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-07-15T23:34:06+08:00",
+        "source": "Git 实际内容修改；Word/PDF 时间较旧或缺失"
+      }
+    },
+    {
+      "original": "doc/旧的简历/秋招简历素材库_AIInfra_2026.md",
+      "archived": "doc/旧的简历/简历素材 7月15日.md",
+      "mtime_ns": 1784180481085719675,
+      "size": 22227,
+      "sha256": "686d2096df57b72b663931cec7cd4270e4d7fc9d816c5f6546a25365ac72daa8",
+      "previous_archived": "doc/旧的简历/20260716_134121__秋招简历素材库_AIInfra_2026.md",
+      "date_evidence": [
+        {
+          "source": "Git content change (rename/copy excluded)",
+          "commit": "c1df88c13c420f28d394bb35767b97dd36945e4e",
+          "date": "2026-07-15T23:34:06+08:00",
+          "subject": "docs: add June-July AI infra monthly report",
+          "status": "M",
+          "blob": "87d0e6444509f426d7f2be2393d3725637e8b031"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-07-15T23:34:06+08:00",
+        "source": "Git 实际内容修改；Word/PDF 时间较旧或缺失"
+      }
+    },
+    {
+      "original": "doc/旧的简历/面试介绍精简版.docx",
+      "archived": "doc/旧的简历/面试介绍 9月1日.docx",
+      "mtime_ns": 1789441650275490112,
+      "size": 18366,
+      "sha256": "7a33a0402db58f81140601b81f13c6ca07bad3997055ea58a80ee64db3ac855a",
+      "previous_archived": "doc/旧的简历/20260915_110730__面试介绍精简版.docx",
+      "date_evidence": [
+        {
+          "date": "2026-09-01T22:50:00+08:00",
+          "source": "Word core.xml modified"
+        },
+        {
+          "source": "Git content change (rename/copy excluded)",
+          "commit": "0e3c25d6b6943e1f1ed5e459dd4b00b61f878525",
+          "date": "2026-09-15T11:06:21+08:00",
+          "subject": "local computer",
+          "status": "A",
+          "blob": "aead110a28ba4579ed0d84e21ca3968cbf4d7e3c"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-09-01T22:50:00+08:00",
+        "source": "Word core.xml modified"
+      }
+    },
+    {
+      "original": "output/docx/冯浩然_AIInfra_香港中文大学深圳_15024999885.docx",
+      "archived": "doc/旧的简历/综合简历 7月22日.docx",
+      "mtime_ns": 1784716620145194423,
+      "size": 62182,
+      "sha256": "ac834bac3219588946ee08626ee5419457d33a6635e0728b1da696020b521bf4",
+      "previous_archived": "doc/旧的简历/20260722_183700__冯浩然_AIInfra_香港中文大学深圳_15024999885.docx",
+      "date_evidence": [
+        {
+          "date": "2026-07-22T18:15:00+08:00",
+          "source": "Word core.xml modified"
+        },
+        {
+          "source": "Git content change (rename/copy excluded)",
+          "commit": "1e7c6546ec82274dc9ed42af30edc84a2e2af782",
+          "date": "2026-07-22T18:45:01+08:00",
+          "subject": "final",
+          "status": "R054",
+          "blob": "d749df6e9338a3250c9693c893cfd0b2c90917ee"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-07-22T18:15:00+08:00",
+        "source": "Word core.xml modified"
+      }
+    },
+    {
+      "original": "output/pdf/冯浩然_AIInfra_香港中文大学深圳_15024999885.pdf",
+      "archived": "doc/旧的简历/综合简历 7月22日.pdf",
+      "mtime_ns": 1784716621516787570,
+      "size": 242460,
+      "sha256": "00bc17985a2192a00472d2f5fed6b8cd913164bd71ba410d6e554df766729e2c",
+      "previous_archived": "doc/旧的简历/20260722_183701__冯浩然_AIInfra_香港中文大学深圳_15024999885.pdf",
+      "date_evidence": [
+        {
+          "date": "2026-07-22T18:37:01+08:00",
+          "source": "PDF ModDate/CreationDate"
+        },
+        {
+          "source": "Git content change (rename/copy excluded)",
+          "commit": "1e7c6546ec82274dc9ed42af30edc84a2e2af782",
+          "date": "2026-07-22T18:45:01+08:00",
+          "subject": "final",
+          "status": "A",
+          "blob": "89be5dcd1603a98f88df45a597c0d5443d539ec8"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-07-22T18:37:01+08:00",
+        "source": "PDF ModDate/CreationDate"
+      }
+    },
+    {
+      "original": "output/冯浩然_AIInfra简历_模型发布后审核版.docx",
+      "archived": "doc/旧的简历/模型发布简历 9月29日.docx",
+      "mtime_ns": 1790653605662401240,
+      "size": 66707,
+      "sha256": "11d2b8f200ff3c21396b346b63948c457c5dc5ebad757a8e3c53b116bfcc1be2",
+      "previous_archived": "doc/旧的简历/20260929_114645__冯浩然_AIInfra简历_模型发布后审核版.docx",
+      "date_evidence": [
+        {
+          "date": "2026-09-29T11:46:46+08:00",
+          "source": "同版 PDF ModDate/CreationDate"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-09-29T11:46:46+08:00",
+        "source": "同版 PDF ModDate/CreationDate"
+      }
+    },
+    {
+      "original": "output/冯浩然_AIInfra简历_模型发布后审核版.md",
+      "archived": "doc/旧的简历/模型发布简历 9月29日.md",
+      "mtime_ns": 1790653605529076000,
+      "size": 7038,
+      "sha256": "63eae6d4677a52e0caab197b7cc0a387f19d8bc430b6c1a3613c218cb849c6b0",
+      "previous_archived": "doc/旧的简历/20260929_114645__冯浩然_AIInfra简历_模型发布后审核版.md",
+      "date_evidence": [],
+      "naming_date": {
+        "date": "2026-09-29T11:46:45.529076+08:00",
+        "source": "原文件 mtime 回退（无匹配内容提交或有效元数据）"
+      }
+    },
+    {
+      "original": "output/冯浩然_AIInfra简历_模型发布后审核版.pdf",
+      "archived": "doc/旧的简历/模型发布简历 9月29日.pdf",
+      "mtime_ns": 1790653607177617000,
+      "size": 245603,
+      "sha256": "72fb555f90874a2338702eb4c367516e3a739be5dcc36eb983c08a6b5783e87e",
+      "previous_archived": "doc/旧的简历/20260929_114647__冯浩然_AIInfra简历_模型发布后审核版.pdf",
+      "date_evidence": [
+        {
+          "date": "2026-09-29T11:46:46+08:00",
+          "source": "PDF ModDate/CreationDate"
+        }
+      ],
+      "naming_date": {
+        "date": "2026-09-29T11:46:46+08:00",
+        "source": "PDF ModDate/CreationDate"
+      }
+    }
+  ],
+  "directories": [
+    {
+      "original": "doc/旧的简历/20260716_134121__冯浩然_秋招简历_AIInfra_20260618",
+      "archived": "doc/旧的简历/Word解包附件/秋招简历 6月18日",
+      "files": [
+        {
+          "relative": "[Content_Types].xml",
+          "sha256": "1a1b7bf7aeab6ab754ba491b21600be5de0b06b910a5e1034eed09dfba6f5f1e",
+          "mtime_ns": 1790654394088038348
+        },
+        {
+          "relative": "docProps/app.xml",
+          "sha256": "be664981c3141cddfc59362beb287ebf20d0773660e2dd6faac5968a5930a081",
+          "mtime_ns": 1790654394090196850
+        },
+        {
+          "relative": "docProps/thumbnail.jpeg",
+          "sha256": "96367138dc44ce09bf2c8f0f8e49348a1478d2c5c0af69bbc2bbc38b63cdcead",
+          "mtime_ns": 1790654394171449000
+        },
+        {
+          "relative": "docProps/core.xml",
+          "sha256": "d14be8284e406d14dc2a576b19f15e7f637b955f9e27a3d9ed871ec99606f7ba",
+          "mtime_ns": 1790654394089520748
+        },
+        {
+          "relative": "_rels/.rels",
+          "sha256": "a9ae57efe9186f07d48303bcac5d54c7e359bf3f503939c03ad2954e5c59a5c4",
+          "mtime_ns": 1790654394088970754
+        },
+        {
+          "relative": "customXml/item1.xml",
+          "sha256": "a86086ffc5d8e83ebd6c71a55d1d2efaa31b137977f5f3a752366e1023612144",
+          "mtime_ns": 1790654394162809742
+        },
+        {
+          "relative": "customXml/itemProps1.xml",
+          "sha256": "c542307b13ec29a8b546217bb37936ab4822e044b265d2952985ec3d6afed24e",
+          "mtime_ns": 1790654394165189261
+        },
+        {
+          "relative": "word/settings.xml",
+          "sha256": "51a0d348fe85965c66e4748a03c3c0d055d78455514f03cb121c334af7d73689",
+          "mtime_ns": 1790654394157454526
+        },
+        {
+          "relative": "word/styles.xml",
+          "sha256": "2eff238e1bdf3c9bf77792e6c573e50e12e5c596bbc787365185419c40bf371f",
+          "mtime_ns": 1790654394101268000
+        },
+        {
+          "relative": "word/webSettings.xml",
+          "sha256": "349d36de7434d09f86987ff671d8814964a0588c1e630c06e562cda7e75e9f95",
+          "mtime_ns": 1790654394158730374
+        },
+        {
+          "relative": "word/numbering.xml",
+          "sha256": "70976f19cbcd896e51890859fe6ecb3467a5a7ad0c040160fedc5a1993cb09ce",
+          "mtime_ns": 1790654394166413000
+        },
+        {
+          "relative": "word/fontTable.xml",
+          "sha256": "79385fb7f60247507ecaffc292e9ebd52ea0657b8634f629ba6fccc54011d6bb",
+          "mtime_ns": 1790654394160090891
+        },
+        {
+          "relative": "word/document.xml",
+          "sha256": "17277c8281f1702d393e09146a102c3e90b47cb7452dde5c61068f22e77c0faf",
+          "mtime_ns": 1790654394091810000
+        },
+        {
+          "relative": "word/stylesWithEffects.xml",
+          "sha256": "463ae0928cf0d84775dbf8cf18d6c3029f6707c81bf590f6d6dd8757a5e93f15",
+          "mtime_ns": 1790654394110584000
+        },
+        {
+          "relative": "customXml/_rels/item1.xml.rels",
+          "sha256": "1ca6c9a64edcebe24ee703a54403611b322d96da33371779e742d2d3f7ed7a6c",
+          "mtime_ns": 1790654394163881244
+        },
+        {
+          "relative": "word/theme/theme1.xml",
+          "sha256": "e3a8ab7db9ca7afca56f5f2820a56e8b660016c647773555b060b0a02ac76941",
+          "mtime_ns": 1790654394161635000
+        },
+        {
+          "relative": "word/media/image1.png",
+          "sha256": "e13e423ea046c800b6e3a9e0c77cc5edfb787fd5693fce72355cab7b8e78eaa3",
+          "mtime_ns": 1790654394169899000
+        },
+        {
+          "relative": "word/_rels/document.xml.rels",
+          "sha256": "dc5eaed833ad9f3e84a8a809036e4d4cd217373c559111f2460655c102596c4d",
+          "mtime_ns": 1790654394092378537
+        }
+      ]
+    },
+    {
+      "original": "doc/旧的简历/20260716_134121__冯浩然_香港中文大学_15024999885",
+      "archived": "doc/旧的简历/Word解包附件/综合简历 3月11日",
+      "files": [
+        {
+          "relative": "[Content_Types].xml",
+          "sha256": "a8d13170ff6b89c33e971aabce84fe508c25ea2a03d571683fa34aae01366af6",
+          "mtime_ns": 1790654393159811328
+        },
+        {
+          "relative": "docProps/app.xml",
+          "sha256": "0e4ba08385cc7200550b5ff97e1ea441c9858bba19d0614ddbe69e89846d1671",
+          "mtime_ns": 1790654393173352386
+        },
+        {
+          "relative": "docProps/core.xml",
+          "sha256": "1344be9e92fe0cec074e8c2a9af43902d5ab2dd8349c6a28924ef9a86e155b05",
+          "mtime_ns": 1790654393172885019
+        },
+        {
+          "relative": "_rels/.rels",
+          "sha256": "e19238d7a71fa7a2490776252686f70e2de6238c87cd509b5e3a3cc07c2ea4df",
+          "mtime_ns": 1790654393160668492
+        },
+        {
+          "relative": "word/settings.xml",
+          "sha256": "d383a0a0f8ef4cca9c6606b07bc53d215c62c037284eecdccaf977cd96b8fe9f",
+          "mtime_ns": 1790654393169037000
+        },
+        {
+          "relative": "word/styles.xml",
+          "sha256": "4aaca9686d2764d090044d0ee67d717a2d3d5e2d9a834dfe688aa9f69bb063dd",
+          "mtime_ns": 1790654393171305000
+        },
+        {
+          "relative": "word/webSettings.xml",
+          "sha256": "14dcbfcf6ab6138674a5f66b9fc476edb0c51a866fc2075ce33d763683679c5a",
+          "mtime_ns": 1790654393171783130
+        },
+        {
+          "relative": "word/footnotes.xml",
+          "sha256": "0c52872ea394c336154eb6bc77147e8b434149d79a8480e109683de5ecb1f388",
+          "mtime_ns": 1790654393165866229
+        },
+        {
+          "relative": "word/numbering.xml",
+          "sha256": "b9c9501c6a7701ba5510a3ea8a90400476c110d751e9d4a13bde4c6f2bd516cb",
+          "mtime_ns": 1790654393169910000
+        },
+        {
+          "relative": "word/endnotes.xml",
+          "sha256": "86622b8bfbc6ec509e6766e4a7dbeb36c5294b6cf2b84756b598e32fb1cd9713",
+          "mtime_ns": 1790654393166569310
+        },
+        {
+          "relative": "word/fontTable.xml",
+          "sha256": "cd2a8398e6e2fcdb9c7c47ffa884035e5d1346c5218f8d721b046fcd469c15fe",
+          "mtime_ns": 1790654393172319423
+        },
+        {
+          "relative": "word/document.xml",
+          "sha256": "93af1918b52850b633b0936bd17cf48850d47e5788a0c4b1926ae37eb2de7921",
+          "mtime_ns": 1790654393164307000
+        },
+        {
+          "relative": "word/theme/theme1.xml",
+          "sha256": "7a384ac82531e4f77ed57074d8b623b745ca5c722d529e3f268c344dd2344507",
+          "mtime_ns": 1790654393168142000
+        },
+        {
+          "relative": "word/media/image1.png",
+          "sha256": "e13e423ea046c800b6e3a9e0c77cc5edfb787fd5693fce72355cab7b8e78eaa3",
+          "mtime_ns": 1790654393167201000
+        },
+        {
+          "relative": "word/_rels/document.xml.rels",
+          "sha256": "548978e4ac61e7b4392bd74a43dda3a1adfb78f83e9ed5ad08def30bb140cb6c",
+          "mtime_ns": 1790654393165055387
+        }
+      ]
+    },
+    {
+      "original": "doc/旧的简历/20260915_233937__AIInfra中文简历_匿名版_小红书水印",
+      "archived": "doc/旧的简历/Word解包附件/匿名水印简历 9月15日",
+      "files": [
+        {
+          "relative": "[Content_Types].xml",
+          "sha256": "2d360336778d831ceb746cc0ed91ffa95ed89330180a41f6f057214d5147d64a",
+          "mtime_ns": 1790654394972357839
+        },
+        {
+          "relative": "docProps/app.xml",
+          "sha256": "0f84c58e6964a9c10128f773866c726b155101ebaf5fa6b71b9c5062d554c92d",
+          "mtime_ns": 1790654395059145410
+        },
+        {
+          "relative": "docProps/core.xml",
+          "sha256": "3f362986efd826eee4c2453b7fd4debe30a360fd58e7f35e86b1409a4d3e5fac",
+          "mtime_ns": 1790654395059690999
+        },
+        {
+          "relative": "_rels/.rels",
+          "sha256": "a76c44cf6b278166bfc93edce0a98846be30e584462153ba97fa683469ff5916",
+          "mtime_ns": 1790654394972964040
+        },
+        {
+          "relative": "word/settings.xml",
+          "sha256": "7787c6c89bbfc8bd2b30081606ec732b6467d01dea4649f63ff9e60c4bc0e133",
+          "mtime_ns": 1790654395061971000
+        },
+        {
+          "relative": "word/styles.xml",
+          "sha256": "579d15819a2d9c42bf158b35ce11ac2096ab3ada0390a13a0cdcd071ae4c3a98",
+          "mtime_ns": 1790654395064527000
+        },
+        {
+          "relative": "word/webSettings.xml",
+          "sha256": "14dcbfcf6ab6138674a5f66b9fc476edb0c51a866fc2075ce33d763683679c5a",
+          "mtime_ns": 1790654395066776968
+        },
+        {
+          "relative": "word/header1.xml",
+          "sha256": "aa8199d7165d4aa6bdfe981b4f7e0b21a65a9ebff80b58855f2960d03c232715",
+          "mtime_ns": 1790654395067143715
+        },
+        {
+          "relative": "word/footnotes.xml",
+          "sha256": "6edb22d8545e9fb7888e71b7d968ae69fc579ed983623c123bde9254e3e63a13",
+          "mtime_ns": 1790654395066413937
+        },
+        {
+          "relative": "word/numbering.xml",
+          "sha256": "7e07877d60646ee97ef90f2544ea62a188981e1611976d78dc1b2006a40a4ff2",
+          "mtime_ns": 1790654395065298000
+        },
+        {
+          "relative": "word/endnotes.xml",
+          "sha256": "0f5e12388ce9deb03c0062789c5c1da2eedd9096758e44d0f9785d946668a2b5",
+          "mtime_ns": 1790654395065695686
+        },
+        {
+          "relative": "word/fontTable.xml",
+          "sha256": "6da8963e1102b39989cc6127a9c594cb7d67153668f5be54826dbe14e735bd6b",
+          "mtime_ns": 1790654395066071608
+        },
+        {
+          "relative": "word/document.xml",
+          "sha256": "9ccc91c6b6c0b3ce1a580a746c56cdddae450e338a89df04c43fc474195c58f8",
+          "mtime_ns": 1790654395060829000
+        },
+        {
+          "relative": "word/theme/theme1.xml",
+          "sha256": "7a384ac82531e4f77ed57074d8b623b745ca5c722d529e3f268c344dd2344507",
+          "mtime_ns": 1790654395063747000
+        },
+        {
+          "relative": "word/media/image1.png",
+          "sha256": "e13e423ea046c800b6e3a9e0c77cc5edfb787fd5693fce72355cab7b8e78eaa3",
+          "mtime_ns": 1790654395063187000
+        },
+        {
+          "relative": "word/_rels/document.xml.rels",
+          "sha256": "aecddbcc429a69f0faf720cad1120ebec28edce83e223b3e4494b0049196d216",
+          "mtime_ns": 1790654395061415386
+        }
+      ]
+    }
+  ],
+  "naming_version": 2
+}
