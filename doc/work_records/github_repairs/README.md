@@ -2,6 +2,12 @@
 
 整理日期：2026-10-19。以 10 月 1–15 日的开发记录为依据，参考此前 FlashInfer 文档的“现象—隔离—机制—补丁—验证—边界”结构。
 
+## Word 与 PDF
+
+完整合集：[Word](GitHub修复开发记录_脱密合集.docx) · [PDF](GitHub修复开发记录_脱密合集.pdf)。本目录每篇 Markdown 也提供同名 `.docx` 与 `.pdf` 分篇版。
+
+导出版保留正文、表格与公开链接；流程图转为等义步骤列表。Word 可编辑，PDF 嵌入中文字体。可用仓库 `tools/documents/export_github_repairs.py` 重新生成，依赖 `python-docx`、`reportlab`、`markdown`、`beautifulsoup4` 及中文 TrueType 字体（通过 `--font` 指定）。
+
 ## 详细案例
 
 | 案例 | 开发过程的重点 | 入口 |
