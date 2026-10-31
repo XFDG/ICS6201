@@ -16,3 +16,18 @@ __pycache__/
 
 # Local rendering and temporary artifacts
 tmp/
+
+# Keep newly added interview transcripts and unwatermarked offer evidence local.
+# Existing tracked transcripts remain tracked; publish the sanitized reviews instead.
+/小红书商品/原始TXT/*.txt
+/小红书商品/3DFE9DBAE7C07D7811F0A022F0CAAB68.png
+
+# Original local source files are classified under 技术PDF for publication.
+/小红书商品/AI_Infra_7篇论文与技术_深度解析PDF合集.zip
+/小红书商品/DeepInfer_仓库深度解析.pdf
+/小红书商品/Megatron_Core_MoE_论文深度解析.pdf
+/小红书商品/RL_Interview_Handbook_2026-10-31.pdf
+/小红书商品/Training_Interview_Handbook_2026-10-31.pdf
+
+# Generated rollback copies of the delivery manifest stay local.
+/小红书商品/交付清单.json.*.bak

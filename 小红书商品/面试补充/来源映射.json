@@ -1,0 +1,542 @@
+{
+  "purpose": "维护来源追溯；不加入对客交付包；不包含原始转写内容",
+  "date": "2026-10-31",
+  "line_numbering": "原TXT物理行，从1开始；主题锚点仅列行号不复制原文；原始TXT更新后须重新核对SHA256",
+  "rebuild": "python tools/documents/render_sale_interviews.py；只依赖已审核MD，不依赖原始TXT",
+  "records": [
+    {
+      "source": "小红书商品/原始TXT/OPPO 高性能计算_转写.txt",
+      "source_sha256": "c078f21d748c349df4d41b9ed7f044738c9dd8d1b2879234c6f081ffc97bf14b",
+      "markdown": "小红书商品/面试补充/01_OPPO_高性能计算与端侧部署.md",
+      "pdf": "小红书商品/面试补充/01_OPPO_高性能计算与端侧部署.pdf",
+      "pdf_sha256": "f06917840cd26785f4b5983fbb375400f070c467d8df0b27a161c4360bf39eb2",
+      "pages": 2,
+      "topic_anchors": [
+        {
+          "topic": "通信与标志比较",
+          "source_lines": [
+            57,
+            63,
+            72
+          ],
+          "more_matches_omitted": 0
+        },
+        {
+          "topic": "端侧迁移",
+          "source_lines": [
+            285,
+            294,
+            303,
+            306,
+            309,
+            327,
+            330,
+            333,
+            441,
+            444
+          ],
+          "more_matches_omitted": 0
+        },
+        {
+          "topic": "GPU基础",
+          "source_lines": [
+            327,
+            396,
+            423,
+            426,
+            429
+          ],
+          "more_matches_omitted": 0
+        }
+      ]
+    },
+    {
+      "source": "小红书商品/原始TXT/oppp HR 面_转写.txt",
+      "source_sha256": "694c4b82e9367d708845df7d149b81c2bb12ad33f8f28b8ef7c8b64cf56a6463",
+      "markdown": "小红书商品/面试补充/02_OPPO_HR_项目表达与职业选择.md",
+      "pdf": "小红书商品/面试补充/02_OPPO_HR_项目表达与职业选择.pdf",
+      "pdf_sha256": "2ee1523143432d6b2f2e4f03bdca4d2dad080cfd75dff4d8adb0a86c3e70e3cf",
+      "pages": 2,
+      "topic_anchors": [
+        {
+          "topic": "项目协作",
+          "source_lines": [
+            73,
+            76,
+            82,
+            94
+          ],
+          "more_matches_omitted": 0
+        },
+        {
+          "topic": "决策与压力",
+          "source_lines": [
+            139,
+            142,
+            160,
+            163
+          ],
+          "more_matches_omitted": 0
+        },
+        {
+          "topic": "反馈与学习",
+          "source_lines": [
+            103,
+            214,
+            226,
+            241,
+            244
+          ],
+          "more_matches_omitted": 0
+        }
+      ]
+    },
+    {
+      "source": "小红书商品/原始TXT/小马智行一面_转写_2.txt",
+      "source_sha256": "eccafa623ed0d30e91584e113630ed6b3e55591ccd5f1c8875943ed9cb209ee2",
+      "markdown": "小红书商品/面试补充/03_小马智行_一面_性能分析与归一化编码.md",
+      "pdf": "小红书商品/面试补充/03_小马智行_一面_性能分析与归一化编码.pdf",
+      "pdf_sha256": "dd00369693c498b477aac7f2f84d76d8e48c42f3e98d82666d23aa1b43c3f771",
+      "pages": 2,
+      "topic_anchors": [
+        {
+          "topic": "调度与执行",
+          "source_lines": [
+            21,
+            23,
+            27,
+            31,
+            33,
+            35
+          ],
+          "more_matches_omitted": 0
+        },
+        {
+          "topic": "分析与编译",
+          "source_lines": [
+            47,
+            51,
+            55,
+            59,
+            61,
+            67,
+            69,
+            71
+          ],
+          "more_matches_omitted": 0
+        },
+        {
+          "topic": "归一化编码",
+          "source_lines": [
+            73,
+            85,
+            89,
+            155,
+            179,
+            187,
+            223,
+            235,
+            237,
+            243,
+            255,
+            257,
+            259
+          ],
+          "more_matches_omitted": 0
+        }
+      ]
+    },
+    {
+      "source": "小红书商品/原始TXT/小马智行2面_转写.txt",
+      "source_sha256": "876babdad280736bd298ae05703c6e4f120d70657de679070a0a5623c2df199e",
+      "markdown": "小红书商品/面试补充/04_小马智行_二面_算子工程与滑动窗口.md",
+      "pdf": "小红书商品/面试补充/04_小马智行_二面_算子工程与滑动窗口.pdf",
+      "pdf_sha256": "2dea496b4eae6d488de41477c5ed980c2a47b310d45c972874f63689e25d9269",
+      "pages": 2,
+      "topic_anchors": [
+        {
+          "topic": "算子与通信",
+          "source_lines": [
+            70,
+            103,
+            106,
+            109,
+            115,
+            124,
+            187,
+            196,
+            232,
+            331,
+            382
+          ],
+          "more_matches_omitted": 0
+        },
+        {
+          "topic": "区间编码",
+          "source_lines": [
+            232,
+            313,
+            331,
+            364,
+            370,
+            382,
+            412,
+            415,
+            418,
+            421,
+            442
+          ],
+          "more_matches_omitted": 0
+        }
+      ]
+    },
+    {
+      "source": "小红书商品/原始TXT/小马智行3面_转写.txt",
+      "source_sha256": "e887d0d8cc3a63f435f5bd50f8cfb93c7f0862c2375883c9047ec9523d48e111",
+      "markdown": "小红书商品/面试补充/05_小马智行_三面_性能证据与工程闭环.md",
+      "pdf": "小红书商品/面试补充/05_小马智行_三面_性能证据与工程闭环.pdf",
+      "pdf_sha256": "5e2faf6f98f3bd04c42b9ebbb219ae580992470896b16d37bbe3c36da6f11440",
+      "pages": 2,
+      "topic_anchors": [
+        {
+          "topic": "输入与并行度",
+          "source_lines": [
+            96,
+            162,
+            174,
+            180,
+            183,
+            192,
+            195,
+            198,
+            297,
+            300,
+            306,
+            336,
+            339,
+            342,
+            348,
+            351
+          ],
+          "more_matches_omitted": 3
+        },
+        {
+          "topic": "测试与后端",
+          "source_lines": [
+            411,
+            435,
+            438,
+            525,
+            531,
+            564,
+            993,
+            1029
+          ],
+          "more_matches_omitted": 0
+        },
+        {
+          "topic": "故障影响",
+          "source_lines": [
+            615,
+            621,
+            624,
+            807,
+            885,
+            891,
+            897
+          ],
+          "more_matches_omitted": 0
+        }
+      ]
+    },
+    {
+      "source": "小红书商品/原始TXT/曦望AI INFRA2面_转写.txt",
+      "source_sha256": "a652e4afa79c0d723626a26a0d829b3ddd2b3fb857e436da2f9e5ae3fb9e630b",
+      "markdown": "小红书商品/面试补充/06_曦望_二面_推理引擎与整网优化.md",
+      "pdf": "小红书商品/面试补充/06_曦望_二面_推理引擎与整网优化.pdf",
+      "pdf_sha256": "e520f1e6b684b3d3d3610752220455ded3245abe85ef69d92da07d70dff75112",
+      "pages": 2,
+      "topic_anchors": [
+        {
+          "topic": "引擎与并行",
+          "source_lines": [
+            31,
+            34,
+            37,
+            40,
+            43,
+            46,
+            94,
+            97
+          ],
+          "more_matches_omitted": 0
+        },
+        {
+          "topic": "算子与注意力",
+          "source_lines": [
+            67,
+            70,
+            73,
+            79,
+            82
+          ],
+          "more_matches_omitted": 0
+        },
+        {
+          "topic": "缓存与解码",
+          "source_lines": [
+            88,
+            91,
+            97,
+            100,
+            103,
+            106,
+            109,
+            112,
+            115,
+            130
+          ],
+          "more_matches_omitted": 0
+        }
+      ]
+    },
+    {
+      "source": "小红书商品/原始TXT/希望3面_转写.txt",
+      "source_sha256": "841b35317c54cb0d3d4513a8be2e037e49d5a775d4d39dec90ade57cf4dd4991",
+      "markdown": "小红书商品/面试补充/07_曦望_三面_反量化与RMSNorm编码.md",
+      "pdf": "小红书商品/面试补充/07_曦望_三面_反量化与RMSNorm编码.pdf",
+      "pdf_sha256": "7790d2e4300e2fc1dc397559a37d8e2671f0ab075746c39cc1aaf8e80cc46b01",
+      "pages": 2,
+      "topic_anchors": [
+        {
+          "topic": "反量化与归一化",
+          "source_lines": [
+            127,
+            157,
+            241,
+            499
+          ],
+          "more_matches_omitted": 0
+        },
+        {
+          "topic": "映射与资源",
+          "source_lines": [
+            214,
+            346,
+            352,
+            355,
+            358,
+            361,
+            364,
+            367,
+            394,
+            403,
+            430,
+            484,
+            562,
+            568
+          ],
+          "more_matches_omitted": 0
+        }
+      ]
+    },
+    {
+      "source": "小红书商品/原始TXT/理想 算子开发1面_转写.txt",
+      "source_sha256": "9a53a1b2905a4ebbb768a5e7bb6253ca1014f1ec531dd9614f8dc73aee1e2949",
+      "markdown": "小红书商品/面试补充/08_理想_算子开发一面_排障与Attention.md",
+      "pdf": "小红书商品/面试补充/08_理想_算子开发一面_排障与Attention.pdf",
+      "pdf_sha256": "ac3330158daf2fdbf741d408d28d8bb2152fa662556ea034c92d2d66a1ce23bd",
+      "pages": 2,
+      "topic_anchors": [
+        {
+          "topic": "复现与协作",
+          "source_lines": [
+            56,
+            59,
+            170,
+            173,
+            179,
+            185,
+            203,
+            206,
+            209,
+            212,
+            224,
+            245,
+            254,
+            263,
+            269,
+            284
+          ],
+          "more_matches_omitted": 19
+        },
+        {
+          "topic": "通信与分派",
+          "source_lines": [
+            485,
+            491,
+            494,
+            506,
+            509,
+            521,
+            530,
+            539,
+            551,
+            554,
+            557,
+            566,
+            578,
+            581,
+            596,
+            608
+          ],
+          "more_matches_omitted": 5
+        },
+        {
+          "topic": "Attention追问",
+          "source_lines": [
+            368,
+            389,
+            557,
+            1175,
+            1178,
+            1187,
+            1220,
+            1244,
+            1277,
+            1286,
+            1292,
+            1304,
+            1310,
+            1355,
+            1364,
+            1376
+          ],
+          "more_matches_omitted": 0
+        }
+      ]
+    },
+    {
+      "source": "小红书商品/原始TXT/智元机器人ai infra 一面_转写_2.txt",
+      "source_sha256": "3122217283f19146aa9919126c23f3b5f84e6f9496a20c46e33d99d6e02fc7e1",
+      "markdown": "小红书商品/面试补充/09_智元机器人_AIInfra一面_指标与系统边界.md",
+      "pdf": "小红书商品/面试补充/09_智元机器人_AIInfra一面_指标与系统边界.pdf",
+      "pdf_sha256": "325c64326d015e4043e98a0f9bc90464638474446f061d6e37b322b11bdaadcf",
+      "pages": 2,
+      "topic_anchors": [
+        {
+          "topic": "指标与调度",
+          "source_lines": [
+            20,
+            64,
+            66,
+            110,
+            148
+          ],
+          "more_matches_omitted": 0
+        },
+        {
+          "topic": "模型与图执行",
+          "source_lines": [
+            142,
+            156,
+            168,
+            170,
+            184
+          ],
+          "more_matches_omitted": 0
+        },
+        {
+          "topic": "重叠与验证",
+          "source_lines": [
+            8,
+            14,
+            42,
+            88,
+            92,
+            94
+          ],
+          "more_matches_omitted": 0
+        }
+      ]
+    },
+    {
+      "source": "小红书商品/原始TXT/禾赛科技1面_转写.txt",
+      "source_sha256": "f17531d58a1fdeb51fa50cb84745dc113c645502fbb54501a5749c42caf0b9c9",
+      "markdown": "小红书商品/面试补充/10_AIInfra一面_混合精度与Softmax_来源标注禾赛.md",
+      "pdf": "小红书商品/面试补充/10_AIInfra一面_混合精度与Softmax_来源标注禾赛.pdf",
+      "pdf_sha256": "f07b8401d79e5b92a930a5b1ab398a4ed830c6952b31ad2f5d85efba0cf94eb4",
+      "pages": 2,
+      "topic_anchors": [
+        {
+          "topic": "精度与结构",
+          "source_lines": [
+            136,
+            139,
+            166,
+            169,
+            172,
+            190,
+            193,
+            220,
+            223,
+            262,
+            265,
+            268,
+            274,
+            766,
+            772,
+            784
+          ],
+          "more_matches_omitted": 0
+        },
+        {
+          "topic": "编码",
+          "source_lines": [
+            397,
+            400
+          ],
+          "more_matches_omitted": 0
+        },
+        {
+          "topic": "归属待核对",
+          "source_lines": [
+            682
+          ],
+          "more_matches_omitted": 0
+        }
+      ]
+    },
+    {
+      "source": "小红书商品/原始TXT/字节 AI INFRA 三面 (transcribed on 14-Sep-2026 22-12-45).txt",
+      "source_sha256": "c54a5757a4546b41f50341daa7a6c8f2cbfaab1e07f86b6d5cf2f47d608d11a6",
+      "markdown": "小红书商品/面试补充/11_字节跳动_三面_通信稳定性与算子基准.md",
+      "pdf": "小红书商品/面试补充/11_字节跳动_三面_通信稳定性与算子基准.pdf",
+      "pdf_sha256": "f8704e522b8adafb2727cd4e96d496682219ed060a4b64f1e704724ba6d5350d",
+      "pages": 2,
+      "topic_anchors": [
+        {
+          "topic": "Graph通信稳定性",
+          "source_lines": [
+            13,
+            15,
+            17,
+            25,
+            41,
+            43
+          ],
+          "more_matches_omitted": 0
+        },
+        {
+          "topic": "算子基准与硬件",
+          "source_lines": [
+            5,
+            43,
+            47
+          ],
+          "more_matches_omitted": 0
+        }
+      ]
+    }
+  ]
+}
