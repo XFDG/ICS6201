@@ -258,7 +258,18 @@ def main() -> int:
             raise ValueError(f"Delivery checksum mismatch: {row['path']}")
 
     notes = reading_notes(rows, args.date, output.name).encode("utf-8")
-    write_generated(source / "README.md", notes, backup_dir)
+    source_notes = notes
+    if (source / "上架素材/闲鱼").is_dir():
+        listing_links = (
+            "## 商品图片与宣传文案\n\n"
+            "- [闲鱼商品主图](上架素材/闲鱼/商品图/01_闲鱼主图_AI_INFRA.png)\n"
+            "- [字节录用意向书水印图](上架素材/闲鱼/商品图/02_字节录用意向书_闲鱼草原小可汗水印.png)\n"
+            "- [闲鱼商品宣传文案](上架素材/闲鱼/闲鱼商品文案.md)\n"
+            "- [小红书商品宣传文案](上架素材/小红书/商品宣传文案.md)\n"
+            "- [全部上架素材与说明](上架素材/闲鱼/README.md)\n\n"
+        )
+        source_notes = notes.decode("utf-8").replace("\n\n", "\n\n" + listing_links, 1).encode("utf-8")
+    write_generated(source / "README.md", source_notes, backup_dir)
     notes_path = output / "00_资料目录.md"
     write_generated(notes_path, notes, backup_dir)
     pdfs = [row for row in rows if row["kind"] == "pdf"]
@@ -305,7 +316,7 @@ def main() -> int:
         "archive_sha256": sha256(archive.read_bytes()),
         "statistics_method": "Identical SHA-256 counts once; unique pages summed once per hash. Similar topics remain separate files.",
         "summary": summary,
-        "reading_note": {"path": "00_资料目录.md", "source_path": f"{source.name}/README.md", "sha256": sha256(notes)},
+        "reading_note": {"path": "00_资料目录.md", "source_path": f"{source.name}/README.md", "sha256": sha256(notes), "source_sha256": sha256(source_notes)},
         "files": rows,
     }
     write_generated(manifest_path, (json.dumps(manifest, ensure_ascii=False, indent=2) + "\n").encode("utf-8"), backup_dir)

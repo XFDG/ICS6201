@@ -37,7 +37,8 @@
   "reading_note": {
     "path": "00_资料目录.md",
     "source_path": "小红书商品/README.md",
-    "sha256": "4624ff0abb199540b94628f4b329e1d098533177cf2eeb9586f4b7fabee1a0c0"
+    "sha256": "4624ff0abb199540b94628f4b329e1d098533177cf2eeb9586f4b7fabee1a0c0",
+    "source_sha256": "fa54ecc5017a20af98c40d17168c0c056a6f45de42b09e7810b1591a35035a99"
   },
   "files": [
     {
