@@ -1,301 +1,48 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "date": "2026-10-31",
   "source_root": "小红书商品",
   "delivery_directory": "AI INFRA 面经+知识总结",
   "archive": "AI INFRA 面经+知识总结_2026-10-31.zip",
-  "archive_sha256": "36782112cb3981258528442b6db6de2167e96a2e088d3dd5a60f834ed921b3d1",
+  "archive_sha256": "cf1952a07d0f74c2a35fcaa531fd4d6850049d417ef97809d3e5e637665fccef",
   "statistics_method": "Identical SHA-256 counts once; unique pages summed once per hash. Similar topics remain separate files.",
   "summary": {
-    "pdf_files": 61,
-    "unique_pdf_files": 61,
-    "unique_pdf_pages": 542,
+    "pdf_files": 39,
+    "unique_pdf_files": 39,
+    "unique_pdf_pages": 481,
     "duplicate_pdf_files": 0,
     "groups": {
-      "原有专题复盘": {
+      "公司面试复盘": {
         "pdf_files": 10,
         "unique_pdf_files": 10,
-        "unique_pdf_pages": 29
-      },
-      "原有按公司复盘": {
-        "pdf_files": 8,
-        "unique_pdf_files": 8,
-        "unique_pdf_pages": 32
+        "unique_pdf_pages": 46
       },
       "技术资料": {
-        "pdf_files": 32,
-        "unique_pdf_files": 32,
-        "unique_pdf_pages": 459
-      },
-      "新增按轮次复盘": {
-        "pdf_files": 11,
-        "unique_pdf_files": 11,
-        "unique_pdf_pages": 22
+        "pdf_files": 29,
+        "unique_pdf_files": 29,
+        "unique_pdf_pages": 435
       }
     }
   },
   "reading_note": {
     "path": "00_资料目录.md",
     "source_path": "小红书商品/README.md",
-    "sha256": "4624ff0abb199540b94628f4b329e1d098533177cf2eeb9586f4b7fabee1a0c0",
-    "source_sha256": "fa54ecc5017a20af98c40d17168c0c056a6f45de42b09e7810b1591a35035a99"
+    "sha256": "bf122f1b0139986121bf3d567a171f1ea0b87b366944b4d8e04090f2423a8483",
+    "source_sha256": "9fe02c94eb0386e5f6145c084e68cf529a020d5accd662ec902fbb93f73511a9"
   },
   "files": [
     {
-      "path": "技术PDF/01_AI Agent 与 Harness/01_Tibo_DevInterrupted_Harness_2026-01-27.pdf",
-      "source_path": "小红书商品/技术PDF/01_AI Agent 与 Harness/01_Tibo_DevInterrupted_Harness_2026-01-27.pdf",
-      "sha256": "15796cfd9a28b7053768b4234270dc4a2f38083f843c8a30847c7440763e7069",
-      "bytes": 535856,
-      "kind": "pdf",
-      "pages": 6,
-      "content_role": "技术学习"
-    },
-    {
-      "path": "技术PDF/01_AI Agent 与 Harness/02_Tibo_SoftwareEngineeringDaily_ModelHarnessSandbox_2026-01-29.pdf",
-      "source_path": "小红书商品/技术PDF/01_AI Agent 与 Harness/02_Tibo_SoftwareEngineeringDaily_ModelHarnessSandbox_2026-01-29.pdf",
-      "sha256": "946ee927319ad5065617a922e9faa47fa1accadfd5435ed5b3ff112819c3d028",
-      "bytes": 529801,
-      "kind": "pdf",
-      "pages": 6,
-      "content_role": "技术学习"
-    },
-    {
-      "path": "技术PDF/01_AI Agent 与 Harness/03_Tibo_OpenAIForum_BeyondCode_2026-05-13.pdf",
-      "source_path": "小红书商品/技术PDF/01_AI Agent 与 Harness/03_Tibo_OpenAIForum_BeyondCode_2026-05-13.pdf",
-      "sha256": "b25a9a2aa08235fc65db93d1d597abf4a6b668ad2578b016fe6efa84969c432c",
-      "bytes": 530463,
-      "kind": "pdf",
-      "pages": 6,
-      "content_role": "技术学习"
-    },
-    {
-      "path": "技术PDF/01_AI Agent 与 Harness/04_Tibo_SiliconValleyGirl_AgentsForEveryone_2026-05-25.pdf",
-      "source_path": "小红书商品/技术PDF/01_AI Agent 与 Harness/04_Tibo_SiliconValleyGirl_AgentsForEveryone_2026-05-25.pdf",
-      "sha256": "bf6f4635eedcb47851fd23fed7126631bcffa98408e3910661e51f8224edb927",
-      "bytes": 528856,
-      "kind": "pdf",
-      "pages": 6,
-      "content_role": "技术学习"
-    },
-    {
-      "path": "技术PDF/01_AI Agent 与 Harness/05_Tibo_VivaTech_AgenticEnterprise_2026-06-18.pdf",
-      "source_path": "小红书商品/技术PDF/01_AI Agent 与 Harness/05_Tibo_VivaTech_AgenticEnterprise_2026-06-18.pdf",
-      "sha256": "253b7e0b714143e5a0792e3d99ee015a9cd9f36f133c11920dfb46a823dbd55e",
-      "bytes": 532538,
-      "kind": "pdf",
-      "pages": 6,
-      "content_role": "技术学习"
-    },
-    {
-      "path": "技术PDF/01_AI Agent 与 Harness/06_Tibo_TBPN_GPT56_Ultra_2026-07-09.pdf",
-      "source_path": "小红书商品/技术PDF/01_AI Agent 与 Harness/06_Tibo_TBPN_GPT56_Ultra_2026-07-09.pdf",
-      "sha256": "4180c51f5a84c8db404db8be3b3b336486e034c6091c18b856dcc03385ab4881",
-      "bytes": 530942,
-      "kind": "pdf",
-      "pages": 6,
-      "content_role": "技术学习"
-    },
-    {
-      "path": "技术PDF/01_AI Agent 与 Harness/07_Tibo_TechCrunch_ChatGPTWork_2026-08-25.pdf",
-      "source_path": "小红书商品/技术PDF/01_AI Agent 与 Harness/07_Tibo_TechCrunch_ChatGPTWork_2026-08-25.pdf",
-      "sha256": "ba44295b59a6ca38e1d84e063fb647c213bd547637325d8654e4ee1dd5521966",
-      "bytes": 535151,
-      "kind": "pdf",
-      "pages": 6,
-      "content_role": "技术学习"
-    },
-    {
-      "path": "技术PDF/01_AI Agent 与 Harness/08_Tibo_PragmaticEngineer_BuildingCodex_2026-09-09.pdf",
-      "source_path": "小红书商品/技术PDF/01_AI Agent 与 Harness/08_Tibo_PragmaticEngineer_BuildingCodex_2026-09-09.pdf",
-      "sha256": "0fcc7fefe74272d21455807487f1e338f0bd8af70a6138fda716ff8d55b73a1e",
-      "bytes": 536629,
-      "kind": "pdf",
-      "pages": 6,
-      "content_role": "技术学习"
-    },
-    {
-      "path": "技术PDF/01_AI Agent 与 Harness/Harness_与_DeepSeek_Harness_技术图解.pdf",
-      "source_path": "小红书商品/技术PDF/01_AI Agent 与 Harness/Harness_与_DeepSeek_Harness_技术图解.pdf",
-      "sha256": "bf3830c8cbb590aacd5094bd302140bbc1af86e829afb444cef642b733bcf647",
-      "bytes": 1019304,
-      "kind": "pdf",
-      "pages": 16,
-      "content_role": "技术学习"
-    },
-    {
-      "path": "技术PDF/01_AI Agent 与 Harness/Tibo_Codex_AIInfra_Group_Brief_2026-08-25.pdf",
-      "source_path": "小红书商品/技术PDF/01_AI Agent 与 Harness/Tibo_Codex_AIInfra_Group_Brief_2026-08-25.pdf",
-      "sha256": "e94acb7f56a4301f5fd0f6d22db5024a54e4068abb9f2ee2e0bea675869bbf62",
-      "bytes": 484534,
-      "kind": "pdf",
-      "pages": 8,
-      "content_role": "技术学习"
-    },
-    {
-      "path": "技术PDF/02_GPU 架构与迁移/blackwell_industry_status_public_baselines_2026-09-01.pdf",
-      "source_path": "小红书商品/技术PDF/02_GPU 架构与迁移/blackwell_industry_status_public_baselines_2026-09-01.pdf",
-      "sha256": "70a802fb8e96340215e14c97c0b3c3788df9d28eca97fe746765353e98bf45e2",
-      "bytes": 805186,
-      "kind": "pdf",
-      "pages": 9,
-      "content_role": "技术学习"
-    },
-    {
-      "path": "技术PDF/02_GPU 架构与迁移/hopper_to_b300_migration_research_2026-09-01.pdf",
-      "source_path": "小红书商品/技术PDF/02_GPU 架构与迁移/hopper_to_b300_migration_research_2026-09-01.pdf",
-      "sha256": "8deff8913ab4451c2babafd7f25f52ab5e12d4e09880d2d3d441546bbd756c5d",
-      "bytes": 292795,
-      "kind": "pdf",
-      "pages": 21,
-      "content_role": "技术学习"
-    },
-    {
-      "path": "技术PDF/03_MoE 系统与性能/Mixture_of_Kittens_Technical_Report_2026-09-14.pdf",
-      "source_path": "小红书商品/技术PDF/03_MoE 系统与性能/Mixture_of_Kittens_Technical_Report_2026-09-14.pdf",
-      "sha256": "b39b98e8499217c32e57ba3aa6286548cc6938a49ad98ba0f1ded03d9a16f469",
-      "bytes": 587765,
-      "kind": "pdf",
-      "pages": 18,
-      "content_role": "技术学习"
-    },
-    {
-      "path": "技术PDF/04_论文深度解读/01_HiLS_分层稀疏注意力解析.pdf",
-      "source_path": "小红书商品/技术PDF/04_论文深度解读/01_HiLS_分层稀疏注意力解析.pdf",
-      "sha256": "2ab908d40294c18e36a8d99538c5dbb4400ddf557348415ff36860972e4bedae",
-      "bytes": 371902,
-      "kind": "pdf",
-      "pages": 9,
-      "content_role": "技术学习"
-    },
-    {
-      "path": "技术PDF/04_论文深度解读/02_Kimi_K3_模型与系统协同解析.pdf",
-      "source_path": "小红书商品/技术PDF/04_论文深度解读/02_Kimi_K3_模型与系统协同解析.pdf",
-      "sha256": "57a071859ff073926acfca6bd0fea4909c64d73add5e62fad00320f3dd8e01d2",
-      "bytes": 358530,
-      "kind": "pdf",
-      "pages": 8,
-      "content_role": "技术学习"
-    },
-    {
-      "path": "技术PDF/04_论文深度解读/03_HiSparse_分层KV缓存解析.pdf",
-      "source_path": "小红书商品/技术PDF/04_论文深度解读/03_HiSparse_分层KV缓存解析.pdf",
-      "sha256": "3802b41515b44c8bee861d269e3f8209f3519c29a3dee47d82c19d72db49d8a2",
-      "bytes": 329279,
-      "kind": "pdf",
-      "pages": 8,
-      "content_role": "技术学习"
-    },
-    {
-      "path": "技术PDF/04_论文深度解读/04_JevMem_Agent记忆系统解析.pdf",
-      "source_path": "小红书商品/技术PDF/04_论文深度解读/04_JevMem_Agent记忆系统解析.pdf",
-      "sha256": "8eefd32d2a618976b536ff11064ffc8ca95cde8150c8780e564d556c741c9097",
-      "bytes": 344112,
-      "kind": "pdf",
-      "pages": 8,
-      "content_role": "技术学习"
-    },
-    {
-      "path": "技术PDF/04_论文深度解读/05_MoK_计算通信Megakernel解析.pdf",
-      "source_path": "小红书商品/技术PDF/04_论文深度解读/05_MoK_计算通信Megakernel解析.pdf",
-      "sha256": "3772da8b21894ef227e381417ce6c0cad497f150be79de3724c004402d7d9d66",
-      "bytes": 350704,
-      "kind": "pdf",
-      "pages": 8,
-      "content_role": "技术学习"
-    },
-    {
-      "path": "技术PDF/04_论文深度解读/06_MoonEP_动态冗余专家解析.pdf",
-      "source_path": "小红书商品/技术PDF/04_论文深度解读/06_MoonEP_动态冗余专家解析.pdf",
-      "sha256": "74f2b23c9bef03f4dd83c6458a9f7aa13441af95974193c9ec23395d6ac23b67",
-      "bytes": 340369,
-      "kind": "pdf",
-      "pages": 8,
-      "content_role": "技术学习"
-    },
-    {
-      "path": "技术PDF/04_论文深度解读/07_KDA_KimiLinear_机制与算子解析.pdf",
-      "source_path": "小红书商品/技术PDF/04_论文深度解读/07_KDA_KimiLinear_机制与算子解析.pdf",
-      "sha256": "11b59e6a371dcae5a8df4c5af12401b4ba9f455ef8b155eedf1c3fe21596ae34",
-      "bytes": 334582,
-      "kind": "pdf",
-      "pages": 9,
-      "content_role": "技术学习"
-    },
-    {
-      "path": "技术PDF/04_论文深度解读/Megatron_Core_MoE_论文深度解析.pdf",
-      "source_path": "小红书商品/技术PDF/04_论文深度解读/Megatron_Core_MoE_论文深度解析.pdf",
-      "sha256": "d0fb98e41d1d3191f7fa2123e946c4feae9ca983da8f96a21ba848fa5f50742d",
-      "bytes": 535780,
-      "kind": "pdf",
-      "pages": 20,
-      "content_role": "技术学习"
-    },
-    {
-      "path": "技术PDF/04_论文深度解读/TileSight_论文深度解析.pdf",
-      "source_path": "小红书商品/技术PDF/04_论文深度解读/TileSight_论文深度解析.pdf",
-      "sha256": "500b4c828b5eeecb9bddde1912463001ffc5591778e8719f5ada378dc9291ae3",
-      "bytes": 1417968,
-      "kind": "pdf",
-      "pages": 17,
-      "content_role": "技术学习"
-    },
-    {
-      "path": "技术PDF/05_LLM 推理与面试复习/DeepInfer_仓库深度解析.pdf",
-      "source_path": "小红书商品/技术PDF/05_LLM 推理与面试复习/DeepInfer_仓库深度解析.pdf",
-      "sha256": "88361e131ef6ab5791bf26eef07b7cbbf07e2c7fc2eb7626f47cf4b5394c9ad5",
-      "bytes": 1264142,
-      "kind": "pdf",
-      "pages": 21,
-      "content_role": "技术学习"
-    },
-    {
-      "path": "技术PDF/05_LLM 推理与面试复习/vllm_interview_questions_detailed_cn.pdf",
-      "source_path": "小红书商品/技术PDF/05_LLM 推理与面试复习/vllm_interview_questions_detailed_cn.pdf",
-      "sha256": "b474e6f69984b1d069f7b2b7a0d2bb29ac5b86829864e75a6e0863ac7525df02",
-      "bytes": 2471534,
-      "kind": "pdf",
-      "pages": 36,
-      "content_role": "技术学习"
-    },
-    {
-      "path": "技术PDF/05_LLM 推理与面试复习/vllm_interview_summary2_cn.pdf",
-      "source_path": "小红书商品/技术PDF/05_LLM 推理与面试复习/vllm_interview_summary2_cn.pdf",
-      "sha256": "890756ad9819cec21e2449ca1cd2c638e54c0fa87ff47d26ef96cb4e2a18fdfc",
-      "bytes": 2053110,
-      "kind": "pdf",
-      "pages": 33,
-      "content_role": "技术学习"
-    },
-    {
-      "path": "技术PDF/06_训练与强化学习/RL_Interview_Handbook_2026-10-31.pdf",
-      "source_path": "小红书商品/技术PDF/06_训练与强化学习/RL_Interview_Handbook_2026-10-31.pdf",
-      "sha256": "025b53ed16c3136abb18fc49eb37a0742c5ab579bf5b8e884faeac3fc2efa0c9",
-      "bytes": 764946,
-      "kind": "pdf",
-      "pages": 55,
-      "content_role": "技术学习"
-    },
-    {
-      "path": "技术PDF/06_训练与强化学习/Training_Interview_Handbook_2026-10-31.pdf",
-      "source_path": "小红书商品/技术PDF/06_训练与强化学习/Training_Interview_Handbook_2026-10-31.pdf",
-      "sha256": "caffa55b46f43eeececebd8fab943c6b958254b91a61d3d65bb59a9951d7899d",
-      "bytes": 806745,
-      "kind": "pdf",
-      "pages": 59,
-      "content_role": "技术学习"
-    },
-    {
-      "path": "技术PDF/07_AI Infra 八股文/00_说明与来源.md",
-      "source_path": "小红书商品/技术PDF/07_AI Infra 八股文/00_说明与来源.md",
-      "sha256": "68a17ffc999d1e5f9deae3b0a886d4f414f2480a228eab72d9ef3d851ddf24a9",
-      "bytes": 2686,
+      "path": "技术PDF/01_AI Infra基础与算子/00_说明与来源.md",
+      "source_path": "小红书商品/技术PDF/01_AI Infra基础与算子/00_说明与来源.md",
+      "sha256": "c073449309149658e936bea4854fa691ae3d064ba53f0a3e79d949abc1bca8d5",
+      "bytes": 2606,
       "kind": "reading_note",
       "pages": 0,
       "content_role": "来源与阅读说明"
     },
     {
-      "path": "技术PDF/07_AI Infra 八股文/01_AI_Infra_八股文.pdf",
-      "source_path": "小红书商品/技术PDF/07_AI Infra 八股文/01_AI_Infra_八股文.pdf",
+      "path": "技术PDF/01_AI Infra基础与算子/01_AIInfra_系统基础与面试问答.pdf",
+      "source_path": "小红书商品/技术PDF/01_AI Infra基础与算子/01_AIInfra_系统基础与面试问答.pdf",
       "sha256": "f80fa0f3d968fd7a1a4feb6c1125882463db179b5ad0b909aff6875906a9cc4b",
       "bytes": 150786,
       "kind": "pdf",
@@ -303,35 +50,8 @@
       "content_role": "技术学习"
     },
     {
-      "path": "技术PDF/07_AI Infra 八股文/02_推理八股文.pdf",
-      "source_path": "小红书商品/技术PDF/07_AI Infra 八股文/02_推理八股文.pdf",
-      "sha256": "977a11c84771f95b0acd242ab9e79863f01c1060061795a65d6ef66c8275374a",
-      "bytes": 142188,
-      "kind": "pdf",
-      "pages": 8,
-      "content_role": "技术学习"
-    },
-    {
-      "path": "技术PDF/07_AI Infra 八股文/03_训练八股文.pdf",
-      "source_path": "小红书商品/技术PDF/07_AI Infra 八股文/03_训练八股文.pdf",
-      "sha256": "14bff66c663c58241a11453fc04c648e1542250c3618e7077b32b4f6607620b2",
-      "bytes": 141424,
-      "kind": "pdf",
-      "pages": 8,
-      "content_role": "技术学习"
-    },
-    {
-      "path": "技术PDF/07_AI Infra 八股文/04_RL_八股文.pdf",
-      "source_path": "小红书商品/技术PDF/07_AI Infra 八股文/04_RL_八股文.pdf",
-      "sha256": "493bbd7f08604c46f6e58cd6ab48ee6dd02bcb439b0a7bcf550ed90fd67d26cd",
-      "bytes": 143262,
-      "kind": "pdf",
-      "pages": 8,
-      "content_role": "技术学习"
-    },
-    {
-      "path": "技术PDF/07_AI Infra 八股文/05_算子优化八股文.pdf",
-      "source_path": "小红书商品/技术PDF/07_AI Infra 八股文/05_算子优化八股文.pdf",
+      "path": "技术PDF/01_AI Infra基础与算子/02_CUDA_算子优化与性能分析问答.pdf",
+      "source_path": "小红书商品/技术PDF/01_AI Infra基础与算子/02_CUDA_算子优化与性能分析问答.pdf",
       "sha256": "0f9540e30b26786a817f81f309a39d421b4b06ee3579b0a9c3dfe59a03972cfb",
       "bytes": 136831,
       "kind": "pdf",
@@ -339,274 +59,337 @@
       "content_role": "技术学习"
     },
     {
-      "path": "面试/01_公司复盘/01_阿里_AI_Infra与推理系统.pdf",
-      "source_path": "小红书商品/面试/01_公司复盘/01_阿里_AI_Infra与推理系统.pdf",
-      "sha256": "092aedfd6b11921c4abfe1d167336907564bf8ea21eb372045e984883c311f0c",
-      "bytes": 602657,
+      "path": "技术PDF/02_GPU架构与迁移/01_Hopper_Blackwell架构迁移与性能研究.pdf",
+      "source_path": "小红书商品/技术PDF/02_GPU架构与迁移/01_Hopper_Blackwell架构迁移与性能研究.pdf",
+      "sha256": "8deff8913ab4451c2babafd7f25f52ab5e12d4e09880d2d3d441546bbd756c5d",
+      "bytes": 292795,
       "kind": "pdf",
-      "pages": 4,
-      "content_role": "AI Infra技术面试复盘"
+      "pages": 21,
+      "content_role": "技术学习"
     },
     {
-      "path": "面试/01_公司复盘/02_字节跳动_AI_Infra.pdf",
-      "source_path": "小红书商品/面试/01_公司复盘/02_字节跳动_AI_Infra.pdf",
-      "sha256": "8bcf880b2340c45cf36fd2675b35936a5f8406386fdeff18d90bd4b393e9af75",
-      "bytes": 599127,
+      "path": "技术PDF/02_GPU架构与迁移/02_Blackwell_产业落地与公开性能基线.pdf",
+      "source_path": "小红书商品/技术PDF/02_GPU架构与迁移/02_Blackwell_产业落地与公开性能基线.pdf",
+      "sha256": "70a802fb8e96340215e14c97c0b3c3788df9d28eca97fe746765353e98bf45e2",
+      "bytes": 805186,
       "kind": "pdf",
-      "pages": 4,
-      "content_role": "AI Infra技术面试复盘"
+      "pages": 9,
+      "content_role": "技术学习"
     },
     {
-      "path": "面试/01_公司复盘/03_字节跳动_大模型推训优化.pdf",
-      "source_path": "小红书商品/面试/01_公司复盘/03_字节跳动_大模型推训优化.pdf",
-      "sha256": "112e8dbe68d6365432093b6e0691ffe08fffedd89aa490b1f2586bb5334eae93",
-      "bytes": 598064,
+      "path": "技术PDF/03_LLM推理/01_LLMServing_推理系统与指标快速问答.pdf",
+      "source_path": "小红书商品/技术PDF/03_LLM推理/01_LLMServing_推理系统与指标快速问答.pdf",
+      "sha256": "977a11c84771f95b0acd242ab9e79863f01c1060061795a65d6ef66c8275374a",
+      "bytes": 142188,
       "kind": "pdf",
-      "pages": 4,
-      "content_role": "AI Infra技术面试复盘"
+      "pages": 8,
+      "content_role": "技术学习"
     },
     {
-      "path": "面试/01_公司复盘/04_百度_AI_Infra.pdf",
-      "source_path": "小红书商品/面试/01_公司复盘/04_百度_AI_Infra.pdf",
-      "sha256": "2bf65f80e25cf6b480cc911a43044a6a49360bcbdd378350efdc96e819622ad4",
-      "bytes": 595948,
+      "path": "技术PDF/03_LLM推理/02_vLLM_并行量化与面试详解.pdf",
+      "source_path": "小红书商品/技术PDF/03_LLM推理/02_vLLM_并行量化与面试详解.pdf",
+      "sha256": "b474e6f69984b1d069f7b2b7a0d2bb29ac5b86829864e75a6e0863ac7525df02",
+      "bytes": 2471534,
       "kind": "pdf",
-      "pages": 4,
-      "content_role": "AI Infra技术面试复盘"
+      "pages": 36,
+      "content_role": "技术学习"
     },
     {
-      "path": "面试/01_公司复盘/05_MiniMax_AI_Infra与推理优化.pdf",
-      "source_path": "小红书商品/面试/01_公司复盘/05_MiniMax_AI_Infra与推理优化.pdf",
+      "path": "技术PDF/03_LLM推理/03_vLLM_执行调度与框架机制.pdf",
+      "source_path": "小红书商品/技术PDF/03_LLM推理/03_vLLM_执行调度与框架机制.pdf",
+      "sha256": "890756ad9819cec21e2449ca1cd2c638e54c0fa87ff47d26ef96cb4e2a18fdfc",
+      "bytes": 2053110,
+      "kind": "pdf",
+      "pages": 33,
+      "content_role": "技术学习"
+    },
+    {
+      "path": "技术PDF/03_LLM推理/04_DeepInfer_推理执行引擎与源码解析.pdf",
+      "source_path": "小红书商品/技术PDF/03_LLM推理/04_DeepInfer_推理执行引擎与源码解析.pdf",
+      "sha256": "88361e131ef6ab5791bf26eef07b7cbbf07e2c7fc2eb7626f47cf4b5394c9ad5",
+      "bytes": 1264142,
+      "kind": "pdf",
+      "pages": 21,
+      "content_role": "技术学习"
+    },
+    {
+      "path": "技术PDF/04_MoE系统/01_MoK_计算通信融合与源码核验.pdf",
+      "source_path": "小红书商品/技术PDF/04_MoE系统/01_MoK_计算通信融合与源码核验.pdf",
+      "sha256": "b39b98e8499217c32e57ba3aa6286548cc6938a49ad98ba0f1ded03d9a16f469",
+      "bytes": 587765,
+      "kind": "pdf",
+      "pages": 18,
+      "content_role": "技术学习"
+    },
+    {
+      "path": "技术PDF/04_MoE系统/02_MegatronCore_MoE分布式训练系统解析.pdf",
+      "source_path": "小红书商品/技术PDF/04_MoE系统/02_MegatronCore_MoE分布式训练系统解析.pdf",
+      "sha256": "d0fb98e41d1d3191f7fa2123e946c4feae9ca983da8f96a21ba848fa5f50742d",
+      "bytes": 535780,
+      "kind": "pdf",
+      "pages": 20,
+      "content_role": "技术学习"
+    },
+    {
+      "path": "技术PDF/04_MoE系统/03_MoonEP_动态冗余专家与负载均衡.pdf",
+      "source_path": "小红书商品/技术PDF/04_MoE系统/03_MoonEP_动态冗余专家与负载均衡.pdf",
+      "sha256": "74f2b23c9bef03f4dd83c6458a9f7aa13441af95974193c9ec23395d6ac23b67",
+      "bytes": 340369,
+      "kind": "pdf",
+      "pages": 8,
+      "content_role": "技术学习"
+    },
+    {
+      "path": "技术PDF/05_训练与RL/01_Training_大模型训练原理与系统面试详解.pdf",
+      "source_path": "小红书商品/技术PDF/05_训练与RL/01_Training_大模型训练原理与系统面试详解.pdf",
+      "sha256": "caffa55b46f43eeececebd8fab943c6b958254b91a61d3d65bb59a9951d7899d",
+      "bytes": 806745,
+      "kind": "pdf",
+      "pages": 59,
+      "content_role": "技术学习"
+    },
+    {
+      "path": "技术PDF/05_训练与RL/02_RL_强化学习算法与Infra面试详解.pdf",
+      "source_path": "小红书商品/技术PDF/05_训练与RL/02_RL_强化学习算法与Infra面试详解.pdf",
+      "sha256": "025b53ed16c3136abb18fc49eb37a0742c5ab579bf5b8e884faeac3fc2efa0c9",
+      "bytes": 764946,
+      "kind": "pdf",
+      "pages": 55,
+      "content_role": "技术学习"
+    },
+    {
+      "path": "技术PDF/06_论文与前沿技术/01_HiLS_分层稀疏注意力与长上下文.pdf",
+      "source_path": "小红书商品/技术PDF/06_论文与前沿技术/01_HiLS_分层稀疏注意力与长上下文.pdf",
+      "sha256": "2ab908d40294c18e36a8d99538c5dbb4400ddf557348415ff36860972e4bedae",
+      "bytes": 371902,
+      "kind": "pdf",
+      "pages": 9,
+      "content_role": "技术学习"
+    },
+    {
+      "path": "技术PDF/06_论文与前沿技术/02_HiSparse_分层KVCache与显存管理.pdf",
+      "source_path": "小红书商品/技术PDF/06_论文与前沿技术/02_HiSparse_分层KVCache与显存管理.pdf",
+      "sha256": "3802b41515b44c8bee861d269e3f8209f3519c29a3dee47d82c19d72db49d8a2",
+      "bytes": 329279,
+      "kind": "pdf",
+      "pages": 8,
+      "content_role": "技术学习"
+    },
+    {
+      "path": "技术PDF/06_论文与前沿技术/03_KDA_线性注意力机制与算子设计.pdf",
+      "source_path": "小红书商品/技术PDF/06_论文与前沿技术/03_KDA_线性注意力机制与算子设计.pdf",
+      "sha256": "11b59e6a371dcae5a8df4c5af12401b4ba9f455ef8b155eedf1c3fe21596ae34",
+      "bytes": 334582,
+      "kind": "pdf",
+      "pages": 9,
+      "content_role": "技术学习"
+    },
+    {
+      "path": "技术PDF/06_论文与前沿技术/04_KimiK3_大模型架构与训练系统协同.pdf",
+      "source_path": "小红书商品/技术PDF/06_论文与前沿技术/04_KimiK3_大模型架构与训练系统协同.pdf",
+      "sha256": "57a071859ff073926acfca6bd0fea4909c64d73add5e62fad00320f3dd8e01d2",
+      "bytes": 358530,
+      "kind": "pdf",
+      "pages": 8,
+      "content_role": "技术学习"
+    },
+    {
+      "path": "技术PDF/06_论文与前沿技术/05_TileSight_从GPU核心到集群的性能建模.pdf",
+      "source_path": "小红书商品/技术PDF/06_论文与前沿技术/05_TileSight_从GPU核心到集群的性能建模.pdf",
+      "sha256": "500b4c828b5eeecb9bddde1912463001ffc5591778e8719f5ada378dc9291ae3",
+      "bytes": 1417968,
+      "kind": "pdf",
+      "pages": 17,
+      "content_role": "技术学习"
+    },
+    {
+      "path": "技术PDF/07_AI Agent与Harness/01_Harness_Agent执行系统与DeepSeek技术图解.pdf",
+      "source_path": "小红书商品/技术PDF/07_AI Agent与Harness/01_Harness_Agent执行系统与DeepSeek技术图解.pdf",
+      "sha256": "bf3830c8cbb590aacd5094bd302140bbc1af86e829afb444cef642b733bcf647",
+      "bytes": 1019304,
+      "kind": "pdf",
+      "pages": 16,
+      "content_role": "技术学习"
+    },
+    {
+      "path": "技术PDF/07_AI Agent与Harness/02_Harness_轻量支架与模型协同演进.pdf",
+      "source_path": "小红书商品/技术PDF/07_AI Agent与Harness/02_Harness_轻量支架与模型协同演进.pdf",
+      "sha256": "15796cfd9a28b7053768b4234270dc4a2f38083f843c8a30847c7440763e7069",
+      "bytes": 535856,
+      "kind": "pdf",
+      "pages": 6,
+      "content_role": "技术学习"
+    },
+    {
+      "path": "技术PDF/07_AI Agent与Harness/03_Sandbox_Agent运行环境与权限设计.pdf",
+      "source_path": "小红书商品/技术PDF/07_AI Agent与Harness/03_Sandbox_Agent运行环境与权限设计.pdf",
+      "sha256": "946ee927319ad5065617a922e9faa47fa1accadfd5435ed5b3ff112819c3d028",
+      "bytes": 529801,
+      "kind": "pdf",
+      "pages": 6,
+      "content_role": "技术学习"
+    },
+    {
+      "path": "技术PDF/07_AI Agent与Harness/04_Codex_从代码助手到长期任务Agent.pdf",
+      "source_path": "小红书商品/技术PDF/07_AI Agent与Harness/04_Codex_从代码助手到长期任务Agent.pdf",
+      "sha256": "b25a9a2aa08235fc65db93d1d597abf4a6b668ad2578b016fe6efa84969c432c",
+      "bytes": 530463,
+      "kind": "pdf",
+      "pages": 6,
+      "content_role": "技术学习"
+    },
+    {
+      "path": "技术PDF/07_AI Agent与Harness/05_Context_Memory与大众化Agent工作流.pdf",
+      "source_path": "小红书商品/技术PDF/07_AI Agent与Harness/05_Context_Memory与大众化Agent工作流.pdf",
+      "sha256": "bf6f4635eedcb47851fd23fed7126631bcffa98408e3910661e51f8224edb927",
+      "bytes": 528856,
+      "kind": "pdf",
+      "pages": 6,
+      "content_role": "技术学习"
+    },
+    {
+      "path": "技术PDF/07_AI Agent与Harness/06_Agent_多智能体编排与企业软件形态.pdf",
+      "source_path": "小红书商品/技术PDF/07_AI Agent与Harness/06_Agent_多智能体编排与企业软件形态.pdf",
+      "sha256": "253b7e0b714143e5a0792e3d99ee015a9cd9f36f133c11920dfb46a823dbd55e",
+      "bytes": 532538,
+      "kind": "pdf",
+      "pages": 6,
+      "content_role": "技术学习"
+    },
+    {
+      "path": "技术PDF/07_AI Agent与Harness/07_MultiAgent_并行推理与实时交互.pdf",
+      "source_path": "小红书商品/技术PDF/07_AI Agent与Harness/07_MultiAgent_并行推理与实时交互.pdf",
+      "sha256": "4180c51f5a84c8db404db8be3b3b336486e034c6091c18b856dcc03385ab4881",
+      "bytes": 530942,
+      "kind": "pdf",
+      "pages": 6,
+      "content_role": "技术学习"
+    },
+    {
+      "path": "技术PDF/07_AI Agent与Harness/08_Agent_最小产品界面与智能成本.pdf",
+      "source_path": "小红书商品/技术PDF/07_AI Agent与Harness/08_Agent_最小产品界面与智能成本.pdf",
+      "sha256": "ba44295b59a6ca38e1d84e063fb647c213bd547637325d8654e4ee1dd5521966",
+      "bytes": 535151,
+      "kind": "pdf",
+      "pages": 6,
+      "content_role": "技术学习"
+    },
+    {
+      "path": "技术PDF/07_AI Agent与Harness/09_Codex_Rust架构与开源工程实践.pdf",
+      "source_path": "小红书商品/技术PDF/07_AI Agent与Harness/09_Codex_Rust架构与开源工程实践.pdf",
+      "sha256": "0fcc7fefe74272d21455807487f1e338f0bd8af70a6138fda716ff8d55b73a1e",
+      "bytes": 536629,
+      "kind": "pdf",
+      "pages": 6,
+      "content_role": "技术学习"
+    },
+    {
+      "path": "技术PDF/07_AI Agent与Harness/10_Codex_云端个人Agent与Infra演进.pdf",
+      "source_path": "小红书商品/技术PDF/07_AI Agent与Harness/10_Codex_云端个人Agent与Infra演进.pdf",
+      "sha256": "e94acb7f56a4301f5fd0f6d22db5024a54e4068abb9f2ee2e0bea675869bbf62",
+      "bytes": 484534,
+      "kind": "pdf",
+      "pages": 8,
+      "content_role": "技术学习"
+    },
+    {
+      "path": "技术PDF/07_AI Agent与Harness/11_JevMem_Agent长期记忆与预算控制.pdf",
+      "source_path": "小红书商品/技术PDF/07_AI Agent与Harness/11_JevMem_Agent长期记忆与预算控制.pdf",
+      "sha256": "8eefd32d2a618976b536ff11064ffc8ca95cde8150c8780e564d556c741c9097",
+      "bytes": 344112,
+      "kind": "pdf",
+      "pages": 8,
+      "content_role": "技术学习"
+    },
+    {
+      "path": "面试/MiniMax.pdf",
+      "source_path": "小红书商品/面试/MiniMax.pdf",
       "sha256": "70139be68b69b9851c8c76dcb2c6deecc71f1c55abe73d7b429ee09aabc46f04",
       "bytes": 595212,
       "kind": "pdf",
       "pages": 4,
-      "content_role": "AI Infra技术面试复盘"
+      "content_role": "公司面试复盘"
     },
     {
-      "path": "面试/01_公司复盘/06_小米_算子开发.pdf",
-      "source_path": "小红书商品/面试/01_公司复盘/06_小米_算子开发.pdf",
+      "path": "面试/OPPO.pdf",
+      "source_path": "小红书商品/面试/OPPO.pdf",
+      "sha256": "709e99076271f0ec5a10fd2d4416d9a1e8bc7db1fef763c05e68c6f5e34f7cdc",
+      "bytes": 237091,
+      "kind": "pdf",
+      "pages": 4,
+      "content_role": "公司面试复盘"
+    },
+    {
+      "path": "面试/字节跳动.pdf",
+      "source_path": "小红书商品/面试/字节跳动.pdf",
+      "sha256": "aeb38eca20e9a106f8475b7d0a27b1a2f7e7c8689d16e9bbb277e2ad2e72a071",
+      "bytes": 1307258,
+      "kind": "pdf",
+      "pages": 10,
+      "content_role": "公司面试复盘"
+    },
+    {
+      "path": "面试/小米.pdf",
+      "source_path": "小红书商品/面试/小米.pdf",
       "sha256": "49265efc4f5141a30d57a73e157715eea6381ccb1d097f85aa1578c22250c945",
       "bytes": 590815,
       "kind": "pdf",
       "pages": 4,
-      "content_role": "AI Infra技术面试复盘"
+      "content_role": "公司面试复盘"
     },
     {
-      "path": "面试/01_公司复盘/07_曦望_AI加速器与算子优化.pdf",
-      "source_path": "小红书商品/面试/01_公司复盘/07_曦望_AI加速器与算子优化.pdf",
-      "sha256": "591d4565da9a9c164dd868e6dfd1203f27346fa3102c255d8735737805699223",
-      "bytes": 590091,
+      "path": "面试/小马智行.pdf",
+      "source_path": "小红书商品/面试/小马智行.pdf",
+      "sha256": "84bcfe8b9a135b8b4cbb7e5bf61d6f1cd1a2051cd71fad7e8b878a061bd2739c",
+      "bytes": 348320,
       "kind": "pdf",
-      "pages": 4,
-      "content_role": "AI Infra技术面试复盘"
+      "pages": 6,
+      "content_role": "公司面试复盘"
     },
     {
-      "path": "面试/01_公司复盘/08_三七互娱_海外游戏运营.pdf",
-      "source_path": "小红书商品/面试/01_公司复盘/08_三七互娱_海外游戏运营.pdf",
-      "sha256": "707ed3f3d76057f5b062bf4292f65360157213d2de720d31a858444baba6fb1b",
-      "bytes": 591060,
-      "kind": "pdf",
-      "pages": 4,
-      "content_role": "跨域赠阅"
-    },
-    {
-      "path": "面试/02_专题复盘/01_云基础设施_AIInfra_面试复盘.pdf",
-      "source_path": "小红书商品/面试/02_专题复盘/01_云基础设施_AIInfra_面试复盘.pdf",
-      "sha256": "cf6c469dcb132fae0cf702e26ee76088b4538bf0018bd46eaa794656b06a62db",
-      "bytes": 1003825,
-      "kind": "pdf",
-      "pages": 3,
-      "content_role": "AI Infra技术面试复盘"
-    },
-    {
-      "path": "面试/02_专题复盘/02_AIInfra_算子与系统_面试复盘.pdf",
-      "source_path": "小红书商品/面试/02_专题复盘/02_AIInfra_算子与系统_面试复盘.pdf",
-      "sha256": "be242b063f21011dcdaa737b48305f47cb519d5337d40d77b0f4e9bdfcb4799b",
-      "bytes": 1039380,
-      "kind": "pdf",
-      "pages": 3,
-      "content_role": "AI Infra技术面试复盘"
-    },
-    {
-      "path": "面试/02_专题复盘/03_硬件迁移与确定性计算_面试复盘.pdf",
-      "source_path": "小红书商品/面试/02_专题复盘/03_硬件迁移与确定性计算_面试复盘.pdf",
-      "sha256": "14e245c6908b939b92cc718104dc031706209e8f102d2d0ae76832763c859f6e",
-      "bytes": 1010069,
-      "kind": "pdf",
-      "pages": 3,
-      "content_role": "AI Infra技术面试复盘"
-    },
-    {
-      "path": "面试/02_专题复盘/04_AIInfra_训练确定性与推理系统_面试复盘.pdf",
-      "source_path": "小红书商品/面试/02_专题复盘/04_AIInfra_训练确定性与推理系统_面试复盘.pdf",
-      "sha256": "27bfa1874383f5961f47c45afbc9f7a4a660951f3f5a5373b517a2f609a2e192",
-      "bytes": 1046468,
-      "kind": "pdf",
-      "pages": 3,
-      "content_role": "AI Infra技术面试复盘"
-    },
-    {
-      "path": "面试/02_专题复盘/05_大模型推训优化_面试复盘.pdf",
-      "source_path": "小红书商品/面试/02_专题复盘/05_大模型推训优化_面试复盘.pdf",
-      "sha256": "f0413739b0340c9fb5b0ab07cdf5486f615258e82a83887c962c368697267363",
-      "bytes": 1063460,
-      "kind": "pdf",
-      "pages": 3,
-      "content_role": "AI Infra技术面试复盘"
-    },
-    {
-      "path": "面试/02_专题复盘/06_AIInfra_多轮综合_面试复盘.pdf",
-      "source_path": "小红书商品/面试/02_专题复盘/06_AIInfra_多轮综合_面试复盘.pdf",
-      "sha256": "856fe1b4e34ec48177edd7e9082d2ed4f479c48223651f58f9c8484d7c3b4d51",
-      "bytes": 999514,
-      "kind": "pdf",
-      "pages": 3,
-      "content_role": "AI Infra技术面试复盘"
-    },
-    {
-      "path": "面试/02_专题复盘/07_GPU算子开发_面试复盘.pdf",
-      "source_path": "小红书商品/面试/02_专题复盘/07_GPU算子开发_面试复盘.pdf",
-      "sha256": "508527ecabca5dae18c5ef849945923bc0b94e0ea18a21af86d25447319fb4db",
-      "bytes": 1017659,
-      "kind": "pdf",
-      "pages": 3,
-      "content_role": "AI Infra技术面试复盘"
-    },
-    {
-      "path": "面试/02_专题复盘/08_AIInfra_推理服务与缓存_面试复盘.pdf",
-      "source_path": "小红书商品/面试/02_专题复盘/08_AIInfra_推理服务与缓存_面试复盘.pdf",
-      "sha256": "8a38809dffb3e98021d957a4a88574f99c8ea49496cdec1358277198dd0980c2",
-      "bytes": 1054838,
-      "kind": "pdf",
-      "pages": 3,
-      "content_role": "AI Infra技术面试复盘"
-    },
-    {
-      "path": "面试/02_专题复盘/09_可移植算子与训推优化_面试复盘.pdf",
-      "source_path": "小红书商品/面试/02_专题复盘/09_可移植算子与训推优化_面试复盘.pdf",
-      "sha256": "758f2d0bb87f7a2f935b80559ae82b5575e04c52dfbbd72c7f972c734466ffc1",
-      "bytes": 1024669,
-      "kind": "pdf",
-      "pages": 3,
-      "content_role": "AI Infra技术面试复盘"
-    },
-    {
-      "path": "面试/02_专题复盘/10_跨域业务分析_面试复盘.pdf",
-      "source_path": "小红书商品/面试/02_专题复盘/10_跨域业务分析_面试复盘.pdf",
-      "sha256": "32ed475f318ca2266452458cd3c79325eacac955ab76a6ac8cddee1ba28e57b6",
-      "bytes": 684524,
-      "kind": "pdf",
-      "pages": 2,
-      "content_role": "跨域赠阅"
-    },
-    {
-      "path": "面试/03_补充复盘/01_OPPO_高性能计算与端侧部署.pdf",
-      "source_path": "小红书商品/面试/03_补充复盘/01_OPPO_高性能计算与端侧部署.pdf",
-      "sha256": "f06917840cd26785f4b5983fbb375400f070c467d8df0b27a161c4360bf39eb2",
-      "bytes": 111058,
-      "kind": "pdf",
-      "pages": 2,
-      "content_role": "AI Infra技术面试复盘"
-    },
-    {
-      "path": "面试/03_补充复盘/02_OPPO_HR_项目表达与职业选择.pdf",
-      "source_path": "小红书商品/面试/03_补充复盘/02_OPPO_HR_项目表达与职业选择.pdf",
-      "sha256": "2ee1523143432d6b2f2e4f03bdca4d2dad080cfd75dff4d8adb0a86c3e70e3cf",
-      "bytes": 100168,
-      "kind": "pdf",
-      "pages": 2,
-      "content_role": "HR沟通准备"
-    },
-    {
-      "path": "面试/03_补充复盘/03_小马智行_一面_性能分析与归一化编码.pdf",
-      "source_path": "小红书商品/面试/03_补充复盘/03_小马智行_一面_性能分析与归一化编码.pdf",
-      "sha256": "dd00369693c498b477aac7f2f84d76d8e48c42f3e98d82666d23aa1b43c3f771",
-      "bytes": 104121,
-      "kind": "pdf",
-      "pages": 2,
-      "content_role": "AI Infra技术面试复盘"
-    },
-    {
-      "path": "面试/03_补充复盘/04_小马智行_二面_算子工程与滑动窗口.pdf",
-      "source_path": "小红书商品/面试/03_补充复盘/04_小马智行_二面_算子工程与滑动窗口.pdf",
-      "sha256": "2dea496b4eae6d488de41477c5ed980c2a47b310d45c972874f63689e25d9269",
-      "bytes": 107675,
-      "kind": "pdf",
-      "pages": 2,
-      "content_role": "AI Infra技术面试复盘"
-    },
-    {
-      "path": "面试/03_补充复盘/05_小马智行_三面_性能证据与工程闭环.pdf",
-      "source_path": "小红书商品/面试/03_补充复盘/05_小马智行_三面_性能证据与工程闭环.pdf",
-      "sha256": "5e2faf6f98f3bd04c42b9ebbb219ae580992470896b16d37bbe3c36da6f11440",
-      "bytes": 97626,
-      "kind": "pdf",
-      "pages": 2,
-      "content_role": "AI Infra技术面试复盘"
-    },
-    {
-      "path": "面试/03_补充复盘/06_曦望_二面_推理引擎与整网优化.pdf",
-      "source_path": "小红书商品/面试/03_补充复盘/06_曦望_二面_推理引擎与整网优化.pdf",
-      "sha256": "e520f1e6b684b3d3d3610752220455ded3245abe85ef69d92da07d70dff75112",
-      "bytes": 103993,
-      "kind": "pdf",
-      "pages": 2,
-      "content_role": "AI Infra技术面试复盘"
-    },
-    {
-      "path": "面试/03_补充复盘/07_曦望_三面_反量化与RMSNorm编码.pdf",
-      "source_path": "小红书商品/面试/03_补充复盘/07_曦望_三面_反量化与RMSNorm编码.pdf",
-      "sha256": "7790d2e4300e2fc1dc397559a37d8e2671f0ab075746c39cc1aaf8e80cc46b01",
-      "bytes": 103245,
-      "kind": "pdf",
-      "pages": 2,
-      "content_role": "AI Infra技术面试复盘"
-    },
-    {
-      "path": "面试/03_补充复盘/08_理想_算子开发一面_排障与Attention.pdf",
-      "source_path": "小红书商品/面试/03_补充复盘/08_理想_算子开发一面_排障与Attention.pdf",
-      "sha256": "ac3330158daf2fdbf741d408d28d8bb2152fa662556ea034c92d2d66a1ce23bd",
-      "bytes": 103998,
-      "kind": "pdf",
-      "pages": 2,
-      "content_role": "AI Infra技术面试复盘"
-    },
-    {
-      "path": "面试/03_补充复盘/09_智元机器人_AIInfra一面_指标与系统边界.pdf",
-      "source_path": "小红书商品/面试/03_补充复盘/09_智元机器人_AIInfra一面_指标与系统边界.pdf",
+      "path": "面试/智元机器人.pdf",
+      "source_path": "小红书商品/面试/智元机器人.pdf",
       "sha256": "325c64326d015e4043e98a0f9bc90464638474446f061d6e37b322b11bdaadcf",
       "bytes": 101894,
       "kind": "pdf",
       "pages": 2,
-      "content_role": "AI Infra技术面试复盘"
+      "content_role": "公司面试复盘"
     },
     {
-      "path": "面试/03_补充复盘/10_AIInfra一面_混合精度与Softmax_来源标注禾赛.pdf",
-      "source_path": "小红书商品/面试/03_补充复盘/10_AIInfra一面_混合精度与Softmax_来源标注禾赛.pdf",
-      "sha256": "f07b8401d79e5b92a930a5b1ab398a4ed830c6952b31ad2f5d85efba0cf94eb4",
-      "bytes": 103159,
+      "path": "面试/曦望.pdf",
+      "source_path": "小红书商品/面试/曦望.pdf",
+      "sha256": "fa21467cd53d5fa85821d96aa40d4df01a522b901dbf18a68deaf0ee174aa3ec",
+      "bytes": 706625,
+      "kind": "pdf",
+      "pages": 6,
+      "content_role": "公司面试复盘"
+    },
+    {
+      "path": "面试/理想.pdf",
+      "source_path": "小红书商品/面试/理想.pdf",
+      "sha256": "ac3330158daf2fdbf741d408d28d8bb2152fa662556ea034c92d2d66a1ce23bd",
+      "bytes": 103998,
       "kind": "pdf",
       "pages": 2,
-      "content_role": "AI Infra技术面试复盘"
+      "content_role": "公司面试复盘"
     },
     {
-      "path": "面试/03_补充复盘/11_字节跳动_三面_通信稳定性与算子基准.pdf",
-      "source_path": "小红书商品/面试/03_补充复盘/11_字节跳动_三面_通信稳定性与算子基准.pdf",
-      "sha256": "f8704e522b8adafb2727cd4e96d496682219ed060a4b64f1e704724ba6d5350d",
-      "bytes": 98892,
+      "path": "面试/百度.pdf",
+      "source_path": "小红书商品/面试/百度.pdf",
+      "sha256": "2bf65f80e25cf6b480cc911a43044a6a49360bcbdd378350efdc96e819622ad4",
+      "bytes": 595948,
       "kind": "pdf",
-      "pages": 2,
-      "content_role": "AI Infra技术面试复盘"
+      "pages": 4,
+      "content_role": "公司面试复盘"
     },
     {
-      "path": "面试/03_补充复盘/阅读说明与基础校准.md",
-      "source_path": "小红书商品/面试/03_补充复盘/阅读说明与基础校准.md",
-      "sha256": "7672bea92c420909eaf84c14a931dda3f954094328171c5d959d6eb1e1226ea2",
-      "bytes": 3296,
-      "kind": "reading_note",
-      "pages": 0,
-      "content_role": "来源与阅读说明"
+      "path": "面试/阿里.pdf",
+      "source_path": "小红书商品/面试/阿里.pdf",
+      "sha256": "092aedfd6b11921c4abfe1d167336907564bf8ea21eb372045e984883c311f0c",
+      "bytes": 602657,
+      "kind": "pdf",
+      "pages": 4,
+      "content_role": "公司面试复盘"
     }
   ]
 }

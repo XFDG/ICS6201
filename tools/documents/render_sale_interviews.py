@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Render the reviewed, de-identified sale notes; never ingest raw transcripts.
 
-Defaults: read 商品归档/02_面试源稿/Markdown and write canonical delivery PDFs
-to 小红书商品/面试/03_补充复盘. Never write PDFs beside maintenance sources.
+Defaults: read 商品归档/02_面试源稿/Markdown and render maintenance PDFs to
+商品归档/02_面试源稿/排版中间稿. Single-round Markdown files are maintenance
+sources; only the merged company PDFs belong in the customer delivery.
 
 Usage: python tools/documents/render_sale_interviews.py [reviewed.md ...]
        python tools/documents/render_sale_interviews.py --output-dir /tmp/previews
@@ -18,7 +19,7 @@ from weasyprint import HTML
 
 ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_SOURCE_DIR = ROOT / "商品归档/02_面试源稿/Markdown"
-DEFAULT_OUTPUT_DIR = ROOT / "小红书商品/面试/03_补充复盘"
+DEFAULT_OUTPUT_DIR = ROOT / "商品归档/02_面试源稿/排版中间稿"
 spec = importlib.util.spec_from_file_location(
     "sale_topic_style", Path(__file__).with_name("render_open_doc_topics.py")
 )
@@ -63,7 +64,7 @@ if __name__ == "__main__":
     parser.add_argument("--source-dir", type=Path, default=DEFAULT_SOURCE_DIR,
                         help="Directory to search when explicit sources are omitted")
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR,
-                        help="PDF destination; defaults to the canonical delivery folder")
+                        help="Maintenance preview destination; defaults to the archive's 排版中间稿 folder")
     parser.add_argument("--dry-run", action="store_true",
                         help="Print source-to-output mappings without writing PDFs")
     args = parser.parse_args()

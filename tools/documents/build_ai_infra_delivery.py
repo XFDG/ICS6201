@@ -8,7 +8,7 @@ Generated metadata and ZIP revisions are backed up in the archive directory.
 from __future__ import annotations
 
 import argparse
-from collections import Counter, defaultdict
+from collections import defaultdict
 from datetime import date
 import hashlib
 import io
@@ -25,15 +25,7 @@ from pypdf import PdfReader
 ROOT = Path(__file__).resolve().parents[2]
 SOURCE = ROOT / "小红书商品"
 ARCHIVE_ROOT = ROOT / "商品归档"
-INTERVIEW_GROUPS = {
-    "01_公司复盘": "原有按公司复盘",
-    "02_专题复盘": "原有专题复盘",
-    "03_补充复盘": "新增按轮次复盘",
-}
-PUBLIC_NOTES = (
-    "技术PDF/07_AI Infra 八股文/00_说明与来源.md",
-    "面试/03_补充复盘/阅读说明与基础校准.md",
-)
+PUBLIC_NOTE_NAME = "00_说明与来源.md"
 
 
 def sha256(data: bytes) -> str:
@@ -90,20 +82,29 @@ def write_generated(path: Path, data: bytes, backup_dir: Path) -> None:
 def role_for(path: str) -> str:
     if path.startswith("技术PDF/"):
         return "技术学习"
-    if "HR" in path.upper():
-        return "HR沟通准备"
-    if any(word in path for word in ("三七互娱", "跨域业务")):
-        return "跨域赠阅"
-    return "AI Infra技术面试复盘"
+    return "公司面试复盘"
 
 
 def group_for(path: str) -> str:
     parts = Path(path).parts
     if parts[0] == "技术PDF":
         return "技术资料"
-    if len(parts) < 3 or parts[0] != "面试" or parts[1] not in INTERVIEW_GROUPS:
-        raise ValueError(f"Interview PDF must be in a canonical group: {path}")
-    return INTERVIEW_GROUPS[parts[1]]
+    if len(parts) != 2 or parts[0] != "面试" or Path(parts[1]).suffix.lower() != ".pdf":
+        raise ValueError(f"Interview PDFs must be flat company files: {path}")
+    return "公司面试复盘"
+
+
+def flat_interview_pdfs(directory: Path, *, required: bool = True) -> list[Path]:
+    """Reject obsolete round folders and non-PDF files without deleting them."""
+    if not directory.exists() and not required:
+        return []
+    if directory.is_symlink() or not directory.is_dir():
+        raise ValueError(f"Interview directory must be a regular directory: {directory}")
+    files = sorted(directory.iterdir())
+    for path in files:
+        if path.is_symlink() or not path.is_file() or path.suffix.lower() != ".pdf":
+            raise ValueError(f"Interview directory may contain only flat company PDFs; entry preserved: {path}")
+    return files
 
 
 def count_unique(rows: list[dict]) -> tuple[int, int]:
@@ -134,26 +135,25 @@ def reading_notes(rows: list[dict], build_date: str, title: str) -> str:
         "| 分类 | PDF 份数（按 SHA-256 去重） | 页数 |",
         "| --- | ---: | ---: |",
     ]
-    for group in ("技术资料", *INTERVIEW_GROUPS.values()):
+    for group in ("技术资料", "公司面试复盘"):
         number, pages = count_unique(groups[group])
         lines.append(f"| {group} | {number} | {pages} |")
-    roles = Counter(row["content_role"] for row in {r["sha256"]: r for r in pdfs}.values())
     lines += [
         "",
-        f"面试资料中，AI Infra 技术面试复盘 {roles['AI Infra技术面试复盘']} 份，HR 沟通准备 {roles['HR沟通准备']} 份，跨域赠阅 {roles['跨域赠阅']} 份。HR 资料侧重求职沟通；三七互娱海外游戏运营与跨域业务分析作为赠阅，不计为 AI Infra 技术面试场次。",
+        "面试目录按公司平铺，每家公司一份 PDF；同一公司的相关岗位与已确认轮次集中在公司合册中。技术资料按主题分类。",
         "",
         "## 先读什么",
         "",
         "1. 先读 AI Infra、推理、训练、RL 与算子优化八股文，建立知识框架。",
-        "2. 按目标岗位阅读公司复盘，再用专题复盘练习从现象、证据、机制到验证的讲述。",
-        "3. 阅读补充复盘中的真实问题整理与单独标明的复习提纲；根据自己的项目准备回答。",
+        "2. 按目标公司阅读面试合册，结合其中的岗位与轮次复习问题。",
+        "3. 区分记录中确认的问题和整理补充的复习提纲，用自己的项目准备回答与证据。",
         "4. 对需要深入的主题，再阅读 vLLM、DeepInfer、MoE、GPU 架构与论文解读。",
         "",
         "## 阅读口径",
         "",
-        "- 公司复盘、专题复盘与补充复盘采用不同组织方式，可能覆盖同一场面试或相近知识点；份数代表不同文件，不代表互不重合的面试场次。文件哈希去重无法识别主题重合。",
+        "- 公司合册可能包含多个岗位或轮次，文件份数不代表独立面试场次；不同技术资料也可能覆盖相近知识点。文件哈希去重无法识别主题重合。",
         "- 面试资料是去噪、脱敏后的复盘与学习讲义；实际记录中的问题和整理者补充的复习内容应按各册标注区分。内容不构成公司的官方题库或标准答案。",
-        "- 原有 PDF 中保留了已有的小红书账号水印。部分原有专题 PDF 为图像型，可能不能搜索或复制文字。",
+        "- 部分 PDF 保留了原有的小红书账号水印。",
         "- 本包仅交付整理后的 PDF 与阅读/来源说明，不含面试原始转写、录音、个人 Offer 图片或商品营销文档。",
         "- 技术资料反映各文档标注版本与整理时间；框架行为、硬件参数和性能判断应结合实际版本及测量条件理解。",
         "",
@@ -184,7 +184,6 @@ def main() -> int:
     parser.add_argument("--manifest", type=Path, default=ARCHIVE_ROOT / "03_整理记录/交付清单.json", help="机器清单路径")
     parser.add_argument("--backup-dir", type=Path, default=ARCHIVE_ROOT / "04_历史附件/历史备份", help="历史生成物备份目录")
     parser.add_argument("--date", default=date.today().isoformat(), help="整理日期 YYYY-MM-DD")
-    parser.add_argument("--expected-supplement-count", type=int, default=11, help="要求已完成的补充复盘 PDF 数量")
     args = parser.parse_args()
     build_date = date.fromisoformat(args.date)
     if build_date.year < 1980:
@@ -200,24 +199,15 @@ def main() -> int:
     if archive.suffix.lower() != ".zip" or manifest_path.suffix.lower() != ".json":
         raise ValueError("--archive must name a .zip and --manifest a .json; source PDFs/Markdown cannot be outputs")
 
-    supplements = source / "面试/03_补充复盘"
-    supplement_count = len(list(supplements.rglob("*.pdf")))
-    if supplement_count != args.expected_supplement_count:
-        raise ValueError(f"Expected {args.expected_supplement_count} supplemental PDFs; found {supplement_count}")
     planned: dict[str, Path] = {}
-    for name in ("面试", "技术PDF"):
-        directory = source / name
-        if not directory.is_dir():
-            raise FileNotFoundError(directory)
-        for path in sorted(directory.rglob("*.pdf")):
-            relative = path.relative_to(source).as_posix()
-            group_for(relative)
-            planned[relative] = path
-    for relative in PUBLIC_NOTES:
-        path = source / relative
-        if not path.is_file():
-            raise FileNotFoundError(path)
-        planned[relative] = path
+    for path in flat_interview_pdfs(source / "面试"):
+        planned[path.relative_to(source).as_posix()] = path
+    technical = source / "技术PDF"
+    if technical.is_symlink() or not technical.is_dir():
+        raise ValueError(f"Technical directory must be a regular directory: {technical}")
+    for path in sorted(technical.rglob("*")):
+        if path.is_file() and (path.suffix.lower() == ".pdf" or path.name == PUBLIC_NOTE_NAME):
+            planned[path.relative_to(source).as_posix()] = path
 
     # Validate all sources and PDF conflicts before copying any delivery files.
     rows: list[dict] = []
@@ -241,8 +231,11 @@ def main() -> int:
             "pages": pdf_pages(data, relative) if is_pdf else 0,
             "content_role": role_for(relative) if is_pdf else "来源与阅读说明",
         })
+    flat_interview_pdfs(output / "面试", required=False)
     for name in ("面试", "技术PDF"):
-        for path in (output / name).rglob("*.pdf"):
+        for path in (output / name).rglob("*"):
+            if not path.is_file() or path.suffix.lower() != ".pdf":
+                continue
             if path.relative_to(output).as_posix() not in planned:
                 raise ValueError(f"Unmapped delivery PDF preserved; organize it before rebuilding: {path}")
 
@@ -308,7 +301,7 @@ def main() -> int:
         temporary_archive.unlink(missing_ok=True)
 
     manifest = {
-        "schema_version": 2,
+        "schema_version": 3,
         "date": args.date,
         "source_root": source.name,
         "delivery_directory": output.name,
